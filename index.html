@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#0b6efd">
-<title>Purixa CRM Cloud — v22.16 PWA</title>
+<title>Purixa CRM Cloud — v22.17 PWA</title>
 <style>
 *{box-sizing:border-box}
 :root{--blue:#0b6efd;--dark:#17324d;--bg:#f4f7fb;--card:#fff;--muted:#6b7c93;--line:#e4eaf1;--green:#16a34a;--red:#dc2626;--orange:#f59e0b}
@@ -486,6 +486,7 @@ th{background:#f8fafc;color:#53677d}
 <div class="actions"><button class="btn" onclick="closeModal('cloudSetupModal')">Cancel</button><button class="btn primary" onclick="saveFirebaseConfig()">💾 Save & Connect</button></div>
 </div></div>
 <div class="toast" id="toast"></div>
+<button id="pwaInstallBtn" type="button" onclick="installPWA()">📲 Install Purixa CRM</button>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
@@ -638,7 +639,7 @@ async function syncCloudData(silent=false){
   if(!firestore||!firebaseAuth.currentUser||cloudSyncing)return false;
   cloudSyncing=true;
   try{
-    await firestore.collection("users").doc(firebaseAuth.currentUser.uid).collection("crm").doc("main").set({data:db,updatedAt:firebase.firestore.FieldValue.serverTimestamp(),version:"v22.16"},{merge:true});
+    await firestore.collection("users").doc(firebaseAuth.currentUser.uid).collection("crm").doc("main").set({data:db,updatedAt:firebase.firestore.FieldValue.serverTimestamp(),version:"v22.17"},{merge:true});
     await syncNormalizedCollections();
     if(!silent)toast("☁️ Cloud synced");
     return true;
@@ -1232,6 +1233,40 @@ async function safeStartFresh(){
     alert("❌ SAFE START FRESH FAILED\\n\\nCode: "+code+"\\n\\nMessage: "+message+"\\n\\nNo local reset was completed.");
     toast("⚠️ Reset failed. No local reset was completed.");
   }
+}
+
+
+// PWA install + service worker
+let deferredInstallPrompt = null;
+window.addEventListener("beforeinstallprompt", (event) => {
+  event.preventDefault();
+  deferredInstallPrompt = event;
+  const btn = document.getElementById("pwaInstallBtn");
+  if (btn) btn.classList.add("show");
+});
+window.addEventListener("appinstalled", () => {
+  deferredInstallPrompt = null;
+  const btn = document.getElementById("pwaInstallBtn");
+  if (btn) btn.classList.remove("show");
+  toast("✅ Purixa CRM installed as an app");
+});
+async function installPWA(){
+  if(!deferredInstallPrompt){
+    toast("ℹ️ If Install is not shown, use Chrome menu → Install Purixa CRM / Add to Home Screen.");
+    return;
+  }
+  deferredInstallPrompt.prompt();
+  try{ await deferredInstallPrompt.userChoice; }catch{}
+  deferredInstallPrompt = null;
+  const btn = document.getElementById("pwaInstallBtn");
+  if (btn) btn.classList.remove("show");
+}
+if("serviceWorker" in navigator){
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("./sw.js", {scope:"./"})
+      .then(() => console.log("Purixa CRM service worker registered"))
+      .catch(err => console.warn("PWA service worker registration failed", err));
+  });
 }
 
 updateTopAction("dashboard");

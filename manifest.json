@@ -1,9 +1,26 @@
 {
-  "name": "Purixa CRM Cloud v22.11",
+  "name": "Purixa CRM Cloud",
   "short_name": "Purixa CRM",
+  "id": "./",
   "start_url": "./",
+  "scope": "./",
   "display": "standalone",
   "background_color": "#ffffff",
-  "theme_color": "#0b5ed7",
-  "icons": [{"src":"icon-192.png","sizes":"192x192","type":"image/png"},{"src":"icon-512.png","sizes":"512x512","type":"image/png"}]
+  "theme_color": "#0b6efd",
+  "orientation": "portrait-primary",
+  "description": "Purixa Water Solution business management CRM",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
 }
