@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#0b6efd">
-<title>Purixa CRM Cloud — v22.15 PWA</title>
+<title>Purixa CRM Cloud — v22.16 PWA</title>
 <style>
 *{box-sizing:border-box}
 :root{--blue:#0b6efd;--dark:#17324d;--bg:#f4f7fb;--card:#fff;--muted:#6b7c93;--line:#e4eaf1;--green:#16a34a;--red:#dc2626;--orange:#f59e0b}
@@ -565,7 +565,7 @@ const BUILT_IN_FIREBASE_CONFIG={
 function getFirebaseConfig(){try{const saved=localStorage.getItem(FIREBASE_KEY);if(saved)return JSON.parse(saved);return BUILT_IN_FIREBASE_CONFIG}catch{return BUILT_IN_FIREBASE_CONFIG}}
 function setCloudStatus(text){const x=document.getElementById("cloudStatus");if(x)x.textContent=text;const i=document.getElementById("cloudSettingsInfo");if(i)i.textContent=text+(firebaseAuth?.currentUser?" · "+firebaseAuth.currentUser.email:"")}
 function initFirebase(){const cfg=getFirebaseConfig();if(!cfg||!cfg.apiKey||!cfg.projectId)return false;try{if(!firebase.apps.length)firebaseApp=firebase.initializeApp(cfg);else firebaseApp=firebase.app();firebaseAuth=firebase.auth();firestore=firebase.firestore();cloudReady=true;setCloudStatus(firebaseAuth.currentUser?"☁️ Cloud Connected":"☁️ Cloud Login");firebaseAuth.onAuthStateChanged(async user=>{if(user){setCloudStatus("☁️ Cloud Connected");await loadCloudData()}else{setCloudStatus("🔐 Login Required")}});return true}catch(e){console.error(e);setCloudStatus("⚠️ Cloud Error");return false}}
-async function cloudUserBase(){return firestore.collection("users").doc(firebaseAuth.currentUser.uid).collection("crm")}
+async function cloudUserBase(){return firestore.collection("users").doc(firebaseAuth.currentUser.uid).collection("crm").doc("_root")}
 async function commitFirestoreOps(ops){
   const CHUNK=450;
   for(let i=0;i<ops.length;i+=CHUNK){
@@ -638,7 +638,7 @@ async function syncCloudData(silent=false){
   if(!firestore||!firebaseAuth.currentUser||cloudSyncing)return false;
   cloudSyncing=true;
   try{
-    await firestore.collection("users").doc(firebaseAuth.currentUser.uid).collection("crm").doc("main").set({data:db,updatedAt:firebase.firestore.FieldValue.serverTimestamp(),version:"v22.15"},{merge:true});
+    await firestore.collection("users").doc(firebaseAuth.currentUser.uid).collection("crm").doc("main").set({data:db,updatedAt:firebase.firestore.FieldValue.serverTimestamp(),version:"v22.16"},{merge:true});
     await syncNormalizedCollections();
     if(!silent)toast("☁️ Cloud synced");
     return true;
@@ -1208,7 +1208,7 @@ async function safeStartFresh(){
       }
 
       try{
-        const legacy=base.doc("main");
+        const legacy=firestore.collection("users").doc(firebaseAuth.currentUser.uid).collection("crm").doc("main");
         const legacySnap=await legacy.get();
         if(legacySnap.exists) await legacy.delete();
       }catch(e){
