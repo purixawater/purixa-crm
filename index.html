@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#0b6efd">
-<title>Purixa CRM Cloud — v22.11 PWA</title>
+<title>Purixa CRM Cloud — v22.12 PWA</title>
 <style>
 *{box-sizing:border-box}
 :root{--blue:#0b6efd;--dark:#17324d;--bg:#f4f7fb;--card:#fff;--muted:#6b7c93;--line:#e4eaf1;--green:#16a34a;--red:#dc2626;--orange:#f59e0b}
@@ -638,7 +638,7 @@ async function syncCloudData(silent=false){
   if(!firestore||!firebaseAuth.currentUser||cloudSyncing)return false;
   cloudSyncing=true;
   try{
-    await firestore.collection("users").doc(firebaseAuth.currentUser.uid).collection("crm").doc("main").set({data:db,updatedAt:firebase.firestore.FieldValue.serverTimestamp(),version:"v22.11"},{merge:true});
+    await firestore.collection("users").doc(firebaseAuth.currentUser.uid).collection("crm").doc("main").set({data:db,updatedAt:firebase.firestore.FieldValue.serverTimestamp(),version:"v22.12"},{merge:true});
     await syncNormalizedCollections();
     if(!silent)toast("☁️ Cloud synced");
     return true;
@@ -1187,23 +1187,31 @@ async function safeStartFresh(){
     if(firestore && firebaseAuth?.currentUser){
       const base=await cloudUserBase();
       const keys=["leads","customers","sales","services","amcs","technicians"];
+
+      // Delete documents one-by-one instead of Firestore batch.commit().
+      // Firebase Diagnostic confirmed direct DELETE permission, so this avoids
+      // batch-specific failures while keeping the local reset transactional.
       for(const key of keys){
         const col=base.collection(key);
-        let snap=await col.limit(450).get();
-        while(!snap.empty){
-          const batch=firestore.batch();
-          snap.forEach(doc=>batch.delete(doc.ref));
-          try{await batch.commit();}
-          catch(e){
-            const msg="Firebase delete failed in collection: "+key+"\n\nCode: "+(e?.code||"unknown")+"\nMessage: "+(e?.message||String(e))+"\n\nNo local reset was completed.";
-            console.error(msg,e); alert(msg); throw e;
+        while(true){
+          const snap=await col.limit(100).get();
+          if(snap.empty) break;
+          for(const doc of snap.docs){
+            try{
+              await doc.ref.delete();
+            }catch(e){
+              const msg="Firebase direct delete failed in collection: "+key+"\n\nDocument: "+doc.id+"\nCode: "+(e?.code||"unknown")+"\nMessage: "+(e?.message||String(e))+"\n\nNo local reset was completed.";
+              console.error(msg,e); alert(msg); throw e;
+            }
           }
-          if(snap.size<450) break;
-          snap=await col.limit(450).get();
         }
       }
-      try{await base.doc("main").delete().catch(e=>{ if(e?.code!=="not-found") throw e; });}
-      catch(e){
+
+      try{
+        const legacy=base.doc("main");
+        const legacySnap=await legacy.get();
+        if(legacySnap.exists) await legacy.delete();
+      }catch(e){
         const msg="Firebase delete failed for legacy document: users/"+firebaseAuth.currentUser.uid+"/crm/main\n\nCode: "+(e?.code||"unknown")+"\nMessage: "+(e?.message||String(e))+"\n\nNo local reset was completed.";
         console.error(msg,e); alert(msg); throw e;
       }
@@ -1216,6 +1224,7 @@ async function safeStartFresh(){
     renderAll();
     fillSaleCustomerList();
     toast("✅ CRM started fresh — test data removed from Firebase and this browser");
+    alert("✅ START FRESH COMPLETE\n\nAll CRM test records were deleted from Firebase and this browser.\n\nCRM is now ready for fresh data.");
   }catch(e){
     console.error("Safe Start Fresh failed",e);
     toast("⚠️ Reset failed. No local reset was completed. See the error dialog for the exact Firebase code.");
