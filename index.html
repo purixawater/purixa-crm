@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#0b6efd">
-<title>Purixa CRM Cloud — v22.10 PWA</title>
+<title>Purixa CRM Cloud — v22.11 PWA</title>
 <style>
 *{box-sizing:border-box}
 :root{--blue:#0b6efd;--dark:#17324d;--bg:#f4f7fb;--card:#fff;--muted:#6b7c93;--line:#e4eaf1;--green:#16a34a;--red:#dc2626;--orange:#f59e0b}
@@ -298,7 +298,7 @@ th{background:#f8fafc;color:#53677d}
       <div class="panel" style="background:#f8fbff">
         <h3 style="margin-bottom:6px">☁️ Cloud Sync & Login</h3>
         <p class="mini">Firebase use karne par CRM data user account ke Firestore document me sync hoga. Firebase Console me Authentication → Email/Password aur Firestore enable karna hoga.</p>
-        <div class="toolbar"><button class="btn primary" onclick="openCloudSetup()">⚙️ Configure Cloud</button><button class="btn" onclick="cloudSyncNow()">☁️ Sync Now</button><button class="btn red" onclick="cloudLogout()">Logout</button></div>
+        <div class="toolbar"><button class="btn primary" onclick="openCloudSetup()">⚙️ Configure Cloud</button><button class="btn" onclick="cloudSyncNow()">☁️ Sync Now</button><button class="btn" onclick="firebaseDiagnostic()">🧪 Firebase Test</button><button class="btn red" onclick="cloudLogout()">Logout</button></div>
         <div id="cloudSettingsInfo" class="mini"></div>
       </div>
       <div class="toolbar">
@@ -638,7 +638,7 @@ async function syncCloudData(silent=false){
   if(!firestore||!firebaseAuth.currentUser||cloudSyncing)return false;
   cloudSyncing=true;
   try{
-    await firestore.collection("users").doc(firebaseAuth.currentUser.uid).collection("crm").doc("main").set({data:db,updatedAt:firebase.firestore.FieldValue.serverTimestamp(),version:"v22.10"},{merge:true});
+    await firestore.collection("users").doc(firebaseAuth.currentUser.uid).collection("crm").doc("main").set({data:db,updatedAt:firebase.firestore.FieldValue.serverTimestamp(),version:"v22.11"},{merge:true});
     await syncNormalizedCollections();
     if(!silent)toast("☁️ Cloud synced");
     return true;
@@ -1155,6 +1155,30 @@ async function deletePayment(saleId,index){
 function del(type,id){if(!confirm("Delete this record?"))return;db[type]=db[type].filter(x=>x.id!==id);persist();toast("Deleted")}
 function exportData(){const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([JSON.stringify(db,null,2)],{type:"application/json"}));a.download="purixa-crm-backup.json";a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}
 function importData(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const imported=JSON.parse(r.result);db=Object.assign(emptyDB(),imported);db.sales=(db.sales||[]).map(s=>{s.total=Number(s.total??s.amount??0);s.paid=Number(s.paid||0);if(!Array.isArray(s.payments))s.payments=s.paid>0?[{id:(s.id||Date.now())+1,date:s.date||today,amount:s.paid,mode:s.mode||"Cash",note:"Initial payment"}]:[];return s});db.services=db.services.map(s=>normalizeService(s,db));db.amcs=(db.amcs||[]).map(a=>{if(!a.customerId){const c=db.customers.find(c=>String(c.name).toLowerCase()===String(a.customer||"").toLowerCase());if(c)a.customerId=c.id}a.visitsTotal=Number(a.visitsTotal??a.visits??0);if(!Array.isArray(a.visitHistory))a.visitHistory=[];return a});syncCustomerAMCFields(db);persist();toast("Backup imported")}catch{toast("Invalid backup")}};r.readAsText(f);e.target.value=""}
+async function firebaseDiagnostic(){
+  const lines=[];
+  const fail=(label,e)=>{const code=e?.code||"unknown";const msg=e?.message||String(e);lines.push("❌ "+label+" | "+code+" | "+msg);console.error("Firebase diagnostic",label,e);};
+  try{
+    if(!firestore || !firebaseAuth?.currentUser){
+      alert("Firebase Diagnostic\n\n❌ Not logged in / Firestore not ready.");
+      return;
+    }
+    const uid=firebaseAuth.currentUser.uid;
+    const ref=firestore.collection("users").doc(uid).collection("crm").doc("_firebase_diagnostic");
+    const payload={test:true,createdAt:firebase.firestore.FieldValue.serverTimestamp(),uid};
+    try{await ref.set(payload,{merge:true});lines.push("✅ CREATE/SET allowed");}catch(e){fail("CREATE/SET",e);}
+    try{const snap=await ref.get();lines.push(snap.exists?"✅ READ allowed":"⚠️ READ returned no document");}catch(e){fail("READ",e);}
+    try{await ref.set({updated:true,uid},{merge:true});lines.push("✅ UPDATE allowed");}catch(e){fail("UPDATE",e);}
+    try{await ref.delete();lines.push("✅ DELETE allowed");}catch(e){fail("DELETE",e);}
+    const out="Firebase Diagnostic\n\nUID: "+uid+"\nPath: users/"+uid+"/crm/_firebase_diagnostic\n\n"+lines.join("\n");
+    alert(out);
+    toast(lines.some(x=>x.startsWith("❌"))?"⚠️ Firebase diagnostic found an error — see details":"✅ Firebase read/write/delete test passed");
+  }catch(e){
+    fail("DIAGNOSTIC",e);
+    alert("Firebase Diagnostic\n\n"+(e?.code||"unknown")+"\n"+(e?.message||String(e)));
+  }
+}
+
 async function safeStartFresh(){
   if(!confirm("⚠️ START FRESH?\n\nThis will permanently delete ALL CRM records for the currently logged-in Firebase account and this browser: Leads, Customers, Sales, Services, AMC and Technicians.\n\nYour CRM files, logo, signature, invoice design, Firebase configuration and PWA settings will NOT be deleted.\n\nBefore continuing, make sure all current records are only test/demo data.\n\nContinue?")) return;
   try{
@@ -1169,12 +1193,23 @@ async function safeStartFresh(){
         while(!snap.empty){
           const batch=firestore.batch();
           snap.forEach(doc=>batch.delete(doc.ref));
-          await batch.commit();
+          try{await batch.commit();}
+          catch(e){
+            const msg="Firebase delete failed in collection: "+key+"\n\nCode: "+(e?.code||"unknown")+"\nMessage: "+(e?.message||String(e))+"\n\nNo local reset was completed.";
+            console.error(msg,e); alert(msg); throw e;
+          }
           if(snap.size<450) break;
           snap=await col.limit(450).get();
         }
       }
-      await base.doc("main").delete().catch(e=>{ if(e?.code!=="not-found") throw e; });
+      try{await base.doc("main").delete().catch(e=>{ if(e?.code!=="not-found") throw e; });}
+      catch(e){
+        const msg="Firebase delete failed for legacy document: users/"+firebaseAuth.currentUser.uid+"/crm/main\n\nCode: "+(e?.code||"unknown")+"\nMessage: "+(e?.message||String(e))+"\n\nNo local reset was completed.";
+        console.error(msg,e); alert(msg); throw e;
+      }
+    }else{
+      alert("Firebase is not connected/logged in. No local reset was completed.");
+      return;
     }
     db=emptyDB();
     localStorage.setItem(KEY,JSON.stringify(db));
@@ -1182,10 +1217,11 @@ async function safeStartFresh(){
     fillSaleCustomerList();
     toast("✅ CRM started fresh — test data removed from Firebase and this browser");
   }catch(e){
-    console.error(e);
-    toast("⚠️ Reset failed. No local reset was completed. Check Firebase permissions and try again.");
+    console.error("Safe Start Fresh failed",e);
+    toast("⚠️ Reset failed. No local reset was completed. See the error dialog for the exact Firebase code.");
   }
 }
+
 updateTopAction("dashboard");
 renderAll();
 fillSaleCustomerList();
