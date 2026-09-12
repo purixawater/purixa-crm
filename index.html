@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#0b6efd">
-<title>Purixa CRM Cloud — v22.9 PWA</title>
+<title>Purixa CRM Cloud — v22.10 PWA</title>
 <style>
 *{box-sizing:border-box}
 :root{--blue:#0b6efd;--dark:#17324d;--bg:#f4f7fb;--card:#fff;--muted:#6b7c93;--line:#e4eaf1;--green:#16a34a;--red:#dc2626;--orange:#f59e0b}
@@ -566,6 +566,17 @@ function getFirebaseConfig(){try{const saved=localStorage.getItem(FIREBASE_KEY);
 function setCloudStatus(text){const x=document.getElementById("cloudStatus");if(x)x.textContent=text;const i=document.getElementById("cloudSettingsInfo");if(i)i.textContent=text+(firebaseAuth?.currentUser?" · "+firebaseAuth.currentUser.email:"")}
 function initFirebase(){const cfg=getFirebaseConfig();if(!cfg||!cfg.apiKey||!cfg.projectId)return false;try{if(!firebase.apps.length)firebaseApp=firebase.initializeApp(cfg);else firebaseApp=firebase.app();firebaseAuth=firebase.auth();firestore=firebase.firestore();cloudReady=true;setCloudStatus(firebaseAuth.currentUser?"☁️ Cloud Connected":"☁️ Cloud Login");firebaseAuth.onAuthStateChanged(async user=>{if(user){setCloudStatus("☁️ Cloud Connected");await loadCloudData()}else{setCloudStatus("🔐 Login Required")}});return true}catch(e){console.error(e);setCloudStatus("⚠️ Cloud Error");return false}}
 async function cloudUserBase(){return firestore.collection("users").doc(firebaseAuth.currentUser.uid).collection("crm")}
+async function commitFirestoreOps(ops){
+  const CHUNK=450;
+  for(let i=0;i<ops.length;i+=CHUNK){
+    const batch=firestore.batch();
+    ops.slice(i,i+CHUNK).forEach(op=>{
+      if(op.type==="delete")batch.delete(op.ref);
+      else batch.set(op.ref,op.data,{merge:true});
+    });
+    await batch.commit();
+  }
+}
 async function syncNormalizedCollections(){
   const base=await cloudUserBase();
   const keys=["leads","customers","sales","services","amcs","technicians"];
@@ -573,10 +584,11 @@ async function syncNormalizedCollections(){
     const col=base.collection(key);
     const snap=await col.get();
     const current=new Map((db[key]||[]).map(x=>[String(x.id),x]));
-    const batch=firestore.batch();
-    snap.forEach(doc=>{if(!current.has(doc.id))batch.delete(doc.ref)});
-    current.forEach((item,id)=>batch.set(col.doc(id),item,{merge:true}));
-    await batch.commit();
+    const deletes=[], writes=[];
+    snap.forEach(doc=>{if(!current.has(doc.id))deletes.push({type:"delete",ref:doc.ref});});
+    current.forEach((item,id)=>writes.push({type:"set",ref:col.doc(id),data:item}));
+    await commitFirestoreOps(deletes);
+    await commitFirestoreOps(writes);
   }
 }
 async function loadNormalizedCollections(){
@@ -626,7 +638,7 @@ async function syncCloudData(silent=false){
   if(!firestore||!firebaseAuth.currentUser||cloudSyncing)return false;
   cloudSyncing=true;
   try{
-    await firestore.collection("users").doc(firebaseAuth.currentUser.uid).collection("crm").doc("main").set({data:db,updatedAt:firebase.firestore.FieldValue.serverTimestamp(),version:"v22.6"},{merge:true});
+    await firestore.collection("users").doc(firebaseAuth.currentUser.uid).collection("crm").doc("main").set({data:db,updatedAt:firebase.firestore.FieldValue.serverTimestamp(),version:"v22.10"},{merge:true});
     await syncNormalizedCollections();
     if(!silent)toast("☁️ Cloud synced");
     return true;
@@ -1084,15 +1096,24 @@ async function deleteSale(id){
   const s=db.sales.find(x=>x.id===id);
   if(!s)return;
   const customerName=s.customer||db.customers.find(c=>c.id===s.customerId)?.name||"Customer";
-  const ok=confirm("Delete this sale permanently?\\n\\nCustomer: "+customerName+"\\nProduct: "+(s.product||"-")+"\\nTotal: "+money(s.total||0)+"\\n\\nThis also removes all payment entries attached to this sale. The customer itself will NOT be deleted.");
+  const ok=confirm("Delete this sale permanently?\n\nCustomer: "+customerName+"\nProduct: "+(s.product||"-")+"\nTotal: "+money(s.total||0)+"\n\nThis also removes all payment entries attached to this sale. The customer itself will NOT be deleted.");
   if(!ok)return;
+  if(cloudReady&&firebaseAuth?.currentUser){
+    try{
+      const base=await cloudUserBase();
+      await base.collection("sales").doc(String(id)).delete().catch(e=>{if(e?.code!=="not-found")throw e;});
+    }catch(e){
+      console.error(e);
+      toast("⚠️ Sale was NOT deleted. Firebase permission/error — your data is safe.");
+      return;
+    }
+  }
   db.sales=db.sales.filter(x=>x.id!==id);
   localStorage.setItem(KEY,JSON.stringify(db));
   renderAll();
   if(cloudReady&&firebaseAuth?.currentUser){
-    const success=await syncCloudData(false);
-    if(success)toast("Sale and its payment history deleted from Cloud");
-    else toast("Sale deleted locally, but Cloud delete failed — check Firebase permissions");
+    const success=await syncCloudData(true);
+    toast(success?"✅ Sale and payment history deleted from Cloud":"⚠️ Sale deleted, but Cloud verification failed — check Firebase permissions");
   }else{
     toast("Sale and its payment history deleted");
   }
@@ -1101,21 +1122,32 @@ async function deletePayment(saleId,index){
   const s=db.sales.find(x=>x.id===saleId);
   if(!s||!Array.isArray(s.payments)||!s.payments[index])return;
   const p=s.payments[index];
-  const ok=confirm("Delete this payment permanently?\\n\\nAmount: "+money(p.amount||0)+"\\nDate: "+(p.date||"-")+"\\nMode: "+(p.mode||"-"));
+  const ok=confirm("Delete this payment permanently?\n\nAmount: "+money(p.amount||0)+"\nDate: "+(p.date||"-")+"\nMode: "+(p.mode||"-"));
   if(!ok)return;
-  s.payments.splice(index,1);
-  const total=Number(s.total||0);
-  s.paid=Math.min(total,s.payments.reduce((sum,x)=>sum+Number(x.amount||0),0));
-  s.pending=Math.max(0,total-s.paid);
-  s.paymentStatus=salePaymentStatus(s);
-  s.mode=s.payments[0]?.mode||"Pending";
+  const updated=JSON.parse(JSON.stringify(s));
+  updated.payments.splice(index,1);
+  const total=Number(updated.total||0);
+  updated.paid=Math.min(total,updated.payments.reduce((sum,x)=>sum+Number(x.amount||0),0));
+  updated.pending=Math.max(0,total-updated.paid);
+  updated.paymentStatus=salePaymentStatus(updated);
+  updated.mode=updated.payments[0]?.mode||"Pending";
+  if(cloudReady&&firebaseAuth?.currentUser){
+    try{
+      const base=await cloudUserBase();
+      await base.collection("sales").doc(String(saleId)).set(updated,{merge:true});
+    }catch(e){
+      console.error(e);
+      toast("⚠️ Payment was NOT deleted. Firebase permission/error — your data is safe.");
+      return;
+    }
+  }
+  Object.assign(s,updated);
   localStorage.setItem(KEY,JSON.stringify(db));
   renderAll();
   renderReceivePayment(saleId);
   if(cloudReady&&firebaseAuth?.currentUser){
-    const success=await syncCloudData(false);
-    if(success)toast("Payment deleted and balance updated in Cloud");
-    else toast("Payment deleted locally, but Cloud update failed — check Firebase permissions");
+    const success=await syncCloudData(true);
+    toast(success?"✅ Payment deleted and balance updated in Cloud":"⚠️ Payment deleted, but Cloud verification failed — check Firebase permissions");
   }else{
     toast("Payment deleted and balance updated");
   }
