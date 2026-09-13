@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#0b6efd">
-<title>Purixa CRM Cloud — v22.19 PWA</title>
+<title>Purixa CRM Cloud — v22.20 PWA</title>
 <style>
 *{box-sizing:border-box}
 :root{--blue:#0b6efd;--dark:#17324d;--bg:#f4f7fb;--card:#fff;--muted:#6b7c93;--line:#e4eaf1;--green:#16a34a;--red:#dc2626;--orange:#f59e0b}
@@ -507,9 +507,11 @@ function loadDB(){
     d.invoiceCounter=Number(d.invoiceCounter||701);
     d.customers.forEach(c=>{
       c.notes=c.notes||"";
-      if(!c.nextService){
-        const lastCompleted=d.services.filter(s=>Number(s.customerId)===Number(c.id)&&s.status==="Completed"&&s.date).sort((a,b)=>String(b.date).localeCompare(String(a.date)))[0];
-        c.nextService=addMonths(lastCompleted?.date||c.install||c.purchase||today,3);
+      const lastCompleted=d.services.filter(s=>Number(s.customerId)===Number(c.id)&&s.status==="Completed"&&s.date).sort((a,b)=>String(b.date).localeCompare(String(a.date)))[0];
+      if(lastCompleted?.date){
+        c.nextService=addMonths(lastCompleted.date,3);
+      }else if(!c.nextService){
+        c.nextService=addMonths(c.install||c.purchase||today,3);
       }
     });
     d.sales.forEach(s=>{s.total=Number(s.total??s.amount??0);s.paid=Number(s.paid??0);s.pending=Math.max(0,s.total-s.paid);if(!Array.isArray(s.payments)){s.payments=s.paid>0?[{id:(s.id||Date.now())+1,date:s.date||today,amount:s.paid,mode:s.mode||"Cash",note:"Initial payment"}]:[]}s.paymentStatus=salePaymentStatus(s)});
@@ -620,8 +622,15 @@ async function loadCloudData(){
     const normalized=await loadNormalizedCollections();
     if(normalized){
       db=normalized;
+      db.customers.forEach(c=>{
+        c.notes=c.notes||"";
+        const lastCompleted=db.services.filter(s=>Number(s.customerId)===Number(c.id)&&s.status==="Completed"&&s.date).sort((a,b)=>String(b.date).localeCompare(String(a.date)))[0];
+        if(lastCompleted?.date) c.nextService=addMonths(lastCompleted.date,3);
+        else if(!c.nextService) c.nextService=addMonths(c.install||c.purchase||today,3);
+      });
       localStorage.setItem(KEY,JSON.stringify(db));
       renderAll();
+      if(firebaseAuth.currentUser) syncNormalizedCollections().catch(console.error);
       toast("☁️ Cloud data loaded");
       return;
     }
@@ -645,7 +654,7 @@ async function syncCloudData(silent=false){
   if(!firestore||!firebaseAuth.currentUser||cloudSyncing)return false;
   cloudSyncing=true;
   try{
-    await firestore.collection("users").doc(firebaseAuth.currentUser.uid).collection("crm").doc("main").set({data:db,updatedAt:firebase.firestore.FieldValue.serverTimestamp(),version:"v22.19"},{merge:true});
+    await firestore.collection("users").doc(firebaseAuth.currentUser.uid).collection("crm").doc("main").set({data:db,updatedAt:firebase.firestore.FieldValue.serverTimestamp(),version:"v22.20"},{merge:true});
     await syncNormalizedCollections();
     if(!silent)toast("☁️ Cloud synced");
     return true;
@@ -887,7 +896,7 @@ function openCustomerProfile(id){
   openModal('customerProfileModal');
 }
 function openSaleForCustomer(id){const c=db.customers.find(x=>x.id===id);if(!c)return;openModal("saleModal");fillSaleCustomerList();saleCustomer.value=c.name;fillSaleCustomerDetails()}
-function convertLead(id){const lead=db.leads.find(x=>x.id===id);if(!lead)return;const exists=db.customers.some(x=>x.mobile===lead.mobile);if(!exists)db.customers.unshift({id:Date.now(),name:lead.name,mobile:lead.mobile,product:lead.product||"",purchase:"",install:"",amc:"",address:lead.notes||"",notes:"",leadId:lead.id});lead.status="Won";persist();toast(exists?"Customer already exists — lead marked Won":"Lead converted to Customer")}
+function convertLead(id){const lead=db.leads.find(x=>x.id===id);if(!lead)return;const exists=db.customers.some(x=>x.mobile===lead.mobile);if(!exists)db.customers.unshift({id:Date.now(),name:lead.name,mobile:lead.mobile,product:lead.product||"",purchase:today,install:"",amc:"",address:lead.notes||"",notes:"",nextService:addMonths(today,3),leadId:lead.id});lead.status="Won";persist();toast(exists?"Customer already exists — lead marked Won":"Lead converted to Customer — next service set for 3 months")}
 
 function daysFromToday(dateStr){if(!dateStr)return null;const d=new Date(dateStr+"T00:00:00"),t=new Date(today+"T00:00:00");return Math.round((d-t)/86400000)}
 function reminderClass(days){return days<0?"red":days<=7?"red":days<=15?"orange":"green"}
