@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#0b6efd">
-<title>Purixa CRM Cloud — v22.23 PWA</title>
+<title>Purixa CRM Cloud — v22.24 PWA</title>
 <style>
 *{box-sizing:border-box}
 :root{--blue:#0b6efd;--dark:#17324d;--bg:#f4f7fb;--card:#fff;--muted:#6b7c93;--line:#e4eaf1;--green:#16a34a;--red:#dc2626;--orange:#f59e0b}
@@ -103,6 +103,7 @@ th{background:#f8fafc;color:#53677d}
 </style>
 <style>
 /* v22.23: all-customer 3-month service reminders + history improvements */
+/* v22.24: mobile app-style navigation and touch UX */
 /* v22.0 FINAL invoice viewport/alignment fix */
 #invoiceModal .modal-box{width:min(96vw, 980px)!important;max-width:980px!important;overflow:auto!important;padding:18px!important}
 #invoiceModal #invoicePreview{width:100%;overflow-x:auto}
@@ -123,13 +124,54 @@ th{background:#f8fafc;color:#53677d}
  .invoice .pws-inv b{font-size:14px!important}
  .invoice .pws-inv div{font-size:10px!important;padding:6px!important}
 }
+
+/* v22.24 Mobile App UX */
+.mobile-menu-btn{display:none}
+.mobile-bottom-nav{display:none}
+.mobile-drawer-backdrop{display:none}
+@media(max-width:700px){
+  body{padding-bottom:68px}
+  .sidebar{display:none!important}
+  .main{margin-left:0!important;width:100%!important;padding:10px 10px 82px!important}
+  .top{position:sticky;top:0;z-index:15;background:var(--bg);padding:8px 2px 10px;margin:0 -2px 10px}
+  .top h1{font-size:19px!important}
+  .top p{font-size:11px}
+  .top>div:first-child{min-width:0}
+  .top>div:last-child{gap:5px!important}
+  #cloudStatus{font-size:10px;white-space:nowrap}
+  #topActionBtn{padding:9px 10px!important;font-size:12px}
+  .mobile-menu-btn{display:inline-flex!important;align-items:center;justify-content:center;width:40px;height:40px;border-radius:10px;background:#102a43;color:#fff;font-size:20px;flex:none}
+  .mobile-bottom-nav{position:fixed;display:grid;grid-template-columns:repeat(5,1fr);left:8px;right:8px;bottom:8px;height:58px;background:rgba(255,255,255,.97);border:1px solid #dbe3ec;border-radius:16px;box-shadow:0 6px 24px rgba(16,42,67,.18);z-index:80;padding:4px}
+  .mobile-bottom-nav button{background:transparent;color:#64748b;border-radius:11px;font-size:10px;font-weight:700;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-width:0}
+  .mobile-bottom-nav button span{font-size:20px;line-height:20px}
+  .mobile-bottom-nav button.active{background:#eaf2ff;color:#0b6efd}
+  .mobile-drawer-backdrop.show{display:block;position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:89}
+  .mobile-drawer{display:block!important;position:fixed;left:0;top:0;bottom:0;width:min(285px,82vw);background:#102a43;color:#fff;z-index:90;transform:translateX(-105%);transition:transform .22s ease;box-shadow:8px 0 28px rgba(0,0,0,.25);padding:16px 12px;overflow:auto}
+  .mobile-drawer.open{transform:translateX(0)}
+  .mobile-drawer .drawer-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+  .mobile-drawer .drawer-head img{width:48px;height:48px;object-fit:contain;background:#fff;border-radius:9px}
+  .mobile-drawer .drawer-close{background:#1d4f7a;color:#fff;border-radius:9px;padding:9px 12px}
+  .mobile-drawer .nav button{font-size:14px!important;text-align:left!important;color:#d9e7f5!important;padding:12px!important}
+  .mobile-drawer .nav button:before{display:none!important}
+  .mobile-drawer .nav button.active{background:#1d4f7a;color:#fff!important}
+  .cards{grid-template-columns:1fr 1fr!important;gap:8px!important}
+  .card{padding:11px!important;border-radius:11px}
+  .metric{font-size:20px!important}
+  .toolbar{gap:6px}
+  .toolbar .btn{min-height:42px}
+  .panel{padding:12px!important;border-radius:11px}
+  input,select,textarea{min-height:42px}
+  button.btn{min-height:42px}
+}
+@media(min-width:701px){.mobile-drawer,.mobile-drawer-backdrop{display:none!important}}
+
 </style>
 </head>
 <body>
 <div id="authOverlay">
   <div class="auth-box">
     <img class="auth-logo" src="purixa-logo.png" alt="Purixa Water Solution">
-    <h2>☁️ Purixa CRM Cloud v22.4</h2>
+    <h2>☁️ Purixa CRM Cloud v22.24</h2>
     <p class="mini" id="authModeText">Cloud login is enabled after Firebase setup.</p>
     <div id="firebaseSetupBox">
       <label class="mini">Firebase Config JSON</label>
@@ -168,9 +210,29 @@ th{background:#f8fafc;color:#53677d}
   </nav>
 </aside>
 
+<div class="mobile-drawer-backdrop" id="mobileDrawerBackdrop" onclick="closeMobileMenu()"></div>
+<aside class="mobile-drawer" id="mobileDrawer">
+  <div class="drawer-head">
+    <img src="purixa-logo.png" alt="Purixa">
+    <button class="drawer-close" onclick="closeMobileMenu()">✕</button>
+  </div>
+  <nav class="nav">
+    <button data-page="dashboard">Dashboard</button>
+    <button data-page="leads">Leads</button>
+    <button data-page="customers">Customers</button>
+    <button data-page="sales">Sales & Payments</button>
+    <button data-page="service">Service</button>
+    <button data-page="amc">AMC</button>
+    <button data-page="technicians">Technicians</button>
+    <button data-page="reports">Reports</button>
+    <button data-page="reminders">Reminders 🔔</button>
+    <button data-page="settings">Settings</button>
+  </nav>
+</aside>
+
 <main class="main">
   <div class="top">
-    <div><h1 id="pageTitle">Dashboard</h1><p>Purixa Water Solution — Business Management</p></div>
+    <div style="display:flex;align-items:center;gap:8px"><button class="mobile-menu-btn" onclick="openMobileMenu()" aria-label="Open menu">☰</button><div><h1 id="pageTitle">Dashboard</h1><p>Purixa Water Solution — Business Management</p></div></div>
     <div style="display:flex;align-items:center;gap:8px"><span id="cloudStatus" class="cloud-status">💾 Local</span><button id="topActionBtn" class="btn primary" onclick="openModal('leadModal')">＋ New Lead</button></div>
   </div>
 
@@ -667,7 +729,7 @@ async function syncCloudData(silent=false){
   if(!firestore||!firebaseAuth.currentUser||cloudSyncing)return false;
   cloudSyncing=true;
   try{
-    await firestore.collection("users").doc(firebaseAuth.currentUser.uid).collection("crm").doc("main").set({data:db,updatedAt:firebase.firestore.FieldValue.serverTimestamp(),version:"v22.23"},{merge:true});
+    await firestore.collection("users").doc(firebaseAuth.currentUser.uid).collection("crm").doc("main").set({data:db,updatedAt:firebase.firestore.FieldValue.serverTimestamp(),version:"v22.24"},{merge:true});
     await syncNormalizedCollections();
     if(!silent)toast("☁️ Cloud synced");
     return true;
@@ -1300,6 +1362,29 @@ if("serviceWorker" in navigator){
       .catch(err => console.warn("PWA service worker registration failed", err));
   });
 }
+
+function openMobileMenu(){
+  document.getElementById("mobileDrawer")?.classList.add("open");
+  document.getElementById("mobileDrawerBackdrop")?.classList.add("show");
+}
+function closeMobileMenu(){
+  document.getElementById("mobileDrawer")?.classList.remove("open");
+  document.getElementById("mobileDrawerBackdrop")?.classList.remove("show");
+}
+
+function mobileBottomNav(){
+  if(document.getElementById("mobileBottomNav")) return;
+  const nav=document.createElement("div");
+  nav.id="mobileBottomNav"; nav.className="mobile-bottom-nav";
+  nav.innerHTML=`<button data-page="dashboard"><span>🏠</span>Home</button><button data-page="customers"><span>👥</span>Customers</button><button data-page="sales"><span>💰</span>Sales</button><button data-page="service"><span>🔧</span>Service</button><button data-page="reminders"><span>🔔</span>Reminders</button>`;
+  document.body.appendChild(nav);
+  nav.querySelectorAll("button[data-page]").forEach(b=>b.addEventListener("click",()=>{
+    const page=b.dataset.page;
+    document.querySelector(`.nav button[data-page="${page}"]`)?.click();
+    closeMobileMenu();
+  }));
+}
+mobileBottomNav();
 
 updateTopAction("dashboard");
 renderAll();
