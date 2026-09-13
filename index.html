@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#0b6efd">
-<title>Purixa CRM Cloud — v22.22 PWA</title>
+<title>Purixa CRM Cloud — v22.23 PWA</title>
 <style>
 *{box-sizing:border-box}
 :root{--blue:#0b6efd;--dark:#17324d;--bg:#f4f7fb;--card:#fff;--muted:#6b7c93;--line:#e4eaf1;--green:#16a34a;--red:#dc2626;--orange:#f59e0b}
@@ -26,6 +26,7 @@ button{cursor:pointer;border:0}
 .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:17px;box-shadow:0 2px 7px #102a4308}
 .card .label{color:var(--muted);font-size:13px}.metric{font-size:27px;font-weight:800;margin-top:8px}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:15px}
+.reminder-summary{grid-template-columns:repeat(3,1fr);margin-bottom:14px}
 .panel{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:15px}
 .panel h3{margin:0 0 13px}.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:13px}
 .search{flex:1;min-width:180px;padding:10px;border:1px solid var(--line);border-radius:8px}
@@ -56,6 +57,8 @@ th{background:#f8fafc;color:#53677d}
 
 .invoice .bill-info .name-row>span{min-height:24px;padding:1px 4px}.invoice .bill-info .mobile-row>span{min-height:24px;padding:1px 4px}.invoice .bill-info b{white-space:nowrap}
 @media(max-width:700px){.invoice .bill-info .name-row{grid-template-columns:90px minmax(0,1fr)}.invoice .bill-info .mobile-row{grid-template-columns:90px minmax(0,1fr) 70px minmax(0,1fr);gap:4px}.invoice .bill-info .mobile-row b{font-size:10px}.invoice .bill-info .row>span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}}
+@media(max-width:900px){.reminder-summary{grid-template-columns:1fr 1fr}}
+@media(max-width:520px){.reminder-summary{grid-template-columns:1fr}}
 </style>
 
 <style>
@@ -99,7 +102,7 @@ th{background:#f8fafc;color:#53677d}
 @media print{.invoice .sig-img{width:150px;height:54px}.invoice .pws-head{grid-template-columns:105px minmax(0,1fr) 155px}.invoice .pws-logo img{width:94px;height:82px}.invoice .bill-table th:nth-child(1){width:8%}.invoice .bill-table th:nth-child(2){width:54%}.invoice .bill-table th:nth-child(3){width:9%}.invoice .bill-table th:nth-child(4){width:14.5%}.invoice .bill-table th:nth-child(5){width:14.5%}}
 </style>
 <style>
-/* v22.22: all-customer 3-month service reminders + history improvements */
+/* v22.23: all-customer 3-month service reminders + history improvements */
 /* v22.0 FINAL invoice viewport/alignment fix */
 #invoiceModal .modal-box{width:min(96vw, 980px)!important;max-width:980px!important;overflow:auto!important;padding:18px!important}
 #invoiceModal #invoicePreview{width:100%;overflow-x:auto}
@@ -664,7 +667,7 @@ async function syncCloudData(silent=false){
   if(!firestore||!firebaseAuth.currentUser||cloudSyncing)return false;
   cloudSyncing=true;
   try{
-    await firestore.collection("users").doc(firebaseAuth.currentUser.uid).collection("crm").doc("main").set({data:db,updatedAt:firebase.firestore.FieldValue.serverTimestamp(),version:"v22.22"},{merge:true});
+    await firestore.collection("users").doc(firebaseAuth.currentUser.uid).collection("crm").doc("main").set({data:db,updatedAt:firebase.firestore.FieldValue.serverTimestamp(),version:"v22.23"},{merge:true});
     await syncNormalizedCollections();
     if(!silent)toast("☁️ Cloud synced");
     return true;
@@ -910,10 +913,11 @@ function convertLead(id){const lead=db.leads.find(x=>x.id===id);if(!lead)return;
 
 function daysFromToday(dateStr){if(!dateStr)return null;const d=new Date(dateStr+"T00:00:00"),t=new Date(today+"T00:00:00");return Math.round((d-t)/86400000)}
 function reminderClass(days){return days<0?"red":days<=7?"red":days<=15?"orange":"green"}
-function getReminderItems(){const items=[];db.customers.forEach(c=>{if(c.nextService){const d=daysFromToday(c.nextService);if(d!==null&&d<=30)items.push({type:"Service",customer:c.name,mobile:c.mobile,date:c.nextService,days:d,message:`Your Purixa RO service is due on ${c.nextService}.`})}});getAMCExpiryRecords().forEach(a=>{const d=daysFromToday(a.end);if(d!==null&&d<=30){const c=db.customers.find(x=>x.id===a.customerId);items.push({type:"AMC Expiry",customer:a.customer||c?.name||"Customer",mobile:a.mobile||c?.mobile||"",date:a.end,days:d,message:`Your Purixa AMC is expiring on ${a.end}. Please contact us for renewal.`})}});db.amcs.forEach(a=>{if(a.nextService){const d=daysFromToday(a.nextService);if(d!==null&&d<=30)items.push({type:"AMC Service",customer:a.customer,mobile:a.mobile||db.customers.find(c=>c.id===a.customerId)?.mobile||"",date:a.nextService,days:d,message:`Your Purixa AMC service is scheduled for ${a.nextService}.`})}});db.services.forEach(s=>{if(s.follow){const d=daysFromToday(s.follow);if(d!==null&&d<=30&&s.status!=="Completed")items.push({type:"Follow-up",customer:s.customer||db.customers.find(c=>c.id===s.customerId)?.name||"Customer",mobile:s.mobile||db.customers.find(c=>c.id===s.customerId)?.mobile||"",date:s.follow,days:d,message:`Purixa service follow-up is scheduled for ${s.follow}.`})}});return items.sort((a,b)=>a.days-b.days)}
-function renderReminders(){const box=document.getElementById("reminderList");if(!box)return;const items=getReminderItems();box.innerHTML=items.length?`<div class="table-wrap"><table><thead><tr><th>Type</th><th>Customer</th><th>Date</th><th>When</th><th>Action</th></tr></thead><tbody>${items.map((x,i)=>`<tr><td>${statusBadge(x.type)}</td><td><b>${esc(x.customer)}</b><div class="mini">${esc(x.mobile||"-")}</div></td><td>${esc(x.date)}</td><td>${x.days<0?Math.abs(x.days)+" days overdue":x.days===0?"Due today":x.days+" days left"}</td><td><button class="btn" onclick="reminderWhatsApp(${i})">💬 WhatsApp</button> <button class="btn" onclick="reminderCall(${i})">📞 Call</button></td></tr>`).join("")}</tbody></table></div>`:`<div class="empty">No service, follow-up or AMC reminders in the next 30 days.</div>`}
+function getReminderItems(){const items=[];db.customers.forEach(c=>{if(c.nextService){const d=daysFromToday(c.nextService);if(d!==null&&d<=30)items.push({type:"Service",customerId:c.id,customer:c.name,mobile:c.mobile,date:c.nextService,days:d,message:`Hello ${c.name||"Customer"}, your Purixa RO service is due on ${c.nextService}. Please reply to schedule your service. Thank you.`})}});getAMCExpiryRecords().forEach(a=>{const d=daysFromToday(a.end);if(d!==null&&d<=30){const c=db.customers.find(x=>x.id===a.customerId);items.push({type:"AMC Expiry",customerId:a.customerId,customer:a.customer||c?.name||"Customer",mobile:a.mobile||c?.mobile||"",date:a.end,days:d,message:`Hello ${a.customer||c?.name||"Customer"}, your Purixa AMC is expiring on ${a.end}. Please contact us for renewal.`})}});db.amcs.forEach(a=>{if(a.nextService){const d=daysFromToday(a.nextService);if(d!==null&&d<=30)items.push({type:"AMC Service",customerId:a.customerId,customer:a.customer,mobile:a.mobile||db.customers.find(c=>c.id===a.customerId)?.mobile||"",date:a.nextService,days:d,message:`Hello ${a.customer||"Customer"}, your Purixa AMC service is scheduled for ${a.nextService}. Please confirm a convenient time.`})}});db.services.forEach(s=>{if(s.follow){const d=daysFromToday(s.follow);if(d!==null&&d<=30&&s.status!=="Completed")items.push({type:"Follow-up",customerId:s.customerId,customer:s.customer||db.customers.find(c=>c.id===s.customerId)?.name||"Customer",mobile:s.mobile||db.customers.find(c=>c.id===s.customerId)?.mobile||"",date:s.follow,days:d,message:`Hello ${s.customer||"Customer"}, your Purixa service follow-up is scheduled for ${s.follow}. Please confirm.`})}});return items.sort((a,b)=>a.days-b.days)}
+function renderReminders(){const box=document.getElementById("reminderList");if(!box)return;const items=getReminderItems();const overdue=items.filter(x=>x.days<0).length,todayCount=items.filter(x=>x.days===0).length,serviceCount=items.filter(x=>x.type==="Service").length;const summary=`<div class="cards reminder-summary"><div class="card"><div class="label">🔧 Service Due / Overdue</div><div class="metric">${serviceCount}</div></div><div class="card"><div class="label">🔴 Overdue</div><div class="metric">${overdue}</div></div><div class="card"><div class="label">📅 Due Today</div><div class="metric">${todayCount}</div></div></div>`;box.innerHTML=summary+(items.length?`<div class="table-wrap"><table><thead><tr><th>Type</th><th>Customer</th><th>Date</th><th>When</th><th>Action</th></tr></thead><tbody>${items.map((x,i)=>`<tr><td>${statusBadge(x.type)}</td><td><b>${esc(x.customer)}</b><div class="mini">${esc(x.mobile||"-")}</div></td><td>${esc(x.date)}</td><td>${x.days<0?Math.abs(x.days)+" days overdue":x.days===0?"Due today":x.days+" days left"}</td><td><button class="btn" onclick="reminderWhatsApp(${i})">💬 WhatsApp</button> <button class="btn" onclick="reminderCall(${i})">📞 Call</button>${x.type==="Service"&&x.customerId?` <button class="btn primary" onclick="reminderRecordService(${i})">🔧 Record Service</button>`:""}</td></tr>`).join("")}</tbody></table></div>`:`<div class="empty">No service, follow-up or AMC reminders in the next 30 days.</div>`)}
 function reminderWhatsApp(i){const x=getReminderItems()[i];if(x)wa(x.mobile,x.message)}
 function reminderCall(i){const x=getReminderItems()[i];if(x)callNo(x.mobile)}
+function reminderRecordService(i){const x=getReminderItems()[i];if(!x?.customerId)return;goToPage("service");setTimeout(()=>openServiceModal(x.customerId),100)}
 function sendAllDueWhatsApp(){const x=getReminderItems()[0];if(!x){toast("No due customers");return}wa(x.mobile,x.message);toast("WhatsApp opened for first due customer")}
 
 function goToPage(pageName){
