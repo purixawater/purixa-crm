@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#0b6efd">
-<title>Purixa CRM Cloud — v22.24 PWA</title>
+<title>Purixa CRM Cloud — v22.25 PWA</title>
 <style>
 *{box-sizing:border-box}
 :root{--blue:#0b6efd;--dark:#17324d;--bg:#f4f7fb;--card:#fff;--muted:#6b7c93;--line:#e4eaf1;--green:#16a34a;--red:#dc2626;--orange:#f59e0b}
@@ -103,7 +103,7 @@ th{background:#f8fafc;color:#53677d}
 </style>
 <style>
 /* v22.23: all-customer 3-month service reminders + history improvements */
-/* v22.24: mobile app-style navigation and touch UX */
+/* v22.25: mobile app-style navigation and touch UX */
 /* v22.0 FINAL invoice viewport/alignment fix */
 #invoiceModal .modal-box{width:min(96vw, 980px)!important;max-width:980px!important;overflow:auto!important;padding:18px!important}
 #invoiceModal #invoicePreview{width:100%;overflow-x:auto}
@@ -125,14 +125,14 @@ th{background:#f8fafc;color:#53677d}
  .invoice .pws-inv div{font-size:10px!important;padding:6px!important}
 }
 
-/* v22.24 Mobile App UX */
+/* v22.25 Mobile App UX */
 .mobile-menu-btn{display:none}
 .mobile-bottom-nav{display:none}
 .mobile-drawer-backdrop{display:none}
 @media(max-width:700px){
   body{padding-bottom:68px}
   .sidebar{display:none!important}
-  .main{margin-left:0!important;width:100%!important;padding:10px 10px 82px!important}
+  .main{margin-left:0!important;width:100%!important;padding:10px 10px 82px!important;scroll-padding-bottom:90px}
   .top{position:sticky;top:0;z-index:15;background:var(--bg);padding:8px 2px 10px;margin:0 -2px 10px}
   .top h1{font-size:19px!important}
   .top p{font-size:11px}
@@ -154,7 +154,7 @@ th{background:#f8fafc;color:#53677d}
   .mobile-drawer .nav button{font-size:14px!important;text-align:left!important;color:#d9e7f5!important;padding:12px!important}
   .mobile-drawer .nav button:before{display:none!important}
   .mobile-drawer .nav button.active{background:#1d4f7a;color:#fff!important}
-  .cards{grid-template-columns:1fr 1fr!important;gap:8px!important}
+  .page{padding-bottom:96px!important}  .cards{grid-template-columns:1fr 1fr!important;gap:8px!important}
   .card{padding:11px!important;border-radius:11px}
   .metric{font-size:20px!important}
   .toolbar{gap:6px}
@@ -171,7 +171,7 @@ th{background:#f8fafc;color:#53677d}
 <div id="authOverlay">
   <div class="auth-box">
     <img class="auth-logo" src="purixa-logo.png" alt="Purixa Water Solution">
-    <h2>☁️ Purixa CRM Cloud v22.24</h2>
+    <h2>☁️ Purixa CRM Cloud v22.25</h2>
     <p class="mini" id="authModeText">Cloud login is enabled after Firebase setup.</p>
     <div id="firebaseSetupBox">
       <label class="mini">Firebase Config JSON</label>
@@ -729,7 +729,7 @@ async function syncCloudData(silent=false){
   if(!firestore||!firebaseAuth.currentUser||cloudSyncing)return false;
   cloudSyncing=true;
   try{
-    await firestore.collection("users").doc(firebaseAuth.currentUser.uid).collection("crm").doc("main").set({data:db,updatedAt:firebase.firestore.FieldValue.serverTimestamp(),version:"v22.24"},{merge:true});
+    await firestore.collection("users").doc(firebaseAuth.currentUser.uid).collection("crm").doc("main").set({data:db,updatedAt:firebase.firestore.FieldValue.serverTimestamp(),version:"v22.25"},{merge:true});
     await syncNormalizedCollections();
     if(!silent)toast("☁️ Cloud synced");
     return true;
