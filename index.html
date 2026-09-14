@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#0b6efd">
-<title>Purixa CRM Cloud — v22.25 PWA</title>
+<title>Purixa CRM Cloud — v22.26 PWA</title>
 <style>
 *{box-sizing:border-box}
 :root{--blue:#0b6efd;--dark:#17324d;--bg:#f4f7fb;--card:#fff;--muted:#6b7c93;--line:#e4eaf1;--green:#16a34a;--red:#dc2626;--orange:#f59e0b}
@@ -103,7 +103,7 @@ th{background:#f8fafc;color:#53677d}
 </style>
 <style>
 /* v22.23: all-customer 3-month service reminders + history improvements */
-/* v22.25: mobile app-style navigation and touch UX */
+/* v22.26: mobile app-style navigation and touch UX */
 /* v22.0 FINAL invoice viewport/alignment fix */
 #invoiceModal .modal-box{width:min(96vw, 980px)!important;max-width:980px!important;overflow:auto!important;padding:18px!important}
 #invoiceModal #invoicePreview{width:100%;overflow-x:auto}
@@ -125,7 +125,7 @@ th{background:#f8fafc;color:#53677d}
  .invoice .pws-inv div{font-size:10px!important;padding:6px!important}
 }
 
-/* v22.25 Mobile App UX */
+/* v22.26 Mobile App UX */
 .mobile-menu-btn{display:none}
 .mobile-bottom-nav{display:none}
 .mobile-drawer-backdrop{display:none}
@@ -171,7 +171,7 @@ th{background:#f8fafc;color:#53677d}
 <div id="authOverlay">
   <div class="auth-box">
     <img class="auth-logo" src="purixa-logo.png" alt="Purixa Water Solution">
-    <h2>☁️ Purixa CRM Cloud v22.25</h2>
+    <h2>☁️ Purixa CRM Cloud v22.26</h2>
     <p class="mini" id="authModeText">Cloud login is enabled after Firebase setup.</p>
     <div id="firebaseSetupBox">
       <label class="mini">Firebase Config JSON</label>
@@ -590,6 +590,7 @@ function loadDB(){
       a.visitsTotal=Number(a.visitsTotal??a.visits??0);
       if(!Array.isArray(a.visitHistory))a.visitHistory=[];
       if(!a.visitsTotal && a.visits) a.visitsTotal=Number(a.visits)||0;
+      if(!a.nextService) a.nextService=addMonths(a.start||today,3);
       return a;
     });
     syncCustomerAMCFields(d);
@@ -678,7 +679,7 @@ async function loadNormalizedCollections(){
   }
   if(count===0)return null;
   result.services=result.services.map(s=>normalizeService(s,result));
-  result.amcs=result.amcs.map(a=>{a.visitsTotal=Number(a.visitsTotal??a.visits??0);if(!Array.isArray(a.visitHistory))a.visitHistory=[];return a});
+  result.amcs=result.amcs.map(a=>{a.visitsTotal=Number(a.visitsTotal??a.visits??0);if(!Array.isArray(a.visitHistory))a.visitHistory=[];if(!a.nextService)a.nextService=addMonths(a.start||today,3);return a});
   syncCustomerAMCFields(result);
   return result;
 }
@@ -714,7 +715,7 @@ async function loadCloudData(){
     if(snap.exists && snap.data().data){
       db=Object.assign(emptyDB(),snap.data().data);
       db.services=db.services.map(s=>normalizeService(s,db));
-      db.amcs=(db.amcs||[]).map(a=>{a.visitsTotal=Number(a.visitsTotal??a.visits??0);if(!Array.isArray(a.visitHistory))a.visitHistory=[];return a});
+      db.amcs=(db.amcs||[]).map(a=>{a.visitsTotal=Number(a.visitsTotal??a.visits??0);if(!Array.isArray(a.visitHistory))a.visitHistory=[];if(!a.nextService)a.nextService=addMonths(a.start||today,3);return a});
       syncCustomerAMCFields(db);
       localStorage.setItem(KEY,JSON.stringify(db));
       renderAll();
@@ -729,7 +730,7 @@ async function syncCloudData(silent=false){
   if(!firestore||!firebaseAuth.currentUser||cloudSyncing)return false;
   cloudSyncing=true;
   try{
-    await firestore.collection("users").doc(firebaseAuth.currentUser.uid).collection("crm").doc("main").set({data:db,updatedAt:firebase.firestore.FieldValue.serverTimestamp(),version:"v22.25"},{merge:true});
+    await firestore.collection("users").doc(firebaseAuth.currentUser.uid).collection("crm").doc("main").set({data:db,updatedAt:firebase.firestore.FieldValue.serverTimestamp(),version:"v22.26"},{merge:true});
     await syncNormalizedCollections();
     if(!silent)toast("☁️ Cloud synced");
     return true;
@@ -883,10 +884,10 @@ function waByService(id){const s=db.services.find(x=>x.id===id);wa(s?.mobile||db
 let editingAMCId=null, renewingAMCId=null;
 function addDays(dateStr,days){if(!dateStr)return "";const d=new Date(dateStr+"T00:00:00");d.setDate(d.getDate()+Number(days||0));return d.toISOString().slice(0,10)}
 function addMonths(dateStr,months){if(!dateStr)return "";const d=new Date(dateStr+"T00:00:00");const day=d.getDate();d.setDate(1);d.setMonth(d.getMonth()+Number(months||0));const last=new Date(d.getFullYear(),d.getMonth()+1,0).getDate();d.setDate(Math.min(day,last));return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")}
-function autoSetAMCEnd(){if(!amcStart.value)return;amcEnd.value=addDays(amcStart.value,364)}
+function autoSetAMCEnd(){if(!amcStart.value)return;amcEnd.value=addDays(amcStart.value,364);if(!editingAMCId&&!renewingAMCId)amcNext.value=addMonths(amcStart.value,3)}
 function openAMCRenewal(id){const a=db.amcs.find(x=>x.id===id);if(!a)return;const c=db.customers.find(x=>x.id===a.customerId)||db.customers.find(x=>String(x.name||"").toLowerCase()===String(a.customer||"").toLowerCase());if(!c){toast("Customer not found");return}renewingAMCId=id;editingAMCId=null;document.getElementById("amcModalTitle").textContent="🔄 Renew AMC";fillAMCCustomerOptions(c.id);amcAmount.value=a.amount||0;amcPaid.value=Number(a.paid??a.amount??0);amcMode.value=a.paymentMode||"Cash";const newStart=a.end?addDays(a.end,1):today;amcStart.value=newStart;amcEnd.value=addDays(newStart,364);amcVisits.value=Number(a.visitsTotal??a.visits??0);amcNext.value=addDays(newStart,90);openModal("amcModal")}
 function fillAMCCustomerOptions(selected=""){const s=document.getElementById("amcCustomer");if(!s)return;s.innerHTML='<option value="">Select Customer</option>'+db.customers.map(c=>`<option value="${c.id}">${esc(c.name)}</option>`).join("");if(selected!=="")s.value=String(selected)}
-function openAMCModal(customerId=""){editingAMCId=null;renewingAMCId=null;document.getElementById("amcModalTitle").textContent="New AMC";fillAMCCustomerOptions(customerId);amcAmount.value=0;amcPaid.value=0;amcMode.value="Cash";amcStart.value=today;amcEnd.value=addDays(today,364);amcVisits.value=0;amcNext.value="";openModal("amcModal")}
+function openAMCModal(customerId=""){editingAMCId=null;renewingAMCId=null;document.getElementById("amcModalTitle").textContent="New AMC";fillAMCCustomerOptions(customerId);amcAmount.value=0;amcPaid.value=0;amcMode.value="Cash";amcStart.value=today;amcEnd.value=addDays(today,364);amcVisits.value=0;amcNext.value=addMonths(today,3);openModal("amcModal")}
 function editAMC(id){const a=db.amcs.find(x=>x.id===id);if(!a)return;editingAMCId=id;renewingAMCId=null;document.getElementById("amcModalTitle").textContent="Edit AMC";fillAMCCustomerOptions(a.customerId||"");if(!a.customerId){const opt=[...amcCustomer.options].find(o=>o.textContent.split(" — ")[0].toLowerCase()===String(a.customer||"").toLowerCase());if(opt)amcCustomer.value=opt.value}amcAmount.value=a.amount||0;amcPaid.value=Number(a.paid??a.amount??0);amcMode.value=a.paymentMode||"Cash";amcStart.value=a.start||"";amcEnd.value=a.end||"";amcVisits.value=a.visitsTotal??a.visits??0;amcNext.value=a.nextService||"";openModal("amcModal")}
 function saveAMC(e){e.preventDefault();const cid=Number(amcCustomer.value)||null;const c=db.customers.find(x=>x.id===cid);if(!c){toast("Please select a customer");return}const amount=+amcAmount.value||0,paid=Math.min(amount,Math.max(0,+amcPaid.value||0));const old=editingAMCId?db.amcs.find(x=>x.id===editingAMCId):null;const data={customerId:cid,customer:c.name,mobile:c.mobile||"",amount,paid,pending:Math.max(0,amount-paid),paymentMode:amcMode.value||"Cash",start:amcStart.value,end:amcEnd.value,visitsTotal:+amcVisits.value||0,nextService:amcNext.value,visitHistory:[]};if(renewingAMCId){const source=db.amcs.find(x=>x.id===renewingAMCId);db.amcs.unshift({id:Date.now(),...data,renewalOf:source?.id||null,renewalDate:today,visitHistory:[]});c.amc=data.end||"";persist();e.target.reset();closeModal("amcModal");renewingAMCId=null;editingAMCId=null;toast("🔄 AMC renewed successfully");return}if(editingAMCId){if(old)Object.assign(old,{...data,visitHistory:Array.isArray(old.visitHistory)?old.visitHistory:[]})}else db.amcs.unshift({id:Date.now(),...data});c.amc=data.end||"";persist();e.target.reset();closeModal("amcModal");toast(editingAMCId?"AMC updated":"AMC saved");editingAMCId=null;renewingAMCId=null}
 function openAMCInvoice(amcId){const a=db.amcs.find(x=>x.id===amcId);if(!a){toast("AMC not found");return}const c=db.customers.find(x=>x.id===a.customerId)||{};currentAMCInvoiceMobile=c.mobile||a.mobile||"";let inv=String(a.invoiceNo||"").replace(/^PWS-AMC-/i,"");if(!/^\d+$/.test(inv)||Number(inv)<1||Number(inv)>999999){inv=nextBillNumber();a.invoiceNo=inv}const total=Number(a.amount||0),paid=Number(a.paid??total),pending=Math.max(0,Number(a.pending??(total-paid))),mode=String(a.paymentMode||"Cash");const checks=["Cash","Cheque","UPI","Online Transfer","POS","Finance","EMI"].map(x=>`<span>${mode===x?"☑":"☐"} ${x}</span>`).join("");document.getElementById("amcInvoicePreview").innerHTML=`<div class="pws-head"><div class="pws-logo"><img src="purixa-logo.png" alt="Purixa Water Solution"></div><div class="pws-title"><h2>PURIXA WATER SOLUTION</h2><div>Nr. Harihar Chowk, Sadar Bazar, Sadar,<br>Rajkot, Gujarat 360001<br>☎ 9998267304 / 7016715463</div></div><div class="pws-inv"><b>AMC INVOICE</b><div>Bill No. : <strong>${esc(inv)}</strong><br>Date : <u>${esc(formatInvoiceDate(a.invoiceDate||today))}</u></div></div></div><div class="bill-info"><div class="row name-row"><b>Customer Name :</b><span>${esc(c.name||a.customer||"-")}</span></div><div class="row mobile-row"><b>Address :</b><span>${esc(c.address||"-")}</span><b>Mobile No. :</b><span>${esc(c.mobile||a.mobile||"-")}</span></div></div><div class="pay"><b>Mode of Payment:</b><div class="checks">${checks}</div></div><table class="bill-table"><thead><tr><th>Sr. No.</th><th>Item Description</th><th>Qty.</th><th>Price</th><th>Amount Rs.</th></tr></thead><tbody><tr><td style="text-align:center">1</td><td>AMC – Annual Maintenance Contract<br><small><b>AMC Period :</b> <span class="amc-period-date">${esc(formatInvoiceDate(a.start||"-"))}</span> <span class="amc-period-to">to</span> <span class="amc-period-date">${esc(formatInvoiceDate(a.end||"-"))}</span></small></td><td>1</td><td>${total.toLocaleString("en-IN",{minimumFractionDigits:2,maximumFractionDigits:2})}</td><td>${total.toLocaleString("en-IN",{minimumFractionDigits:2,maximumFractionDigits:2})}</td></tr><tr class="item-spacer"><td></td><td></td><td></td><td></td><td></td></tr></tbody></table><div class="summary"><div class="summary-left"><div class="words"><b>Rupees :</b> ${esc(numberWords(total))} Only</div><div class="warranty"><b>Warranty & Service Details :</b> AMC period mein service + all parts FREE • Unlimited service visits</div><div class="gst"><b>GSTIN :</b> __________________</div><div class="terms"><b>નિયમો અને શરતો :</b><br>(1) AMC સમયગાળા દરમિયાન સર્વિસ અને જરૂરી પાર્ટ્સ મફત રહેશે.<br>(2) AMC દરમિયાન સર્વિસ વિઝિટની કોઈ મર્યાદા રહેશે નહીં.<br>(3) AMC સમયગાળો પૂરો થયા બાદ નવીનીકરણ જરૂરી રહેશે.<br>(4) સર્વિસ માટે ગ્રાહકે યોગ્ય સહકાર આપવાનો રહેશે.<br>(5) રાજકોટ જ્યુરિસ્ડિક્શનને આધીન.</div></div><div class="totalbox"><div><b>Total Rs.</b><b>${total.toLocaleString("en-IN",{minimumFractionDigits:2,maximumFractionDigits:2})}</b></div><div><span>Dues (if any)</span><b>${pending.toLocaleString("en-IN",{minimumFractionDigits:2,maximumFractionDigits:2})}</b></div></div></div><div class="footer"><div class="sig"><div class="sig-line">Customer's Signature</div></div><div class="sig"><div class="for">For, PURIXA WATER SOLUTION</div><img class="sig-img" src="authorized-signature-clean.png" alt="Authorised Signatory"><div class="sig-label">Authorised Signatory</div></div></div>`;persist();openModal("amcInvoiceModal")}
@@ -894,8 +895,8 @@ function printAMCInvoicePDF(){const invoice=document.getElementById("amcInvoiceP
 function downloadAMCInvoicePDF(){printAMCInvoicePDF()}
 function shareAMCInvoiceWhatsApp(){const num=String(currentAMCInvoiceMobile||"").replace(/\D/g,"");const msg=encodeURIComponent("Purixa Water Solution AMC Invoice — PDF attached.");const w=printAMCInvoicePDF();if(w&&typeof w.addEventListener==="function"){try{w.addEventListener("afterprint",()=>{setTimeout(()=>{if(num)window.open("https://wa.me/91"+num+"?text="+msg,"_blank");else window.open("https://web.whatsapp.com/","_blank")},300)},{once:true})}catch(e){}}toast(num?"PDF Save karein. Print window band karte hi customer ka WhatsApp khulega.":"PDF Save karein. Print window band karte hi WhatsApp khulega.")}
 function fillAMCVisitTechnicians(selected=""){const s=document.getElementById("visitTechnician");if(!s)return;s.innerHTML='<option value="">Unassigned</option>'+db.technicians.map(x=>`<option value="${x.id}">${esc(x.name)}</option>`).join("");if(selected)s.value=String(selected)}
-function openAMCVisit(amcId,index=null){const a=db.amcs.find(x=>x.id===amcId);if(!a)return;if(!Array.isArray(a.visitHistory))a.visitHistory=[];currentAMCVisitId=amcId;editingAMCVisitIndex=index;const v=index!==null?a.visitHistory[index]:null;document.getElementById("amcVisitModalTitle").textContent=v?"Edit AMC Visit":"New AMC Visit";document.getElementById("visitCustomer").value=a.customer||"";document.getElementById("visitDate").value=v?.date||today;fillAMCVisitTechnicians(v?.technicianId||"");document.getElementById("visitStatus").value=v?.status||"Completed";document.getElementById("visitComplaint").value=v?.complaint||"";document.getElementById("visitWork").value=v?.workDone||"";document.getElementById("visitParts").value=v?.parts||"";document.getElementById("visitCharge").value=v?.charge||0;document.getElementById("visitNextService").value=v?.nextService||a.nextService||"";document.getElementById("visitNotes").value=v?.notes||"";openModal("amcVisitModal")}
-function saveAMCVisit(e){e.preventDefault();const a=db.amcs.find(x=>x.id===currentAMCVisitId);if(!a){toast("AMC not found");return}if(!Array.isArray(a.visitHistory))a.visitHistory=[];const tid=Number(document.getElementById("visitTechnician").value)||null;const tech=db.technicians.find(x=>x.id===tid);const v={id:editingAMCVisitIndex!==null?(a.visitHistory[editingAMCVisitIndex]?.id||Date.now()):Date.now(),date:document.getElementById("visitDate").value||today,technicianId:tid,technician:tech?.name||"",status:document.getElementById("visitStatus").value,complaint:document.getElementById("visitComplaint").value.trim(),workDone:document.getElementById("visitWork").value.trim(),parts:document.getElementById("visitParts").value.trim(),charge:+document.getElementById("visitCharge").value||0,nextService:document.getElementById("visitNextService").value||"",notes:document.getElementById("visitNotes").value.trim()};if(editingAMCVisitIndex!==null)a.visitHistory[editingAMCVisitIndex]=v;else a.visitHistory.push(v);if(v.nextService)a.nextService=v.nextService;persist();e.target.reset();closeModal("amcVisitModal");toast(editingAMCVisitIndex!==null?"AMC visit updated":"AMC visit saved");currentAMCVisitId=null;editingAMCVisitIndex=null}
+function openAMCVisit(amcId,index=null){const a=db.amcs.find(x=>x.id===amcId);if(!a)return;if(!Array.isArray(a.visitHistory))a.visitHistory=[];currentAMCVisitId=amcId;editingAMCVisitIndex=index;const v=index!==null?a.visitHistory[index]:null;document.getElementById("amcVisitModalTitle").textContent=v?"Edit AMC Visit":"New AMC Visit";document.getElementById("visitCustomer").value=a.customer||"";document.getElementById("visitDate").value=v?.date||today;fillAMCVisitTechnicians(v?.technicianId||"");document.getElementById("visitStatus").value=v?.status||"Completed";document.getElementById("visitComplaint").value=v?.complaint||"";document.getElementById("visitWork").value=v?.workDone||"";document.getElementById("visitParts").value=v?.parts||"";document.getElementById("visitCharge").value=v?.charge||0;document.getElementById("visitNextService").value=v?.nextService||a.nextService||addMonths(v?.date||today,3);document.getElementById("visitNotes").value=v?.notes||"";openModal("amcVisitModal")}
+function saveAMCVisit(e){e.preventDefault();const a=db.amcs.find(x=>x.id===currentAMCVisitId);if(!a){toast("AMC not found");return}if(!Array.isArray(a.visitHistory))a.visitHistory=[];const tid=Number(document.getElementById("visitTechnician").value)||null;const tech=db.technicians.find(x=>x.id===tid);const v={id:editingAMCVisitIndex!==null?(a.visitHistory[editingAMCVisitIndex]?.id||Date.now()):Date.now(),date:document.getElementById("visitDate").value||today,technicianId:tid,technician:tech?.name||"",status:document.getElementById("visitStatus").value,complaint:document.getElementById("visitComplaint").value.trim(),workDone:document.getElementById("visitWork").value.trim(),parts:document.getElementById("visitParts").value.trim(),charge:+document.getElementById("visitCharge").value||0,nextService:document.getElementById("visitNextService").value||addMonths(document.getElementById("visitDate").value||today,3),notes:document.getElementById("visitNotes").value.trim()};if(editingAMCVisitIndex!==null)a.visitHistory[editingAMCVisitIndex]=v;else a.visitHistory.push(v);if(v.nextService)a.nextService=v.nextService;persist();e.target.reset();closeModal("amcVisitModal");toast(editingAMCVisitIndex!==null?"AMC visit updated":"AMC visit saved");currentAMCVisitId=null;editingAMCVisitIndex=null}
 function showAMCHistory(id){
   const a=db.amcs.find(x=>x.id===id); if(!a)return;
   const list=Array.isArray(a.visitHistory)?a.visitHistory:[];
@@ -1249,7 +1250,7 @@ async function deletePayment(saleId,index){
 }
 function del(type,id){if(!confirm("Delete this record?"))return;db[type]=db[type].filter(x=>x.id!==id);persist();toast("Deleted")}
 function exportData(){const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([JSON.stringify(db,null,2)],{type:"application/json"}));a.download="purixa-crm-backup.json";a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}
-function importData(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const imported=JSON.parse(r.result);db=Object.assign(emptyDB(),imported);db.sales=(db.sales||[]).map(s=>{s.total=Number(s.total??s.amount??0);s.paid=Number(s.paid||0);if(!Array.isArray(s.payments))s.payments=s.paid>0?[{id:(s.id||Date.now())+1,date:s.date||today,amount:s.paid,mode:s.mode||"Cash",note:"Initial payment"}]:[];return s});db.services=db.services.map(s=>normalizeService(s,db));db.amcs=(db.amcs||[]).map(a=>{if(!a.customerId){const c=db.customers.find(c=>String(c.name).toLowerCase()===String(a.customer||"").toLowerCase());if(c)a.customerId=c.id}a.visitsTotal=Number(a.visitsTotal??a.visits??0);if(!Array.isArray(a.visitHistory))a.visitHistory=[];return a});syncCustomerAMCFields(db);persist();toast("Backup imported")}catch{toast("Invalid backup")}};r.readAsText(f);e.target.value=""}
+function importData(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const imported=JSON.parse(r.result);db=Object.assign(emptyDB(),imported);db.sales=(db.sales||[]).map(s=>{s.total=Number(s.total??s.amount??0);s.paid=Number(s.paid||0);if(!Array.isArray(s.payments))s.payments=s.paid>0?[{id:(s.id||Date.now())+1,date:s.date||today,amount:s.paid,mode:s.mode||"Cash",note:"Initial payment"}]:[];return s});db.services=db.services.map(s=>normalizeService(s,db));db.amcs=(db.amcs||[]).map(a=>{if(!a.customerId){const c=db.customers.find(c=>String(c.name).toLowerCase()===String(a.customer||"").toLowerCase());if(c)a.customerId=c.id}a.visitsTotal=Number(a.visitsTotal??a.visits??0);if(!Array.isArray(a.visitHistory))a.visitHistory=[];if(!a.nextService)a.nextService=addMonths(a.start||today,3);return a});syncCustomerAMCFields(db);persist();toast("Backup imported")}catch{toast("Invalid backup")}};r.readAsText(f);e.target.value=""}
 async function firebaseDiagnostic(){
   const lines=[];
   const fail=(label,e)=>{const code=e?.code||"unknown";const msg=e?.message||String(e);lines.push("❌ "+label+" | "+code+" | "+msg);console.error("Firebase diagnostic",label,e);};
