@@ -1100,6 +1100,7 @@ function openInvoice(saleId){
   <div class="bill-info">
     <div class="row name-row"><b>Customer Name :</b><span>${esc(c.name||s.customer||"-")}</span></div>
     <div class="row mobile-row"><b>Address :</b><span>${esc(address)}</span><b>Mobile No. :</b><span>${esc(c.mobile||s.mobile||"-")}</span></div>
+    <div class="row mobile-row"><b>Purchase Date :</b><span>${esc(formatInvoiceDate(s.purchaseDate||c.purchase||"-"))}</span><b>Invoice Date :</b><span>${esc(formatInvoiceDate(s.date||today))}</span></div>
   </div>
   <div class="pay"><b>Mode of Payment:</b><div class="checks">${checks}</div></div>
   <table class="bill-table"><thead><tr><th>Sr. No.</th><th>Item Description</th><th>Qty.</th><th>Price</th><th>Amount Rs.</th></tr></thead>
