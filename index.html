@@ -457,7 +457,15 @@ th{background:#f8fafc;color:#53677d}
 <div class="field"><label>Service Amount</label><input id="svcAmount" type="number" min="0" value="0"></div>
 <div class="field"><label>Service Date</label><input id="svcDate" type="date"></div>
 <div class="field"><label>Next Follow-up</label><input id="svcFollow" type="date"><div class="mini" style="margin-top:5px">🔧 Customer service due is automatically scheduled 3 months after a completed service.</div></div>
-<div class="field full"><label>Notes</label><textarea id="svcNotes" rows="3" placeholder="Service details / parts required / customer complaint"></textarea></div><div class="field full"><div class="mini">💬 Status ko <b>Completed</b> karne par CRM WhatsApp me Service Bill + Review request kholega.</div></div>
+<div class="field full">
+<label>Parts Changed / Parts Used</label>
+<div id="svcPartsList"></div>
+<button type="button" class="btn" style="margin-top:8px" onclick="addServicePartRow()">＋ Add Part</button>
+<div class="mini" style="margin-top:7px">Part Name + Qty + Price भरें. Amount automatically calculate होगा.</div>
+<div id="svcPartsTotal" style="margin-top:8px;font-weight:700">Parts Total: ₹0</div>
+<div id="svcGrandTotal" style="margin-top:4px;font-weight:700">Grand Total: ₹0</div>
+</div>
+<div class="field full"><label>Notes</label><textarea id="svcNotes" rows="3" placeholder="Service details / customer complaint"></textarea></div><div class="field full"><div class="mini">💬 Status ko <b>Completed</b> karne par CRM WhatsApp me Service Bill + Review request kholega.</div></div>
 </div><div class="actions"><button type="button" class="btn" onclick="closeModal('serviceModal')">Cancel</button><button class="btn primary">💾 Save Service</button></div></form>
 </div></div>
 
@@ -832,27 +840,67 @@ function saveServiceNewCustomer(e){
   openServiceModal(c.id);
   toast("New customer saved and selected for service");
 }
+function servicePartsFromForm(){
+  return [...document.querySelectorAll("#svcPartsList .svc-part-row")].map(row=>{
+    const name=row.querySelector(".svc-part-name")?.value.trim()||"";
+    const qty=Math.max(1,Number(row.querySelector(".svc-part-qty")?.value||1));
+    const price=Math.max(0,Number(row.querySelector(".svc-part-price")?.value||0));
+    return {name,qty,price,amount:qty*price};
+  }).filter(x=>x.name);
+}
+function updateServicePartsTotal(){
+  const rows=[...document.querySelectorAll("#svcPartsList .svc-part-row")];
+  let total=0;
+  rows.forEach(row=>{
+    const qty=Math.max(1,Number(row.querySelector(".svc-part-qty")?.value||1));
+    const price=Math.max(0,Number(row.querySelector(".svc-part-price")?.value||0));
+    const amount=qty*price; total+=amount;
+    const out=row.querySelector(".svc-part-amount"); if(out)out.textContent="₹"+amount.toLocaleString("en-IN");
+  });
+  const charge=Math.max(0,Number(document.getElementById("svcAmount")?.value||0));
+  const pt=document.getElementById("svcPartsTotal"); if(pt)pt.textContent="Parts Total: ₹"+total.toLocaleString("en-IN");
+  const gt=document.getElementById("svcGrandTotal"); if(gt)gt.textContent="Grand Total: ₹"+(charge+total).toLocaleString("en-IN");
+}
+function addServicePartRow(part={name:"",qty:1,price:0}){
+  const box=document.getElementById("svcPartsList"); if(!box)return;
+  const row=document.createElement("div"); row.className="svc-part-row";
+  row.style.cssText="display:grid;grid-template-columns:minmax(130px,1fr) 70px 100px 100px 36px;gap:7px;align-items:center;margin-top:7px";
+  row.innerHTML=`<input class="svc-part-name" placeholder="Part name" value="${esc(part.name||"")}">
+    <input class="svc-part-qty" type="number" min="1" value="${Number(part.qty)||1}" title="Qty">
+    <input class="svc-part-price" type="number" min="0" value="${Number(part.price)||0}" placeholder="Price" title="Price">
+    <span class="svc-part-amount" style="font-weight:600">₹0</span>
+    <button type="button" class="btn red" title="Remove part" onclick="this.parentElement.remove();updateServicePartsTotal()">×</button>`;
+  box.appendChild(row);
+  row.querySelectorAll("input").forEach(x=>x.addEventListener("input",updateServicePartsTotal));
+  updateServicePartsTotal();
+}
+function setServiceParts(parts=[]){
+  const box=document.getElementById("svcPartsList"); if(!box)return;
+  box.innerHTML="";
+  (Array.isArray(parts)&&parts.length?parts:[{name:"",qty:1,price:0}]).forEach(addServicePartRow);
+  updateServicePartsTotal();
+}
 function openServiceModal(customerId=""){
   editingServiceId=null;document.getElementById("serviceModalTitle").textContent="New Service Request";
-  fillServiceCustomerOptions(customerId);document.getElementById("svcMobile").value="";document.getElementById("svcProblem").value="";document.getElementById("svcTech").value="";document.getElementById("svcStatus").value="Open";document.getElementById("svcAmount").value="0";document.getElementById("svcDate").value=today;document.getElementById("svcFollow").value="";document.getElementById("svcNotes").value="";
+  fillServiceCustomerOptions(customerId);document.getElementById("svcMobile").value="";document.getElementById("svcProblem").value="";document.getElementById("svcTech").value="";document.getElementById("svcStatus").value="Open";document.getElementById("svcAmount").value="0";document.getElementById("svcDate").value=today;document.getElementById("svcFollow").value="";document.getElementById("svcNotes").value="";setServiceParts([]);
   if(customerId){const c=db.customers.find(x=>x.id===Number(customerId));if(c)document.getElementById("svcMobile").value=c.mobile||""}
   openModal("serviceModal");
 }
 function openCustomerService(id){const c=db.customers.find(x=>x.id===Number(id));if(!c)return;openServiceModal(c.id)}
-function saveService(e){e.preventDefault();const cid=Number(svcCustomer.value);const c=db.customers.find(x=>x.id===cid);if(!c){toast("Please select a customer");return}const tid=Number(svcTech.value)||null;const tech=db.technicians.find(x=>x.id===tid);const serviceDate=svcDate.value||today;const data={customerId:cid,customer:c.name,mobile:c.mobile||"",problem:svcProblem.value||"General Service",tech:tech?.name||"",technicianId:tid,status:svcStatus.value,amount:+svcAmount.value||0,charge:+svcAmount.value||0,date:serviceDate,follow:svcFollow.value,notes:svcNotes.value.trim()};let savedId=null,sendCompleted=false;
+function saveService(e){e.preventDefault();const cid=Number(svcCustomer.value);const c=db.customers.find(x=>x.id===cid);if(!c){toast("Please select a customer");return}const tid=Number(svcTech.value)||null;const tech=db.technicians.find(x=>x.id===tid);const serviceDate=svcDate.value||today;const parts=servicePartsFromForm();const partsTotal=parts.reduce((sum,x)=>sum+x.amount,0);const serviceCharge=Math.max(0,+svcAmount.value||0);const grandTotal=serviceCharge+partsTotal;const data={customerId:cid,customer:c.name,mobile:c.mobile||"",problem:svcProblem.value||"General Service",tech:tech?.name||"",technicianId:tid,status:svcStatus.value,amount:serviceCharge,charge:serviceCharge,totalAmount:grandTotal,parts,partsTotal,date:serviceDate,follow:svcFollow.value,notes:svcNotes.value.trim()};let savedId=null,sendCompleted=false;
   if(editingServiceId){const s=db.services.find(x=>x.id===editingServiceId);if(s){const wasCompleted=s.status==="Completed";Object.assign(s,data);savedId=s.id;sendCompleted=!wasCompleted&&data.status==="Completed"}}else{savedId=Date.now();db.services.unshift({id:savedId,...data});sendCompleted=data.status==="Completed"}
   if(data.status==="Completed"){c.nextService=addMonths(serviceDate,3)}
   persist();e.target.reset();closeModal("serviceModal");toast(editingServiceId?(data.status==="Completed"?"Service updated — next service set after 3 months":"Service updated"):"Service saved");editingServiceId=null;
   if(sendCompleted){setTimeout(()=>sendServiceBillAndReviewWhatsApp(savedId),450)}
 }
-function editService(id){const s=db.services.find(x=>x.id===id);if(!s)return;editingServiceId=id;document.getElementById("serviceModalTitle").textContent="Edit Service Request";fillServiceCustomerOptions(s.customerId||"");svcMobile.value=s.mobile||db.customers.find(c=>c.id===s.customerId)?.mobile||"";svcProblem.value=s.problem||"General Service";svcTech.value=s.technicianId?String(s.technicianId):"";svcStatus.value=s.status||"Open";svcAmount.value=s.amount??s.charge??0;svcDate.value=s.date||today;svcFollow.value=s.follow||"";svcNotes.value=s.notes||"";openModal("serviceModal")}
+function editService(id){const s=db.services.find(x=>x.id===id);if(!s)return;editingServiceId=id;document.getElementById("serviceModalTitle").textContent="Edit Service Request";fillServiceCustomerOptions(s.customerId||"");svcMobile.value=s.mobile||db.customers.find(c=>c.id===s.customerId)?.mobile||"";svcProblem.value=s.problem||"General Service";svcTech.value=s.technicianId?String(s.technicianId):"";svcStatus.value=s.status||"Open";svcAmount.value=s.amount??s.charge??0;svcDate.value=s.date||today;svcFollow.value=s.follow||"";svcNotes.value=s.notes||"";setServiceParts(Array.isArray(s.parts)?s.parts:[]);openModal("serviceModal")}
 function openServiceInvoice(serviceId){
   const s=db.services.find(x=>x.id===serviceId);if(!s){toast("Service not found");return}
   const c=db.customers.find(x=>x.id===s.customerId)||{};
   currentInvoiceMobile=c.mobile||s.mobile||"";
   let inv=String(s.serviceInvoiceNo||"").replace(/^PWS-SVC-/i,"");
   if(!/^\d+$/.test(inv)||Number(inv)<1||Number(inv)>999999){inv=nextBillNumber();s.serviceInvoiceNo=inv;}
-  const amount=Number(s.amount??s.charge??0),paid=Number(s.paid||0),pending=Math.max(0,amount-paid);
+  const amount=Number(s.totalAmount??(Number(s.amount??s.charge??0)+Number(s.partsTotal||0)));const paid=Number(s.paid||0),pending=Math.max(0,amount-paid);
   const mode=String(s.paymentMode||s.mode||"Cash");
   const checks=["Cash","Cheque","UPI","Online Transfer","POS","Finance","EMI"].map(x=>`<span>${mode===x?"☑":"☐"} ${x}</span>`).join("");
   const address=c.address||s.address||"-";
@@ -860,12 +908,15 @@ function openServiceInvoice(serviceId){
   <div class="pws-head"><div class="pws-logo"><img src="purixa-logo.png" alt="Purixa Water Solution"></div><div class="pws-title"><h2>PURIXA WATER SOLUTION</h2><div>Nr. Harihar Chowk, Sadar Bazar, Sadar,<br>Rajkot, Gujarat 360001<br>☎ 9998267304 / 7016715463</div></div><div class="pws-inv"><b>SERVICE INVOICE</b><div>Bill No. : <strong>${esc(inv)}</strong><br>Date : <u>${esc(formatInvoiceDate(s.date||today))}</u></div></div></div>
   <div class="bill-info"><div class="row name-row"><b>Customer Name :</b><span>${esc(c.name||s.customer||"-")}</span></div><div class="row mobile-row"><b>Address :</b><span>${esc(address)}</span><b>Mobile No. :</b><span>${esc(c.mobile||s.mobile||"-")}</span></div></div>
   <div class="pay"><b>Mode of Payment:</b><div class="checks">${checks}</div></div>
-  <table class="bill-table"><thead><tr><th>Sr. No.</th><th>Service Description</th><th>Qty.</th><th>Price</th><th>Amount Rs.</th></tr></thead><tbody><tr><td style="text-align:center">1</td><td>${esc(s.problem||"General Service")}<br><small><b>Technician :</b> ${esc(s.tech||"Unassigned")}</small>${s.notes?`<br><small><b>Details :</b> ${esc(s.notes)}</small>`:""}</td><td>1</td><td>${amount.toLocaleString("en-IN",{minimumFractionDigits:2,maximumFractionDigits:2})}</td><td>${amount.toLocaleString("en-IN",{minimumFractionDigits:2,maximumFractionDigits:2})}</td></tr><tr class="item-spacer"><td></td><td></td><td></td><td></td><td></td></tr></tbody></table>
+  <table class="bill-table"><thead><tr><th>Sr. No.</th><th>Service / Part Description</th><th>Qty.</th><th>Price</th><th>Amount Rs.</th></tr></thead><tbody>
+<tr><td style="text-align:center">1</td><td>${esc(s.problem||"General Service")}<br><small><b>Technician :</b> ${esc(s.tech||"Unassigned")}</small>${s.notes?`<br><small><b>Details :</b> ${esc(s.notes)}</small>`:""}</td><td>1</td><td>${Number(s.amount??s.charge??0).toLocaleString("en-IN",{minimumFractionDigits:2,maximumFractionDigits:2})}</td><td>${Number(s.amount??s.charge??0).toLocaleString("en-IN",{minimumFractionDigits:2,maximumFractionDigits:2})}</td></tr>
+${(Array.isArray(s.parts)?s.parts:[]).map((p,i)=>`<tr><td style="text-align:center">${i+2}</td><td>${esc(p.name||"Part")}</td><td>${Number(p.qty||1)}</td><td>${Number(p.price||0).toLocaleString("en-IN",{minimumFractionDigits:2,maximumFractionDigits:2})}</td><td>${Number(p.amount??((p.qty||1)*(p.price||0))).toLocaleString("en-IN",{minimumFractionDigits:2,maximumFractionDigits:2})}</td></tr>`).join("")}
+<tr class="item-spacer"><td></td><td></td><td></td><td></td><td></td></tr></tbody></table>
   <div class="summary"><div class="summary-left"><div class="words"><b>Rupees :</b> ${esc(numberWords(amount))} Only</div><div class="warranty"><b>Service Status :</b> ${esc(s.status||"Completed")}${s.follow?` &nbsp; | &nbsp; <b>Next Follow-up :</b> ${esc(formatInvoiceDate(s.follow))}`:""}</div><div class="gst"><b>GSTIN :</b> __________________</div><div class="terms"><b>નિયમો અને શરતો :</b><br>(1) સર્વિસ માટે ફરિયાદ કર્યા પછી 2 દિવસ બાદ હોલ્ડ આવે તો ચાર્જ આપવાનો રહેશે.<br>(2) વોરંટી પિરિયડ બાદ હોલ્ડ આવે તો સર્વિસ ચાર્જ આપવાનો રહેશે.<br>(3) પાર્ટ્સ બદલવાનો ચાર્જ અલગ રહેશે.<br>(4) સર્વિસ પૂર્ણ થયા બાદ ગ્રાહકે કામ ચેક કરીને સ્વીકારવું રહેશે.<br>(5) રાજકોટ જ્યુરિસ્ડિક્શનને આધીન.</div></div><div class="totalbox"><div><b>Total Rs.</b><b>${amount.toLocaleString("en-IN",{minimumFractionDigits:2,maximumFractionDigits:2})}</b></div><div><span>Dues (if any)</span><b>${pending.toLocaleString("en-IN",{minimumFractionDigits:2,maximumFractionDigits:2})}</b></div></div></div>
   <div class="footer"><div class="sig"><div class="sig-line">Customer's Signature</div></div><div class="sig"><div class="for">For, PURIXA WATER SOLUTION</div><img class="sig-img" src="authorized-signature-clean.png" alt="Authorised Signatory"><div class="sig-label">Authorised Signatory</div></div></div>`;
   persist();document.querySelector("#invoiceModal .modal-head h3").textContent="🧾 Service Invoice / Receipt";openModal("invoiceModal");
 }
-function viewService(id){const s=db.services.find(x=>x.id===id);if(!s)return;const c=db.customers.find(x=>x.id===s.customerId)||{};const t=db.technicians.find(x=>x.id===s.technicianId)||{};const completedBtn=s.status==="Completed"?`<button class="btn green" onclick="sendServiceBillAndReviewWhatsApp(${s.id})">📲 Bill + Review WhatsApp</button>`:"";document.getElementById("serviceDetail").innerHTML=`<div class="service-card"><h3>${esc(c.name||s.customer||"-")}</h3><p><b>Mobile:</b> ${esc(c.mobile||s.mobile||"-")}</p><p><b>Date:</b> ${esc(s.date||"-")}</p><p><b>Problem:</b> ${esc(s.problem||"-")}</p><p><b>Technician:</b> ${esc(t.name||s.tech||"Unassigned")}</p><p><b>Status:</b> ${statusBadge(s.status||"Open")}</p><p><b>Charge:</b> ${money(s.amount??s.charge??0)}</p><p><b>Follow-up:</b> ${esc(s.follow||"-")}</p><p><b>Details:</b> ${esc(s.notes||"-")}</p><div class="toolbar"><button class="btn primary" onclick="closeModal('serviceDetailModal');editService(${s.id})">✏️ Edit</button><button class="btn" onclick="callNoByService(${s.id})">📞 Call</button><button class="btn" onclick="waByService(${s.id})">💬 WhatsApp</button>${completedBtn}<button class="btn red" onclick="del('services',${s.id});closeModal('serviceDetailModal')">Delete</button></div></div>`;openModal("serviceDetailModal")}
+function viewService(id){const s=db.services.find(x=>x.id===id);if(!s)return;const c=db.customers.find(x=>x.id===s.customerId)||{};const t=db.technicians.find(x=>x.id===s.technicianId)||{};const completedBtn=s.status==="Completed"?`<button class="btn green" onclick="sendServiceBillAndReviewWhatsApp(${s.id})">📲 Bill + Review WhatsApp</button>`:"";document.getElementById("serviceDetail").innerHTML=`<div class="service-card"><h3>${esc(c.name||s.customer||"-")}</h3><p><b>Mobile:</b> ${esc(c.mobile||s.mobile||"-")}</p><p><b>Date:</b> ${esc(s.date||"-")}</p><p><b>Problem:</b> ${esc(s.problem||"-")}</p><p><b>Technician:</b> ${esc(t.name||s.tech||"Unassigned")}</p><p><b>Status:</b> ${statusBadge(s.status||"Open")}</p><p><b>Service Charge:</b> ${money(s.amount??s.charge??0)}</p><p><b>Parts:</b> ${(Array.isArray(s.parts)&&s.parts.length)?s.parts.map(p=>`${esc(p.name||"Part")} × ${Number(p.qty||1)} @ ${money(p.price||0)} = ${money(p.amount??((p.qty||1)*(p.price||0)))}`).join("<br>"):"No parts added"}</p><p><b>Parts Total:</b> ${money(s.partsTotal||0)}</p><p><b>Grand Total:</b> ${money(s.totalAmount??(Number(s.amount??s.charge??0)+Number(s.partsTotal||0)))}</p><p><b>Follow-up:</b> ${esc(s.follow||"-")}</p><p><b>Details:</b> ${esc(s.notes||"-")}</p><div class="toolbar"><button class="btn primary" onclick="closeModal('serviceDetailModal');editService(${s.id})">✏️ Edit</button><button class="btn" onclick="callNoByService(${s.id})">📞 Call</button><button class="btn" onclick="waByService(${s.id})">💬 WhatsApp</button>${completedBtn}<button class="btn red" onclick="del('services',${s.id});closeModal('serviceDetailModal')">Delete</button></div></div>`;openModal("serviceDetailModal")}
 function callNoByService(id){const s=db.services.find(x=>x.id===id);callNo(s?.mobile||db.customers.find(c=>c.id===s?.customerId)?.mobile)}
 function getReviewLink(){return String(localStorage.getItem("purixa_google_review_link")||"").trim()}
 function saveReviewLink(){const el=document.getElementById("reviewLink");if(!el)return;localStorage.setItem("purixa_google_review_link",el.value.trim());toast(el.value.trim()?"Google Review link saved":"Review link cleared")}
