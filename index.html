@@ -474,11 +474,22 @@ th{background:#f8fafc;color:#53677d}
 </div><div class="actions"><button type="button" class="btn" onclick="closeModal('serviceNewCustomerModal')">Cancel</button><button class="btn primary">💾 Save & Select Customer</button></div></form>
 </div></div>
 
+<!-- AMC New Customer Modal -->
+<div class="modal" id="amcNewCustomerModal"><div class="modal-box">
+<div class="modal-head"><h3>New AMC Customer</h3><button class="close" onclick="closeModal('amcNewCustomerModal')">×</button></div>
+<form onsubmit="saveAMCNewCustomer(event)"><div class="form-grid">
+<div class="field"><label>Name *</label><input id="amcNewCustName" required></div>
+<div class="field"><label>Mobile *</label><input id="amcNewCustMobile" type="tel" inputmode="numeric" required></div>
+<div class="field"><label>Product</label><input id="amcNewCustProduct" placeholder="RO / UV / Commercial RO"></div>
+<div class="field full"><label>Address</label><textarea id="amcNewCustAddress" rows="3" placeholder="Customer address"></textarea></div>
+</div><div class="actions"><button type="button" class="btn" onclick="closeModal('amcNewCustomerModal')">Cancel</button><button class="btn primary">💾 Save & Select Customer</button></div></form>
+</div></div>
+
 <!-- AMC Modal -->
 <div class="modal" id="amcModal"><div class="modal-box">
 <div class="modal-head"><h3 id="amcModalTitle">New AMC</h3><button class="close" onclick="closeModal('amcModal')">×</button></div>
 <form onsubmit="saveAMC(event)"><div class="form-grid">
-<div class="field"><label>Customer *</label><select id="amcCustomer" required><option value="">Select Customer</option></select></div>
+<div class="field"><label>Customer *</label><div style="display:flex;gap:8px;align-items:center"><select id="amcCustomer" required style="flex:1"><option value="">Select Customer</option></select><button type="button" class="btn" onclick="openAMCNewCustomer()">＋ New Customer</button></div></div>
 <div class="field"><label>AMC Amount</label><input id="amcAmount" type="number" min="0" value="0"></div>
 <div class="field"><label>Paid Amount</label><input id="amcPaid" type="number" min="0" value="0"></div>
 <div class="field"><label>Payment Mode</label><select id="amcMode"><option>Cash</option><option>Cheque</option><option>UPI</option><option>Online Transfer</option><option>POS</option><option>Finance</option><option>EMI</option><option>Pending</option></select></div>
@@ -888,6 +899,41 @@ function addDays(dateStr,days){if(!dateStr)return "";const d=new Date(dateStr+"T
 function addMonths(dateStr,months){if(!dateStr)return "";const d=new Date(dateStr+"T00:00:00");const day=d.getDate();d.setDate(1);d.setMonth(d.getMonth()+Number(months||0));const last=new Date(d.getFullYear(),d.getMonth()+1,0).getDate();d.setDate(Math.min(day,last));return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")}
 function autoSetAMCEnd(){if(!amcStart.value)return;amcEnd.value=addDays(amcStart.value,364);if(!editingAMCId&&!renewingAMCId)amcNext.value=addMonths(amcStart.value,3)}
 function openAMCRenewal(id){const a=db.amcs.find(x=>x.id===id);if(!a)return;const c=db.customers.find(x=>x.id===a.customerId)||db.customers.find(x=>String(x.name||"").toLowerCase()===String(a.customer||"").toLowerCase());if(!c){toast("Customer not found");return}renewingAMCId=id;editingAMCId=null;document.getElementById("amcModalTitle").textContent="🔄 Renew AMC";fillAMCCustomerOptions(c.id);amcAmount.value=a.amount||0;amcPaid.value=Number(a.paid??a.amount??0);amcMode.value=a.paymentMode||"Cash";const newStart=a.end?addDays(a.end,1):today;amcStart.value=newStart;amcEnd.value=addDays(newStart,364);amcVisits.value=Number(a.visitsTotal??a.visits??0);amcNext.value=addDays(newStart,90);openModal("amcModal")}
+function openAMCNewCustomer(){
+  document.getElementById("amcNewCustName").value="";
+  document.getElementById("amcNewCustMobile").value="";
+  document.getElementById("amcNewCustProduct").value="";
+  document.getElementById("amcNewCustAddress").value="";
+  closeModal("amcModal");
+  openModal("amcNewCustomerModal");
+}
+function saveAMCNewCustomer(e){
+  e.preventDefault();
+  const name=document.getElementById("amcNewCustName").value.trim();
+  const mobile=document.getElementById("amcNewCustMobile").value.trim();
+  const product=document.getElementById("amcNewCustProduct").value.trim();
+  const address=document.getElementById("amcNewCustAddress").value.trim();
+  const norm=m=>String(m||"").replace(/\D/g,"");
+  if(!name||!mobile){toast("Name and mobile are required");return}
+  let c=db.customers.find(x=>norm(x.mobile)===norm(mobile));
+  if(c){
+    if(address)c.address=address;
+    if(product&&!c.product)c.product=product;
+    persist();
+    closeModal("amcNewCustomerModal");
+    fillAMCCustomerOptions(c.id);
+    openAMCModal(c.id);
+    toast("Existing customer found — selected for AMC");
+    return;
+  }
+  c={id:Date.now()+1,name,mobile,product,purchase:today,install:"",amc:"",installStatus:"Pending",nextService:addMonths(today,3),address,notes:""};
+  db.customers.unshift(c);
+  persist();
+  closeModal("amcNewCustomerModal");
+  fillAMCCustomerOptions(c.id);
+  openAMCModal(c.id);
+  toast("New customer saved and selected for AMC");
+}
 function fillAMCCustomerOptions(selected=""){const s=document.getElementById("amcCustomer");if(!s)return;s.innerHTML='<option value="">Select Customer</option>'+db.customers.map(c=>`<option value="${c.id}">${esc(c.name)}</option>`).join("");if(selected!=="")s.value=String(selected)}
 function openAMCModal(customerId=""){editingAMCId=null;renewingAMCId=null;document.getElementById("amcModalTitle").textContent="New AMC";fillAMCCustomerOptions(customerId);amcAmount.value=0;amcPaid.value=0;amcMode.value="Cash";amcStart.value=today;amcEnd.value=addDays(today,364);amcVisits.value=0;amcNext.value=addMonths(today,3);openModal("amcModal")}
 function editAMC(id){const a=db.amcs.find(x=>x.id===id);if(!a)return;editingAMCId=id;renewingAMCId=null;document.getElementById("amcModalTitle").textContent="Edit AMC";fillAMCCustomerOptions(a.customerId||"");if(!a.customerId){const opt=[...amcCustomer.options].find(o=>o.textContent.split(" — ")[0].toLowerCase()===String(a.customer||"").toLowerCase());if(opt)amcCustomer.value=opt.value}amcAmount.value=a.amount||0;amcPaid.value=Number(a.paid??a.amount??0);amcMode.value=a.paymentMode||"Cash";amcStart.value=a.start||"";amcEnd.value=a.end||"";amcVisits.value=a.visitsTotal??a.visits??0;amcNext.value=a.nextService||"";openModal("amcModal")}
