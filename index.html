@@ -620,6 +620,7 @@ function loadDB(){
       return a;
     });
     syncCustomerAMCFields(d);
+    ensureCustomersFromTransactions(d);
     return d;
   }catch(e){return emptyDB()}
 }
@@ -652,6 +653,52 @@ function normalizeService(s,d=emptyDB()){
   const technicianId=Number(s.technicianId)||null;
   const tech= s.tech || (d.technicians||[]).find(x=>x.id===technicianId)?.name || "";
   return {id:s.id||Date.now()+Math.random(),customerId,customer,mobile,problem:s.problem||s.type||"General Service",tech,technicianId,status:s.status||"Open",amount:Number(s.amount??s.charge??0),charge:Number(s.charge??s.amount??0),date:s.date||today,follow:s.follow||"",notes:s.notes||""};
+}
+
+// Repair/link Customer Master from every transaction. This is intentionally idempotent:
+// existing customers are matched by mobile first, then by name, so Sale/Service/AMC
+// records cannot remain orphaned when the Customers collection was empty or incomplete.
+function ensureCustomersFromTransactions(d){
+  const norm=m=>String(m||"").replace(/\D/g,"");
+  const find=(name,mobile)=>{
+    const nm=norm(mobile);
+    if(nm){const byMobile=(d.customers||[]).find(c=>norm(c.mobile)===nm);if(byMobile)return byMobile}
+    const nn=String(name||"").trim().toLowerCase();
+    if(nn)return (d.customers||[]).find(c=>String(c.name||"").trim().toLowerCase()===nn)||null;
+    return null;
+  };
+  const make=(name,mobile,address,product,date)=>({
+    id:Date.now()+Math.floor(Math.random()*1000000),name:String(name||"Customer").trim(),mobile:String(mobile||"").trim(),
+    product:String(product||"").trim(),purchase:date||today,install:"",amc:"",installStatus:"Pending",
+    nextService:addMonths(date||today,3),address:String(address||"").trim(),source:"",referredBy:"",notes:""
+  });
+  const link=(r,type)=>{
+    if(!r)return;
+    let c=(r.customerId!=null)?(d.customers||[]).find(x=>Number(x.id)===Number(r.customerId)):null;
+    if(!c)c=find(r.customer,r.mobile);
+    if(!c){
+      const product=type==='sale'?r.product:(r.product||"");
+      const date=r.date||r.start||today;
+      c=make(r.customer,r.mobile,r.address,product,date);
+      d.customers.unshift(c);
+    }else{
+      if(!c.mobile&&r.mobile)c.mobile=r.mobile;
+      if(!c.address&&r.address)c.address=r.address;
+      if(!c.product&&(r.product||type==='sale'))c.product=r.product||c.product;
+      if(!c.purchase&&(r.date||r.start))c.purchase=r.date||r.start;
+    }
+    r.customerId=c.id;
+    r.customer=c.name;
+    if(!r.mobile&&c.mobile)r.mobile=c.mobile;
+    if(type==='amc' && r.end)c.amc=r.end,c.nextService=r.nextService||addMonths(r.start||today,3);
+    if(type==='service' && r.status==='Completed' && r.date)c.nextService=addMonths(r.date,3);
+    if(type==='sale' && !c.nextService)c.nextService=addMonths(r.date||today,3);
+  };
+  (d.sales||[]).forEach(r=>link(r,'sale'));
+  (d.services||[]).forEach(r=>link(r,'service'));
+  (d.amcs||[]).forEach(r=>link(r,'amc'));
+  syncCustomerAMCFields(d);
+  return d;
 }
 let cloudSyncing=false, cloudReady=false, firebaseApp=null, firebaseAuth=null, firestore=null;
 const FIREBASE_KEY="purixaFirebaseConfig_v20_2";
@@ -707,6 +754,7 @@ async function loadNormalizedCollections(){
   result.services=result.services.map(s=>normalizeService(s,result));
   result.amcs=result.amcs.map(a=>{a.visitsTotal=Number(a.visitsTotal??a.visits??0);if(!Array.isArray(a.visitHistory))a.visitHistory=[];if(!a.nextService)a.nextService=addMonths(a.start||today,3);return a});
   syncCustomerAMCFields(result);
+  ensureCustomersFromTransactions(result);
   return result;
 }
 async function loadCloudData(){
@@ -743,6 +791,7 @@ async function loadCloudData(){
       db.services=db.services.map(s=>normalizeService(s,db));
       db.amcs=(db.amcs||[]).map(a=>{a.visitsTotal=Number(a.visitsTotal??a.visits??0);if(!Array.isArray(a.visitHistory))a.visitHistory=[];if(!a.nextService)a.nextService=addMonths(a.start||today,3);return a});
       syncCustomerAMCFields(db);
+      ensureCustomersFromTransactions(db);
       localStorage.setItem(KEY,JSON.stringify(db));
       renderAll();
       await syncNormalizedCollections();
@@ -763,7 +812,7 @@ async function syncCloudData(silent=false){
   }catch(e){console.error(e);if(!silent)toast("Cloud sync failed");return false}
   finally{cloudSyncing=false}
 }
-function persist(){localStorage.setItem(KEY,JSON.stringify(db));renderAll();if(cloudReady&&firebaseAuth?.currentUser)syncCloudData(true)}
+function persist(){ensureCustomersFromTransactions(db);localStorage.setItem(KEY,JSON.stringify(db));renderAll();if(cloudReady&&firebaseAuth?.currentUser)syncCloudData(true)}
 
 function openCloudSetup(){document.getElementById("firebaseConfigSettings").value=JSON.stringify(getFirebaseConfig()||{},null,2);openModal("cloudSetupModal")}
 function saveFirebaseConfig(){try{const cfg=JSON.parse(document.getElementById("firebaseConfigSettings").value);if(!cfg.apiKey||!cfg.projectId)throw Error();localStorage.setItem(FIREBASE_KEY,JSON.stringify(cfg));closeModal("cloudSetupModal");if(initFirebase())showLoginOverlay()}catch(e){toast("Invalid Firebase config")}}

@@ -1,0 +1,19 @@
+PURIXA CRM - FIREBASE BACKUP INFORMATION
+========================================
+
+Firebase Web App configuration is embedded in index.html under BUILT_IN_FIREBASE_CONFIG.
+
+Firebase Project ID:
+purixa-crm
+
+IMPORTANT:
+Firebase configuration is NOT the same thing as the Firebase Cloud database backup.
+Customer/Sales/Service/AMC data stored in Firestore remains in the Firebase project and is not copied into this ZIP automatically.
+
+The CRM now repairs/rebuilds missing Customer Master records from existing Sales, Service and AMC transaction data when cloud data is loaded.
+
+For a complete business-data backup, use the CRM Export/Backup function and keep the exported JSON separately.
+
+For disaster recovery, also keep access to the Firebase/Google account that owns the project.
+
+Do not delete the Firebase project or Firestore data after downloading this ZIP.

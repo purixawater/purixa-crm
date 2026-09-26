@@ -1,32 +1,37 @@
 PURIXA CRM v22.31 BACKUP
 ========================
 
-This backup contains the complete web/PWA CRM project files.
+This is the corrected complete web/PWA CRM project backup.
 
-IMPORTANT BUSINESS RULE
-- New Sale customer is automatically created in the Customers master list when needed.
-- New Service customer created through the Service "New Customer" flow is automatically saved in Customers and linked to the service.
-- New AMC customer created through the AMC "New Customer" flow is automatically saved in Customers and linked to the AMC.
-- Existing customers are matched by normalized mobile number to avoid duplicate customer records.
+IMPORTANT CUSTOMER MASTER RULE
+- New Sale: customer is automatically created/linked in Customers.
+- New Service: customer created through Service > New Customer is automatically saved/linked.
+- New AMC: customer created through AMC > New Customer is automatically saved/linked.
+- Existing customers are matched by normalized mobile number first, then by name, to avoid duplicates.
+- IMPORTANT FIX: if Firebase/old data contains Sales, Services or AMC records but the Customers collection is empty/incomplete, CRM v22.31 automatically reconstructs the missing Customer Master records and links those transactions.
 - Service completion updates the customer's next service date to 3 months later.
 - AMC stores the linked customerId and updates the customer's AMC end date.
 
 FILES
-- index.html              CRM application
-- manifest.json            PWA manifest
-- sw.js                    Service worker/cache
-- purixa-logo.png          Logo
-- authorized-signature-clean.png  Signature
-- icon-192.png             PWA icon
-- icon-512.png             PWA icon
-- BACKUP_README.txt        Backup notes
+- index.html
+- manifest.json
+- sw.js
+- purixa-logo.png
+- authorized-signature-clean.png
+- icon-192.png
+- icon-512.png
+- BACKUP_README.txt
+- FIREBASE_BACKUP_INFO.txt
 
 VERSION
 - CRM: v22.31
-- Service worker cache: purixa-crm-v22.31
+- Service worker cache: purixa-crm-v22.31.1
+
+TESTING NOTE
+The screenshots supplied by the user show v22.30 with Sales/Service/AMC records present while Customers displays "No customers found". That is the exact orphan-customer problem fixed in this v22.31 build.
 
 SAFE BACKUP PRACTICE
 1. Keep this ZIP unchanged as the master backup.
-2. Keep a second copy on your Mac/USB/Google Drive.
-3. Before future edits, make a new versioned ZIP (v22.32, v22.33, etc.).
-4. Do not delete the original v22.30 backup until the new version has been tested.
+2. Keep a second copy on Mac/USB/Google Drive.
+3. Before future edits, make v22.32, v22.33, etc.; never overwrite the master without another backup.
+4. Keep the original v22.30 backup separately.
