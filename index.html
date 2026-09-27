@@ -268,76 +268,6 @@ table{border:1px solid #e1e8f0;border-radius:13px;overflow:hidden}thead th{backg
 }
 @media(min-width:701px){.mobile-drawer .menu-icon{display:inline-flex}}
 </style>
-<style id="purixa-dark-modern-ui-v22-final">
-/* Purixa CRM — Dark Modern UI skin
-   Visual-only layer. Existing HTML, JavaScript, IDs and data bindings remain unchanged. */
-:root{
-  --blue:#3b82f6;
-  --blue2:#60a5fa;
-  --dark:#07111f;
-  --dark2:#0b1728;
-  --sidebar:#071a2f;
-  --bg:#081321;
-  --card:#0d1b2e;
-  --card2:#102238;
-  --muted:#91a4bd;
-  --text:#e8f1ff;
-  --line:#20344c;
-  --green:#22c55e;
-  --red:#ef4444;
-  --orange:#f59e0b;
-}
-html{background:var(--bg)}
-body{background:radial-gradient(circle at 85% 0%,#10294a 0,#081321 34%,#060e19 100%);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;min-height:100vh}
-.app{background:transparent}
-.sidebar{width:245px;background:linear-gradient(180deg,#071c34 0%,#061426 55%,#050e1a 100%);border-right:1px solid #1b3551;box-shadow:12px 0 35px #0008;padding:16px 12px}
-.brand{padding:8px 10px 18px;border-bottom:1px solid #1c3550;margin-bottom:10px}
-.brand-logo{width:100%;height:76px;background:#fff;border:1px solid #dce8f7;border-radius:13px;padding:5px;box-shadow:0 8px 24px #0005}
-.brand>span{display:block;color:#eaf4ff;font-size:15px;letter-spacing:1.2px;margin-top:10px;font-weight:800}
-.brand small{color:#7f98b7;letter-spacing:.25px}
-.nav{display:flex;flex-direction:column;gap:4px}
-.nav button{position:relative;display:flex;align-items:center;gap:11px;background:transparent;color:#aebed2;text-align:left;padding:11px 12px;border:1px solid transparent;border-radius:10px;margin:0;transition:all .18s ease;font-weight:650}
-.nav button .menu-icon{width:22px;height:22px;display:inline-flex;align-items:center;justify-content:center;color:#8fa8c7;flex:0 0 22px}
-.nav button .menu-icon svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-.nav button .menu-label{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.nav button:hover{background:#102b49;color:#eaf4ff;border-color:#1d4268;transform:translateX(2px)}
-.nav button.active{background:linear-gradient(90deg,#1769d9,#0d4ea8);color:#fff;border-color:#3181ee;box-shadow:0 7px 20px #0b5dcc55}
-.nav button.active .menu-icon{color:#fff}
-.main{margin-left:245px;width:calc(100% - 245px);padding:22px;min-height:100vh}
-.top{background:rgba(10,27,46,.78);border:1px solid #1e3854;border-radius:15px;padding:14px 16px;margin-bottom:18px;box-shadow:0 12px 30px #0003;backdrop-filter:blur(14px)}
-.top h1{color:#f4f8ff;font-size:27px;letter-spacing:-.3px}.top p{color:#8298b2}
-.top>div:last-child{display:flex;align-items:center;gap:9px}
-.cloud-status{background:#0c2439!important;color:#71d89b!important;border:1px solid #245b4b;padding:7px 11px;border-radius:999px;font-size:12px;font-weight:700}
-.btn{background:#102942;color:#b9d6f5;border:1px solid #254663;border-radius:10px;padding:10px 14px;box-shadow:0 4px 12px #0002;transition:all .18s ease}
-.btn:hover{transform:translateY(-1px);filter:brightness(1.1)}
-.btn.primary{background:linear-gradient(135deg,#277bf0,#1459bd);border-color:#3f8df5;color:#fff;box-shadow:0 8px 18px #1261c044}
-.btn.green{background:linear-gradient(135deg,#16a34a,#087c3c);border-color:#35c56d;color:#fff}
-.btn.red{background:#351b25;border-color:#6d2a3b;color:#ff8b9d}
-.cards{grid-template-columns:repeat(4,minmax(0,1fr));gap:13px;margin-bottom:18px}
-.card{position:relative;background:linear-gradient(145deg,#10243b,#0b192b);border:1px solid #203a56;border-radius:14px;padding:16px;box-shadow:0 10px 25px #0004;overflow:hidden;transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease}
-.card:before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:#3b82f6}
-.card:nth-child(4n+2):before{background:#8b5cf6}.card:nth-child(4n+3):before{background:#22c55e}.card:nth-child(4n+4):before{background:#f59e0b}
-.card:hover{transform:translateY(-2px);border-color:#31597f;box-shadow:0 14px 32px #0006}
-.card .label{color:#8ea5bf;font-size:12px;text-transform:uppercase;letter-spacing:.45px;font-weight:700}.metric{color:#f2f7ff;font-size:27px;font-weight:850;margin-top:7px}
-.panel{background:linear-gradient(145deg,#0e1e32,#0a1728);border:1px solid #203a56;border-radius:14px;padding:16px;margin-bottom:15px;box-shadow:0 10px 25px #0004}
-.panel h3,.page-head h2{color:#f1f6ff}.page-head p{color:#8097b2}
-.grid2{gap:15px}
-.toolbar{gap:8px}.search{background:#09192a;color:#e8f1ff;border:1px solid #28435e;border-radius:10px;padding:10px 12px}.search::placeholder{color:#667f9b}
-.table-wrap{border:1px solid #1d3650;border-radius:11px;overflow:auto;background:#091727}
-table{min-width:700px}th,td{border-bottom:1px solid #1c334b;color:#cbd9e9;background:transparent;padding:11px 9px}th{background:#0f2237;color:#9eb4cd;font-size:11px;text-transform:uppercase;letter-spacing:.4px;position:sticky;top:0;z-index:1}tbody tr:hover td{background:#10263e}
-.badge{background:#172d48;color:#8fc1ff;border:1px solid #2b4e72}.badge.green{background:#0d3324;color:#67e39a;border-color:#1e6a49}.badge.orange{background:#3b2a0e;color:#f9c76b;border-color:#72531d}.badge.red{background:#3a1820;color:#ff8b9d;border-color:#6d2a3b}
-.form-grid{gap:12px}.field label{color:#8da3bd}.field input,.field select,.field textarea{background:#09192a;color:#e7f0fb;border:1px solid #29445f;border-radius:10px}.field input::placeholder,.field textarea::placeholder{color:#607895}
-.modal{background:#000b18}.modal-box{background:linear-gradient(145deg,#0d1d31,#081522);border:1px solid #2a4867;border-radius:16px;box-shadow:0 30px 80px #000b;color:#eaf2fb}.modal-head{border-bottom:1px solid #20384f;padding-bottom:12px}.modal-head h3{color:#f4f8ff}.close{background:#14263b;color:#b9cce0;border:1px solid #28435e}
-.pipeline{gap:10px}.stage{background:#09192a;border:1px solid #233e59;border-radius:12px}.stage h4{color:#e6effa}.lead{background:#10243a;border:1px solid #29445f;color:#d7e4f1}
-.service-card{background:linear-gradient(145deg,#0f2136,#0a1728);border:1px solid #24415e;border-radius:12px;color:#d8e5f2}.mini{color:#7f96b1}.history-link{color:#66a9ff}
-.reminder-summary{gap:13px}.empty{color:#7890aa}.toast{background:#10263d;border:1px solid #2b4966;box-shadow:0 12px 30px #0006}
-/* Keep invoice output intentionally light for printing and customer-facing PDFs. */
-.invoice{background:#fff!important;color:#111!important}
-/* Mobile: preserve the existing responsive behavior while giving it the dark treatment. */
-@media(max-width:900px){.sidebar{width:72px}.brand{padding:8px 5px 14px}.brand-logo{width:48px;height:48px;margin:0 auto 8px}.brand>span,.brand small{display:none}.nav button{justify-content:center;padding:11px 8px}.nav button .menu-label{display:none}.main{margin-left:72px;width:calc(100% - 72px);padding:15px}.cards{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media(max-width:560px){body{background:#07111f}.main{padding:10px}.top{padding:12px;border-radius:12px}.top h1{font-size:21px}.cards{grid-template-columns:1fr 1fr;gap:8px}.card{padding:12px}.metric{font-size:21px}.panel{padding:12px;border-radius:12px}.btn{padding:9px 10px}}
-
-</style>
 </head>
 <body>
 <div id="authOverlay">
@@ -1717,6 +1647,69 @@ function printInvoiceForPDF(){
     }
   </style>
 
+<style id="purixa-dark-compact-v2243">
+/* Purixa CRM — Dark Modern Compact UI. Visual-only layer; no JS/data changes. */
+:root{
+  --blue:#2f8cff;--dark:#e8f0fb;--bg:#07111f;--card:#0d1b2b;--muted:#8fa4bb;--line:#1b3148;
+  --green:#20c77a;--red:#ff5d6c;--orange:#ffad3d;--purple:#8d6bff;
+}
+html,body{background:#07111f!important;color:#e8f0fb!important}
+body{font-family:Inter,Arial,sans-serif!important}
+.app{background:#07111f!important}
+.sidebar{width:220px!important;background:linear-gradient(180deg,#06101d 0%,#0a1a2c 100%)!important;border-right:1px solid #17304a!important;padding:12px 10px!important}
+.brand{padding:7px 9px 13px!important}
+.brand-logo{width:168px!important;height:56px!important;border-radius:9px!important;background:#fff!important;margin-bottom:7px!important}
+.brand small{font-size:10px!important;color:#9fb4c9!important}
+.nav button{color:#aebfd2!important;padding:8px 10px!important;border-radius:8px!important;margin:1px 0!important;font-size:13px!important;min-height:35px!important;transition:.15s!important}
+.nav button:hover{background:#102943!important;color:#fff!important}
+.nav button.active{background:linear-gradient(135deg,#1678f2,#1554bd)!important;color:#fff!important;box-shadow:0 5px 16px rgba(22,120,242,.22)!important}
+.main{margin-left:220px!important;width:calc(100% - 220px)!important;padding:14px!important}
+.top{margin-bottom:12px!important}
+.top h1{font-size:22px!important;color:#f4f8ff!important}
+.top p{color:#7f95ad!important;font-size:12px!important;margin-top:3px!important}
+.cloud-status{background:#102b24!important;color:#46dc98!important;border:1px solid #1d5d48!important;padding:4px 8px!important}
+.btn{padding:7px 10px!important;border-radius:7px!important;background:#10243a!important;color:#b9cce0!important;border:1px solid #1d3852!important;font-size:12px!important}
+.btn.primary{background:linear-gradient(135deg,#1678f2,#1557c6)!important;color:#fff!important;border-color:#2587ff!important}
+.btn.green{background:#087a4b!important;color:#fff!important;border-color:#0b9b62!important}
+.btn.red{background:#54202a!important;color:#ff8d98!important;border-color:#79313e!important}
+.cards{grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:8px!important;margin-bottom:10px!important}
+.card{background:linear-gradient(145deg,#0e1f32,#0b1828)!important;border:1px solid #1b344d!important;border-radius:9px!important;padding:10px 11px!important;box-shadow:0 5px 14px rgba(0,0,0,.18)!important;min-height:76px!important;position:relative;overflow:hidden}
+.card:before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(#2387ff,#7a5cff);opacity:.9}
+.card .label{color:#8fa5bc!important;font-size:11px!important}
+.metric{font-size:21px!important;margin-top:4px!important;color:#f5f8ff!important}
+.grid2{gap:10px!important}
+.panel{background:linear-gradient(145deg,#0d1c2d,#0b1726)!important;border:1px solid #1a324a!important;border-radius:9px!important;padding:11px!important;margin-bottom:10px!important;box-shadow:0 5px 16px rgba(0,0,0,.15)!important}
+.panel h3{color:#e9f2fc!important;font-size:14px!important;margin:0 0 9px!important}
+.toolbar{gap:6px!important;margin-bottom:8px!important}
+.search,.field input,.field select,.field textarea{background:#091728!important;color:#e6eef8!important;border:1px solid #203b55!important;border-radius:7px!important;padding:8px!important}
+.search::placeholder,.field input::placeholder,.field textarea::placeholder{color:#60758b!important}
+.field label{color:#8ea3b8!important;font-size:11px!important;margin-bottom:4px!important}
+.table-wrap{border:1px solid #1b334a!important;border-radius:7px!important;overflow:auto!important}
+table{min-width:650px!important}
+th,td{padding:7px 8px!important;border-bottom:1px solid #1b3146!important;color:#dbe7f3!important;font-size:12px!important}
+th{background:#0a1828!important;color:#8fb0cf!important}
+tbody tr:hover{background:#10263b!important}
+.badge{padding:3px 6px!important;border-radius:12px!important;background:#142e55!important;color:#8dc0ff!important}
+.badge.green{background:#0d3b2b!important;color:#58e6a0!important}.badge.orange{background:#473216!important;color:#ffc768!important}.badge.red{background:#4a2029!important;color:#ff8995!important}
+.pipeline{gap:7px!important}.stage{background:#0b1929!important;border:1px solid #1a334b!important;border-radius:8px!important;padding:8px!important;min-width:150px!important}.stage h4{font-size:12px!important;margin-bottom:7px!important}.lead{background:#0e1f31!important;border:1px solid #1b344c!important;padding:8px!important;border-radius:7px!important;margin:5px 0!important;color:#dbe7f2!important}
+.form-grid{gap:9px!important}.actions{gap:6px!important;margin-top:10px!important}
+.modal{background:rgba(1,7,14,.78)!important;backdrop-filter:blur(3px)!important}.modal-box{background:#0b1828!important;color:#e6eef8!important;border:1px solid #203b55!important;border-radius:11px!important;padding:13px!important;box-shadow:0 20px 60px rgba(0,0,0,.5)!important}
+.modal-head{margin-bottom:10px!important}.close{background:#16283b!important;color:#d7e4f1!important;width:30px!important;height:30px!important}
+.lifecycle{gap:5px!important;margin:8px 0 12px!important}.life-step{padding:7px 4px!important;border-radius:7px!important;background:#0e1f31!important;color:#8197ad!important;border-color:#1b344c!important}.life-step.done{background:#0d392b!important;color:#58dfa0!important;border-color:#175b43!important}.life-step.current{background:#102f58!important;color:#7fb8ff!important;border-color:#1d5fa6!important}
+.profile-grid{gap:7px!important;margin-bottom:10px!important}.profile-card{background:#0d1c2d!important;border-color:#1b344b!important;border-radius:8px!important;padding:9px!important}.profile-card b{font-size:16px!important}.timeline{border-left-color:#1d4e7e!important}.timeline-item:before{background:#2387ff!important}
+.empty{padding:18px!important;color:#70869c!important}
+.toast{background:#10263b!important;border:1px solid #244766!important;color:#fff!important}
+/* Keep customer-facing invoice/print document white and unchanged. */
+.invoice,.invoice *{color:inherit}
+.invoice{background:#fff!important;color:#111!important;border-color:#173d91!important}
+#invoiceModal .modal-box{background:#0b1828!important}
+#invoiceModal .invoice{background:#fff!important;color:#111!important}
+#invoiceModal .modal-head{color:#e6eef8!important}
+@media(max-width:1100px){.cards{grid-template-columns:repeat(3,minmax(0,1fr))!important}}
+@media(max-width:900px){.sidebar{width:68px!important}.brand{font-size:0!important}.brand-logo{width:46px!important;height:46px!important;margin:0 auto 7px!important}.brand small{display:none!important}.nav button{font-size:0!important;text-align:center!important;padding:8px 5px!important;min-height:38px!important}.nav button:before{font-size:18px!important}.main{margin-left:68px!important;width:calc(100% - 68px)!important}.cards{grid-template-columns:repeat(2,minmax(0,1fr))!important}.panel{padding:9px!important}}
+@media(max-width:560px){.main{padding:9px!important}.cards{gap:6px!important}.card{padding:8px!important;min-height:68px!important}.metric{font-size:19px!important}.panel{padding:8px!important}.btn{padding:7px 8px!important}.top h1{font-size:19px!important}}
+</style>
+
 </head><body><div id="printInvoiceWrap">${invoice.outerHTML}</div>
   <script>window.addEventListener('load',function(){setTimeout(function(){window.focus();window.print();},500)});<\/script>
 
@@ -2004,3 +1997,4 @@ setInterval(renderReminders,60000);
 </script>
 </body>
 </html>
+
