@@ -1,0 +1,10 @@
+PURIXA CRM v22.39 — MODERN UI UPDATE
+Base: v22.38
+Changes:
+- Modern professional sidebar and active navigation styling
+- Modern dashboard cards, shadows, spacing and typography
+- Responsive mobile/tablet layout refinements
+- Modern top bar and cloud-status appearance
+- Modern form controls, tables, panels and buttons
+- Added navigation icon treatment without changing page IDs
+- Existing Firebase/data/invoice/service/AMC logic retained
