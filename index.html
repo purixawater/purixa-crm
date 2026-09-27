@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#0b6efd">
-<title>Purixa CRM Cloud — v22.35 PWA</title>
+<title>Purixa CRM Cloud — v22.37 PWA</title>
 <style>
 *{box-sizing:border-box}
 :root{--blue:#0b6efd;--dark:#17324d;--bg:#f4f7fb;--card:#fff;--muted:#6b7c93;--line:#e4eaf1;--green:#16a34a;--red:#dc2626;--orange:#f59e0b}
@@ -105,6 +105,7 @@ th{background:#f8fafc;color:#53677d}
 @media print{.invoice .sig-img{width:150px;height:54px}.invoice .pws-head{grid-template-columns:105px minmax(0,1fr) 155px}.invoice .pws-logo img{width:94px;height:82px}.invoice .bill-table th:nth-child(1){width:8%}.invoice .bill-table th:nth-child(2){width:54%}.invoice .bill-table th:nth-child(3){width:9%}.invoice .bill-table th:nth-child(4){width:14.5%}.invoice .bill-table th:nth-child(5){width:14.5%}}
 </style>
 <style>
+/* v22.37: quotation management, print quotation and convert quotation to sale */
 /* v22.35: advanced reports, date range, service parts cost and estimated profit */
 /* v22.23: all-customer 3-month service reminders + history improvements */
 /* v22.31: automatic customer master linking for Sale, Service and AMC.
@@ -173,12 +174,38 @@ th{background:#f8fafc;color:#53677d}
 @media(min-width:701px){.mobile-drawer,.mobile-drawer-backdrop{display:none!important}}
 
 </style>
+
+<style id="purixa-modern-ui-v2237">
+/* v22.37 Professional UI refresh — functionality/data unchanged */
+:root{
+  --blue:#1769e0;--blue2:#0f4fc7;--navy:#0b1f3a;--bg:#f3f7fc;--card:#ffffff;
+  --line:#e2e8f0;--muted:#64748b;--text:#12233f;--shadow:0 10px 30px rgba(15,35,65,.08)
+}
+body{font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;background:linear-gradient(180deg,#eef5ff 0,#f7f9fc 38%,#f3f6fa 100%);color:var(--text)}
+.sidebar{background:linear-gradient(180deg,#0b1f3a 0%,#102f52 55%,#0c2745 100%);box-shadow:8px 0 28px rgba(7,24,45,.12);border-right:1px solid rgba(255,255,255,.08)}
+.brand{padding-bottom:18px}.brand-logo{box-shadow:0 6px 20px rgba(0,0,0,.12);border:1px solid rgba(255,255,255,.18)}
+.nav button{border:1px solid transparent;transition:.18s ease;position:relative}.nav button:hover{background:rgba(255,255,255,.09);transform:translateX(2px)}.nav button.active{background:linear-gradient(90deg,#1b6fe8,#1558be);box-shadow:0 6px 18px rgba(10,79,180,.28)}
+.main{padding:24px;max-width:1700px}.top{padding:14px 16px;background:rgba(255,255,255,.78);backdrop-filter:blur(10px);border:1px solid rgba(226,232,240,.9);border-radius:18px;box-shadow:var(--shadow)}
+.top h1{font-size:26px;letter-spacing:-.4px}.top p{font-size:13px}
+.cards{gap:16px}.card,.panel{border:1px solid rgba(226,232,240,.95);border-radius:16px;box-shadow:var(--shadow);transition:transform .18s ease,box-shadow .18s ease}.card:hover{transform:translateY(-2px);box-shadow:0 14px 32px rgba(15,35,65,.11)}
+.card{position:relative;overflow:hidden}.card:before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:linear-gradient(180deg,#2a7bf0,#0f4fc7);border-radius:4px}.card .label{font-weight:700;color:#64748b}.metric{color:#102a4a;letter-spacing:-.5px}
+.panel{padding:18px}.panel h3{font-size:17px}.btn{border:1px solid #dbe5f2;background:#f5f9ff;box-shadow:0 2px 7px rgba(15,35,65,.05);transition:.16s ease}.btn:hover{transform:translateY(-1px);box-shadow:0 6px 15px rgba(15,35,65,.10)}.btn.primary{background:linear-gradient(135deg,#1c73ec,#0f56c9);box-shadow:0 7px 18px rgba(23,105,224,.25)}
+.search,.field input,.field select,.field textarea{border:1px solid #d9e2ee;box-shadow:inset 0 1px 2px rgba(15,35,65,.03);transition:border-color .15s,box-shadow .15s}.search:focus,.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:#6aa1ef;box-shadow:0 0 0 3px rgba(23,105,224,.12)}
+table{border-collapse:separate;border-spacing:0}th{background:#f5f8fc;color:#52657d;font-weight:800}th:first-child{border-radius:8px 0 0 8px}th:last-child{border-radius:0 8px 8px 0}td{background:#fff}tbody tr:hover td{background:#f8fbff}
+.badge{border:1px solid rgba(57,73,171,.08)}.toast{box-shadow:0 10px 28px rgba(0,0,0,.2)}
+.page-head h2{letter-spacing:-.3px}.page-head p{font-size:13px}
+.modal-box{border:1px solid #e2e8f0;box-shadow:0 24px 70px rgba(8,25,48,.25);border-radius:18px}.modal-head{border-bottom:1px solid #eef2f7;padding-bottom:10px}
+.pipeline .stage{border-radius:14px;box-shadow:0 4px 12px rgba(15,35,65,.04)}
+#cloudStatus,.cloud-status{box-shadow:0 2px 8px rgba(15,35,65,.05)}
+@media(max-width:700px){body{background:#f5f8fc}.main{padding:10px 10px 82px}.top{border-radius:14px;padding:10px 11px}.top h1{font-size:19px}.card,.panel{border-radius:13px;box-shadow:0 5px 18px rgba(15,35,65,.07)}.mobile-bottom-nav{box-shadow:0 10px 30px rgba(15,35,65,.16);border-color:#dbe5f0}.mobile-bottom-nav button.active{background:#e7f0ff;color:#135fcf}}
+</style>
+
 </head>
 <body>
 <div id="authOverlay">
   <div class="auth-box">
     <img class="auth-logo" src="purixa-logo.png" alt="Purixa Water Solution">
-    <h2>☁️ Purixa CRM Cloud v22.35</h2>
+    <h2>☁️ Purixa CRM Cloud v22.37</h2>
     <p class="mini" id="authModeText">Cloud login is enabled after Firebase setup.</p>
     <div id="firebaseSetupBox">
       <label class="mini">Firebase Config JSON</label>
@@ -207,6 +234,7 @@ th{background:#f8fafc;color:#53677d}
     <button class="active" data-page="dashboard">Dashboard</button>
     <button data-page="leads">Leads</button>
     <button data-page="customers">Customers</button>
+    <button data-page="quotations">Quotations</button>
     <button data-page="sales">Sales & Payments</button>
     <button data-page="service">Service</button>
     <button data-page="inventory">Inventory</button>
@@ -229,6 +257,7 @@ th{background:#f8fafc;color:#53677d}
     <button data-page="dashboard">Dashboard</button>
     <button data-page="leads">Leads</button>
     <button data-page="customers">Customers</button>
+    <button data-page="quotations">Quotations</button>
     <button data-page="sales">Sales & Payments</button>
     <button data-page="service">Service</button>
     <button data-page="inventory">Inventory</button>
@@ -278,7 +307,7 @@ th{background:#f8fafc;color:#53677d}
         <div class="toolbar" style="margin:0">
           <button class="btn primary" onclick="openModal('leadModal')">＋ New Lead</button>
           <button class="btn primary" onclick="openModal('customerModal')">＋ Customer</button>
-          <button class="btn primary" onclick="openModal('saleModal')">＋ New Sale</button>
+          <button class="btn primary" onclick="openModal('saleModal')">＋ New Sale</button><button class="btn primary" onclick="openQuotationModal()">🧾 Quotation</button>
           <button class="btn primary" onclick="openServiceModal()">🔧 New Service</button>
           <button class="btn primary" onclick="openAMCModal()">🔄 New AMC</button>
           <button class="btn green" onclick="goToPage('reminders')">🔔 Reminders</button>
@@ -311,6 +340,17 @@ th{background:#f8fafc;color:#53677d}
     <div class="panel">
       <div class="toolbar"><input class="search" id="customerSearch" placeholder="Search customer..." oninput="renderCustomers()"><button class="btn primary" onclick="openModal('customerModal')">＋ Add Customer</button></div>
       <div class="table-wrap"><table><thead><tr><th>Name</th><th>Mobile</th><th>Product</th><th>Purchase</th><th>AMC</th><th>Next Service</th><th>Actions</th></tr></thead><tbody id="customerTable"></tbody></table></div>
+    </div>
+  </section>
+
+  <section id="quotations" class="page">
+    <div class="panel">
+      <div class="toolbar" style="justify-content:space-between;align-items:center">
+        <div><h3 style="margin:0">🧾 Quotations</h3><div class="mini">Create professional quotations, print them and convert accepted quotations into sales.</div></div>
+        <button class="btn primary" onclick="openQuotationModal()">＋ New Quotation</button>
+      </div>
+      <div class="toolbar"><input class="search" id="quotationSearch" placeholder="Search quotation / customer / product..." oninput="renderQuotations()"><select id="quotationStatusFilter" onchange="renderQuotations()"><option value="">All Status</option><option>Draft</option><option>Sent</option><option>Accepted</option><option>Rejected</option><option>Expired</option></select></div>
+      <div class="table-wrap"><table><thead><tr><th>Date</th><th>Quotation</th><th>Customer</th><th>Product</th><th>Total</th><th>Valid Until</th><th>Status</th><th>Actions</th></tr></thead><tbody id="quotationTable"></tbody></table></div>
     </div>
   </section>
 
@@ -650,6 +690,22 @@ th{background:#f8fafc;color:#53677d}
 <div id="profileBody"></div>
 </div></div>
 
+<div class="modal" id="quotationModal"><div class="modal-box">
+<div class="modal-head"><h3>🧾 New Quotation</h3><button class="close" onclick="closeModal('quotationModal')">×</button></div>
+<form onsubmit="saveQuotation(event)"><div class="form-grid">
+<div class="field"><label>Customer</label><select id="quoteCustomer" onchange="fillQuotationCustomerDetails()"><option value="">New / Select Customer</option></select></div>
+<div class="field"><label>New Customer Name</label><input id="quoteCustomerName" placeholder="If customer is not in list"></div>
+<div class="field"><label>Mobile</label><input id="quoteMobile" type="tel"></div>
+<div class="field"><label>Date</label><input id="quoteDate" type="date" required></div>
+<div class="field"><label>Valid Until</label><input id="quoteValidUntil" type="date" required></div>
+<div class="field"><label>Status</label><select id="quoteStatus"><option>Draft</option><option>Sent</option><option>Accepted</option><option>Rejected</option><option>Expired</option></select></div>
+<div class="field full"><label>Address</label><textarea id="quoteAddress" rows="2"></textarea></div>
+<div class="field"><label>Product / RO Model *</label><input id="quoteProduct" required placeholder="RO Purifier"></div>
+<div class="field"><label>Quantity</label><input id="quoteQty" type="number" min="1" value="1" oninput="calcQuotationTotal()"></div>
+<div class="field"><label>Price</label><input id="quotePrice" type="number" min="0" step="0.01" value="0" oninput="calcQuotationTotal()"></div>
+<div class="field"><label>Total</label><input id="quoteTotal" type="number" readonly value="0"></div>
+<div class="field full"><label>Notes</label><textarea id="quoteNotes" rows="3" placeholder="Warranty, installation, offer, terms..."></textarea></div>
+</div><div class="actions"><button type="button" class="btn" onclick="closeModal('quotationModal')">Cancel</button><button class="btn primary">💾 Save Quotation</button></div></form></div></div>
 <div class="modal" id="cloudSetupModal"><div class="modal-box">
 <div class="modal-head"><h3>☁️ Firebase Cloud Setup</h3><button class="close" onclick="closeModal('cloudSetupModal')">×</button></div>
 <p class="mini">Firebase Console se Web App ka config copy karke neeche paste karein.</p>
@@ -666,7 +722,7 @@ th{background:#f8fafc;color:#53677d}
 <script>
 const KEY="purixaCRM_v1";
 const today=new Date().toISOString().slice(0,10);
-const emptyDB=()=>({leads:[],customers:[],sales:[],services:[],amcs:[],technicians:[],inventory:[],inventoryMovements:[],expenses:[],invoiceCounter:701});
+const emptyDB=()=>({leads:[],customers:[],quotations:[],sales:[],services:[],amcs:[],technicians:[],inventory:[],inventoryMovements:[],expenses:[],invoiceCounter:701});
 let db=loadDB();
 let editingCustomerId=null, editingServiceId=null, currentInvoiceMobile="", currentAMCVisitId=null, editingAMCVisitIndex=null, currentAMCInvoiceMobile="";
 
@@ -674,7 +730,7 @@ function loadDB(){
   try{
     const raw=JSON.parse(localStorage.getItem(KEY)||"null")||emptyDB();
     const d=Object.assign(emptyDB(),raw);
-    ["leads","customers","sales","services","amcs","technicians"].forEach(k=>{if(!Array.isArray(d[k]))d[k]=[]}); if(!Array.isArray(d.inventory))d.inventory=[]; if(!Array.isArray(d.inventoryMovements))d.inventoryMovements=[]; if(!Array.isArray(d.expenses))d.expenses=[];
+    ["leads","customers","quotations","sales","services","amcs","technicians"].forEach(k=>{if(!Array.isArray(d[k]))d[k]=[]}); if(!Array.isArray(d.inventory))d.inventory=[]; if(!Array.isArray(d.inventoryMovements))d.inventoryMovements=[]; if(!Array.isArray(d.expenses))d.expenses=[];
     d.invoiceCounter=Number(d.invoiceCounter||701);
     d.customers.forEach(c=>{
       c.notes=c.notes||"";
@@ -809,7 +865,7 @@ async function commitFirestoreOps(ops){
 }
 async function syncNormalizedCollections(){
   const base=await cloudUserBase();
-  const keys=["leads","customers","sales","services","amcs","technicians","inventory","inventoryMovements","expenses"];
+  const keys=["leads","customers","quotations","sales","services","amcs","technicians","inventory","inventoryMovements","expenses"];
   for(const key of keys){
     const col=base.collection(key);
     const snap=await col.get();
@@ -823,7 +879,7 @@ async function syncNormalizedCollections(){
 }
 async function loadNormalizedCollections(){
   const base=await cloudUserBase();
-  const keys=["leads","customers","sales","services","amcs","technicians","inventory","inventoryMovements","expenses"];
+  const keys=["leads","customers","quotations","sales","services","amcs","technicians","inventory","inventoryMovements","expenses"];
   const result=emptyDB();
   let count=0;
   for(const key of keys){
@@ -886,7 +942,7 @@ async function syncCloudData(silent=false){
   if(!firestore||!firebaseAuth.currentUser||cloudSyncing)return false;
   cloudSyncing=true;
   try{
-    await firestore.collection("users").doc(firebaseAuth.currentUser.uid).collection("crm").doc("main").set({data:db,updatedAt:firebase.firestore.FieldValue.serverTimestamp(),version:"v22.35"},{merge:true});
+    await firestore.collection("users").doc(firebaseAuth.currentUser.uid).collection("crm").doc("main").set({data:db,updatedAt:firebase.firestore.FieldValue.serverTimestamp(),version:"v22.37"},{merge:true});
     await syncNormalizedCollections();
     if(!silent)toast("☁️ Cloud synced");
     return true;
@@ -917,7 +973,7 @@ function toast(t){const x=document.getElementById("toast");if(!x)return;x.textCo
 function openModal(id){const x=document.getElementById(id);if(x)x.classList.add("show")}
 function closeModal(id){const x=document.getElementById(id);if(x)x.classList.remove("show")}
 
-const pageActions={dashboard:["＋ New Lead","openModal('leadModal')"],leads:["＋ Add Lead","openModal('leadModal')"],customers:["＋ Add Customer","openModal('customerModal')"],sales:["＋ New Sale","openModal('saleModal')"],service:["＋ New Service","openServiceModal()"],inventory:["＋ Add Part","openInventoryModal()"],expenses:["＋ Add Expense","openExpenseModal()"],amc:["＋ Add AMC","openAMCModal()"],technicians:["＋ Add Technician","openModal('techModal')"],reports:["",""],reminders:["",""],settings:["",""]};
+const pageActions={dashboard:["＋ New Lead","openModal('leadModal')"],leads:["＋ Add Lead","openModal('leadModal')"],customers:["＋ Add Customer","openModal('customerModal')"],quotations:["＋ New Quotation","openQuotationModal()"],sales:["＋ New Sale","openModal('saleModal')"],service:["＋ New Service","openServiceModal()"],inventory:["＋ Add Part","openInventoryModal()"],expenses:["＋ Add Expense","openExpenseModal()"],amc:["＋ Add AMC","openAMCModal()"],technicians:["＋ Add Technician","openModal('techModal')"],reports:["",""],reminders:["",""],settings:["",""]};
 function updateTopAction(pageName){const b=document.getElementById("topActionBtn");if(!b)return;const a=pageActions[pageName]||["",""];if(!a[0]){b.style.display="none";return}b.style.display="inline-block";b.textContent=a[0];b.setAttribute("onclick",a[1]);}
 document.querySelectorAll(".nav button").forEach(b=>b.onclick=()=>{
   document.querySelectorAll(".nav button").forEach(x=>x.classList.remove("active"));b.classList.add("active");
@@ -927,6 +983,52 @@ document.querySelectorAll(".nav button").forEach(b=>b.onclick=()=>{
   updateTopAction(pageName);
   renderAll();
 });
+
+function nextQuotationNumber(){
+  const nums=db.quotations.map(q=>Number(q.number)||0); return String(Math.max(0,...nums,0)+1).padStart(4,"0");
+}
+function openQuotationModal(){
+  const form=document.getElementById("quotationModal"); if(!form)return;
+  document.getElementById("quoteDate").value=today;
+  document.getElementById("quoteValidUntil").value=addMonths(today,0).replace(/\d{2}$/,String(new Date(today+"T00:00:00").getDate()).padStart(2,"0"));
+  document.getElementById("quoteValidUntil").value=new Date(Date.now()+7*86400000).toISOString().slice(0,10);
+  document.getElementById("quoteStatus").value="Draft";
+  fillQuotationCustomerList();
+  ["quoteCustomer","quoteMobile","quoteAddress","quoteProduct","quoteQty","quotePrice","quoteNotes"].forEach(id=>{const x=document.getElementById(id);if(x)x.value=id==="quoteQty"?1:""});
+  document.getElementById("quoteTotal").value="0";
+  openModal("quotationModal");
+}
+function fillQuotationCustomerList(){
+  const s=document.getElementById("quoteCustomer"); if(!s)return;
+  s.innerHTML='<option value="">New / Select Customer</option>'+db.customers.map(c=>`<option value="${c.id}">${esc(c.name)}${c.mobile?" · "+esc(c.mobile):""}</option>`).join("");
+}
+function fillQuotationCustomerDetails(){
+  const id=Number(document.getElementById("quoteCustomer")?.value||0),c=db.customers.find(x=>Number(x.id)===id);if(!c)return;
+  document.getElementById("quoteMobile").value=c.mobile||"";document.getElementById("quoteAddress").value=c.address||"";
+}
+function calcQuotationTotal(){const q=Math.max(1,Number(document.getElementById("quoteQty")?.value||1));const p=Math.max(0,Number(document.getElementById("quotePrice")?.value||0));const t=q*p;const x=document.getElementById("quoteTotal");if(x)x.value=t.toFixed(2);return t}
+function saveQuotation(e){
+  e.preventDefault(); const name=String(document.getElementById("quoteCustomerName")?.value||"").trim(); const selectedId=Number(document.getElementById("quoteCustomer")?.value||0); const selected=db.customers.find(c=>Number(c.id)===selectedId);
+  const customerName=selected?.name||name; const mobile=String(document.getElementById("quoteMobile")?.value||selected?.mobile||"").trim(); const address=String(document.getElementById("quoteAddress")?.value||selected?.address||"").trim();
+  if(!customerName){toast("Enter or select customer");return} const product=String(document.getElementById("quoteProduct")?.value||"").trim();if(!product){toast("Enter product");return}
+  const total=calcQuotationTotal();if(total<=0){toast("Enter quotation price");return}
+  let c=selected;if(!c&&mobile)c=db.customers.find(x=>String(x.mobile||"").replace(/\D/g,"")===mobile.replace(/\D/g,""));
+  if(!c){c={id:Date.now()+1,name:customerName,mobile,address,product,purchase:"",install:"",amc:"",installStatus:"Pending",nextService:"",source:"Quotation",referredBy:"",notes:""};db.customers.unshift(c)}else{if(mobile)c.mobile=mobile;if(address)c.address=address;if(product&&!c.product)c.product=product}
+  db.quotations.unshift({id:Date.now(),number:nextQuotationNumber(),date:document.getElementById("quoteDate").value||today,validUntil:document.getElementById("quoteValidUntil").value||today,customerId:c.id,customer:c.name,mobile:c.mobile||mobile,address:c.address||address,product,qty:Math.max(1,Number(document.getElementById("quoteQty").value||1)),price:Math.max(0,Number(document.getElementById("quotePrice").value||0)),total,status:document.getElementById("quoteStatus").value||"Draft",notes:String(document.getElementById("quoteNotes").value||"").trim(),convertedSaleId:""});
+  persist();closeModal("quotationModal");toast("Quotation saved — customer linked automatically");
+}
+function quotationPrint(id){
+  const q=db.quotations.find(x=>Number(x.id)===Number(id));if(!q)return;const w=window.open("","_blank","width=900,height=700");if(!w){toast("Allow pop-ups to print quotation");return}
+  w.document.write(`<!doctype html><html><head><title>Quotation ${esc(q.number)}</title><style>body{font-family:Arial,sans-serif;padding:35px;color:#1f2937}h1{margin:0 0 5px}table{width:100%;border-collapse:collapse;margin-top:25px}th,td{border:1px solid #ddd;padding:10px;text-align:left}th{background:#f3f6fa}.total{text-align:right;font-size:20px;font-weight:bold;margin-top:18px}.muted{color:#64748b}.terms{margin-top:30px;white-space:pre-line}</style></head><body><h1>Purixa Water Solution</h1><div class="muted">Quotation No: ${esc(q.number)} · Date: ${esc(q.date)} · Valid Until: ${esc(q.validUntil)}</div><hr><h3>Customer</h3><div>${esc(q.customer)}<br>${esc(q.mobile||"")}<br>${esc(q.address||"")}</div><table><thead><tr><th>Product</th><th>Qty</th><th>Price</th><th>Total</th></tr></thead><tbody><tr><td>${esc(q.product)}</td><td>${q.qty}</td><td>₹${Number(q.price||0).toLocaleString("en-IN")}</td><td>₹${Number(q.total||0).toLocaleString("en-IN")}</td></tr></tbody></table><div class="total">Grand Total: ₹${Number(q.total||0).toLocaleString("en-IN")}</div><div class="terms"><b>Notes</b>\n${esc(q.notes||"Quotation is subject to availability and final confirmation.")}</div><br><br><div>Authorised Signature</div><script>window.onload=()=>window.print()<\/script></body></html>`);w.document.close();}
+function convertQuotationToSale(id){
+  const q=db.quotations.find(x=>Number(x.id)===Number(id));if(!q)return;if(q.convertedSaleId){toast("Quotation already converted to Sale");return}
+  const paid=0,saleId=Date.now();db.sales.unshift({id:saleId,date:today,customerId:q.customerId,customer:q.customer,mobile:q.mobile||"",address:q.address||"",product:q.product,qty:q.qty||1,warranty:"",gstin:"",total:Number(q.total||0),amount:Number(q.total||0),paid,pending:Number(q.total||0),mode:"Cash",payments:[],paymentStatus:"Pending"});q.status="Accepted";q.convertedSaleId=saleId;persist();toast("Quotation converted to Sale");}
+function deleteQuotation(id){if(!confirm("Delete this quotation?"))return;db.quotations=db.quotations.filter(x=>Number(x.id)!==Number(id));persist();toast("Quotation deleted")}
+function renderQuotations(){
+  const box=document.getElementById("quotationTable");if(!box)return;const q=String(document.getElementById("quotationSearch")?.value||"").toLowerCase();const st=String(document.getElementById("quotationStatusFilter")?.value||"");
+  const arr=db.quotations.filter(x=>(!st||x.status===st)&&(`${x.number||""} ${x.customer||""} ${x.mobile||""} ${x.product||""}`).toLowerCase().includes(q));
+  box.innerHTML=arr.map(x=>`<tr><td>${esc(x.date)}</td><td><b>#${esc(x.number)}</b></td><td>${esc(x.customer)}<div class="mini">${esc(x.mobile||"")}</div></td><td>${esc(x.product)} × ${x.qty}</td><td>${money(x.total)}</td><td>${esc(x.validUntil)}</td><td>${statusBadge(x.status)}</td><td><button class="btn" onclick="quotationPrint(${x.id})">🖨️ Print</button> <button class="btn primary" onclick="convertQuotationToSale(${x.id})">💰 Sale</button> <button class="btn red" onclick="deleteQuotation(${x.id})">Delete</button></td></tr>`).join("")||'<tr><td colspan="8" class="empty">No quotations found</td></tr>';
+}
 
 function saveLead(e){e.preventDefault();db.leads.unshift({id:Date.now(),name:leadName.value.trim(),mobile:leadMobile.value.trim(),product:leadProduct.value.trim(),source:leadSource.value,follow:leadFollow.value,status:leadStatus.value,notes:leadNotes.value.trim(),created:today});persist();e.target.reset();closeModal("leadModal");toast("Lead saved")}
 function saveCustomer(e){e.preventDefault();const mobile=custMobile.value.trim();if(db.customers.some(x=>x.mobile===mobile)){toast("Customer with this mobile already exists");return}const baseDate=custInstall.value||custPurchase.value||today;const next=custNextService.value||addMonths(baseDate,3);db.customers.unshift({id:Date.now(),name:custName.value.trim(),mobile,product:custProduct.value.trim(),purchase:custPurchase.value,install:custInstall.value,amc:custAMC.value,installStatus:custInstallStatus.value,nextService:next,address:custAddress.value.trim(),source:custSource.value||"",referredBy:custReferredBy.value.trim(),notes:""});persist();e.target.reset();closeModal("customerModal");toast("Customer saved — next service set for 3 months") }
@@ -1466,7 +1568,7 @@ async function shareInvoiceWhatsApp(){
   toast(num ? "PDF Save karein. Print window band karte hi customer ka WhatsApp khulega." : "PDF Save karein. Print window band karte hi WhatsApp khulega.");
 }
 
-function renderAll(){renderDashboard();renderTodaysWork();renderLeads();renderCustomers();renderSales();renderServices();renderAMC();renderTech();renderInventory();renderExpenses();renderReports();renderReminders()}
+function renderAll(){renderDashboard();renderTodaysWork();renderLeads();renderCustomers();renderQuotations();renderSales();renderServices();renderAMC();renderTech();renderInventory();renderExpenses();renderReports();renderReminders()}
 async function deleteSale(id){
   const s=db.sales.find(x=>x.id===id);
   if(!s)return;
@@ -1561,7 +1663,7 @@ async function safeStartFresh(){
     if(!confirm("A backup file has been started for download.\n\nIf you have any REAL customer/business data in this CRM, press Cancel and keep the backup.\n\nIf the data is only FAKE/TEST data, press OK to permanently delete it from Firebase and this browser.")) return;
     if(firestore && firebaseAuth?.currentUser){
       const base=await cloudUserBase();
-      const keys=["leads","customers","sales","services","amcs","technicians","inventory","inventoryMovements","expenses"];
+      const keys=["leads","customers","quotations","sales","services","amcs","technicians","inventory","inventoryMovements","expenses"];
 
       // Delete documents one-by-one instead of Firestore batch.commit().
       // Firebase Diagnostic confirmed direct DELETE permission, so this avoids
