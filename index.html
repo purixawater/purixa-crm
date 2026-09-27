@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#0b6efd">
-<title>Purixa CRM Cloud — v22.39 Modern UI</title>
+<title>Purixa CRM Cloud — v22.40 Premium UI</title>
 <style>
 *{box-sizing:border-box}
 :root{--blue:#0b6efd;--dark:#17324d;--bg:#f4f7fb;--card:#fff;--muted:#6b7c93;--line:#e4eaf1;--green:#16a34a;--red:#dc2626;--orange:#f59e0b}
@@ -172,6 +172,26 @@ td:last-child{border-right:1px solid #edf1f5!important;border-radius:0 10px 10px
  .cloud-status{display:none!important}
  #topActionBtn{font-size:11px!important}
 }
+
+/* PURIXA CRM v22.40 PREMIUM UI — visual-only enhancement */
+:root{--blue:#2563eb;--blue2:#0ea5e9;--ink:#10233f;--muted:#64748b;--bg:#f5f8fc;--card:#ffffff;--line:#e6edf5;--shadow:0 12px 35px rgba(15,35,65,.08);--shadow2:0 5px 18px rgba(15,35,65,.07)}
+body{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;background:radial-gradient(circle at 85% -10%,rgba(37,99,235,.10),transparent 30%),var(--bg);color:var(--ink)}
+.sidebar{width:264px;background:linear-gradient(180deg,#0b1f3a 0%,#102f55 52%,#0b2747 100%);box-shadow:12px 0 40px rgba(8,31,58,.13);padding:18px 13px;border-right:1px solid rgba(255,255,255,.07)}
+.brand{padding:5px 9px 18px}.brand-logo{height:74px;width:100%;border-radius:14px;padding:7px;box-shadow:0 8px 25px rgba(0,0,0,.16)}
+.nav{gap:5px}.nav button{position:relative;display:flex;align-items:center;gap:11px;width:100%;padding:11px 13px;border-radius:12px;color:#cbd8e8;background:transparent;font-weight:650;font-size:14px;transition:.18s ease;letter-spacing:.05px}.nav button:hover{background:rgba(255,255,255,.09);color:#fff;transform:translateX(2px)}.nav button.active{background:linear-gradient(135deg,rgba(59,130,246,.95),rgba(14,165,233,.82));color:#fff;box-shadow:0 8px 22px rgba(14,116,220,.28)}
+.nav button:before{display:grid;place-items:center;width:24px;height:24px;border-radius:8px;background:rgba(255,255,255,.08);font-size:15px;flex:0 0 24px}.nav button.active:before{background:rgba(255,255,255,.17)}
+.nav button[data-page=dashboard]:before{content:"⌂"}.nav button[data-page=leads]:before{content:"◈"}.nav button[data-page=customers]:before{content:"♙"}.nav button[data-page=quotations]:before{content:"▤"}.nav button[data-page=sales]:before{content:"₹"}.nav button[data-page=service]:before{content:"⚙"}.nav button[data-page=inventory]:before{content:"▦"}.nav button[data-page=expenses]:before{content:"↘"}.nav button[data-page=amc]:before{content:"↻"}.nav button[data-page=technicians]:before{content:"⚒"}.nav button[data-page=reports]:before{content:"▥"}.nav button[data-page=reminders]:before{content:"◷"}.nav button[data-page=settings]:before{content:"⚙"}
+.main{margin-left:264px;padding:0 24px 32px}.top{position:sticky;top:0;z-index:15;margin:0 -24px 24px;padding:15px 24px;background:rgba(245,248,252,.86);backdrop-filter:blur(18px);border-bottom:1px solid rgba(226,234,243,.9)}.top h1{font-size:25px;letter-spacing:-.5px}.top-subtitle{color:#718096!important}.cloud-status{padding:8px 11px;border:1px solid var(--line);background:#fff;border-radius:10px;font-size:12px;box-shadow:var(--shadow2)}
+.cards{gap:14px}.card{position:relative;overflow:hidden;border:1px solid rgba(222,231,241,.9);border-radius:17px;background:linear-gradient(145deg,#fff,#f9fbfe);box-shadow:var(--shadow2);padding:17px 18px;transition:.2s}.card:after{content:"";position:absolute;right:-25px;top:-25px;width:90px;height:90px;border-radius:50%;background:rgba(37,99,235,.055)}.card:hover{transform:translateY(-3px);box-shadow:0 16px 35px rgba(15,35,65,.11)}.card .label{font-size:12px;text-transform:uppercase;letter-spacing:.65px;font-weight:750;color:#718096}.card .metric{font-size:26px;font-weight:850;margin-top:7px;letter-spacing:-.8px}
+.panel{border:1px solid rgba(222,231,241,.9)!important;border-radius:17px!important;box-shadow:var(--shadow2);background:rgba(255,255,255,.94)}.panel h3{letter-spacing:-.15px}.toolbar{gap:9px}.btn{border-radius:11px;padding:9px 13px;font-weight:700;transition:.18s;box-shadow:none}.btn:hover{transform:translateY(-1px);box-shadow:0 7px 18px rgba(15,35,65,.10)}.btn.primary{background:linear-gradient(135deg,#2563eb,#0ea5e9);box-shadow:0 7px 18px rgba(37,99,235,.20)}.btn.green{box-shadow:0 7px 18px rgba(22,163,74,.15)}
+input,select,textarea,.search{border:1px solid #dce5ef!important;border-radius:11px!important;background:#fbfdff!important;min-height:40px;transition:.18s}input:focus,select:focus,textarea:focus{outline:none!important;border-color:#60a5fa!important;box-shadow:0 0 0 4px rgba(37,99,235,.09)!important;background:#fff!important}
+table{border-collapse:separate!important;border-spacing:0 7px!important}thead th{border:0!important;color:#64748b!important;text-transform:uppercase;font-size:11px;letter-spacing:.55px}tbody tr{background:#fff;box-shadow:0 4px 14px rgba(15,35,65,.045)}tbody td{border-top:1px solid #eef2f7!important;border-bottom:1px solid #eef2f7!important}tbody td:first-child{border-left:1px solid #eef2f7!important;border-radius:10px 0 0 10px}tbody td:last-child{border-right:1px solid #eef2f7!important;border-radius:0 10px 10px 0}
+.page{animation:pageIn .22s ease}@keyframes pageIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+.mobile-drawer{box-shadow:20px 0 50px rgba(0,0,0,.25)}
+.premium-section{display:grid;grid-template-columns:1.35fr .65fr;gap:14px;margin:14px 0}.premium-mini{padding:16px;border:1px solid var(--line);border-radius:15px;background:linear-gradient(145deg,#fff,#f7fbff)}.premium-mini .big{font-size:25px;font-weight:850;margin-top:5px}.premium-progress{height:8px;background:#e8eef6;border-radius:20px;overflow:hidden;margin-top:10px}.premium-progress i{display:block;height:100%;width:68%;border-radius:20px;background:linear-gradient(90deg,#2563eb,#22c55e)}
+.dark-mode{--bg:#0b1220;--card:#111b2d;--line:#26364e;--ink:#e8eef8;--muted:#94a3b8;background:#0b1220;color:#e8eef8}.dark-mode .top{background:rgba(11,18,32,.86);border-color:#26364e}.dark-mode .panel,.dark-mode .card,.dark-mode .premium-mini,.dark-mode tbody tr,.dark-mode .cloud-status{background:#111b2d!important;border-color:#26364e!important;color:#e8eef8}.dark-mode input,.dark-mode select,.dark-mode textarea,.dark-mode .search{background:#0e1727!important;color:#e8eef8;border-color:#30415b!important}.dark-mode thead th{color:#94a3b8!important}
+@media(max-width:900px){.sidebar{display:none}.main{margin-left:0;padding:0 12px 28px}.top{margin:0 -12px 17px;padding:12px}.top h1{font-size:21px}.cloud-status{display:none}.cards{grid-template-columns:repeat(2,minmax(0,1fr))!important}.premium-section{grid-template-columns:1fr}.panel{border-radius:14px!important}}
+@media(max-width:520px){.cards{grid-template-columns:1fr 1fr!important;gap:9px}.card{padding:13px 12px;border-radius:14px}.card .metric{font-size:21px}.card .label{font-size:10px}.top .btn.primary{font-size:0;padding:10px}.top .btn.primary:before{content:"＋";font-size:20px}.grid2{grid-template-columns:1fr!important}.toolbar{flex-wrap:wrap}.toolbar .btn{flex:0 0 auto}}
 
 </style>
 
@@ -453,7 +473,7 @@ table{border:1px solid #e1e8f0;border-radius:13px;overflow:hidden}thead th{backg
 <main class="main">
   <div class="top">
     <div style="display:flex;align-items:center;gap:8px"><button class="mobile-menu-btn" onclick="openMobileMenu()" aria-label="Open menu">☰</button><div><h1 id="pageTitle">Dashboard</h1><p class="top-subtitle">Business command center <span class="top-dot">•</span> Rajkot</p></div></div>
-    <div style="display:flex;align-items:center;gap:8px"><span id="cloudStatus" class="cloud-status">💾 Local</span><button id="topActionBtn" class="btn primary" onclick="openModal('leadModal')">＋ New Lead</button></div>
+    <div style="display:flex;align-items:center;gap:8px"><span id="cloudStatus" class="cloud-status">💾 Local</span><button class="btn" id="themeToggleBtn" onclick="togglePremiumTheme()" title="Toggle dark mode">☾</button><button id="topActionBtn" class="btn primary" onclick="openModal('leadModal')">＋ New Lead</button></div>
   </div>
 
   <section id="dashboard" class="page active">
@@ -1237,6 +1257,11 @@ function quotationPrint(id){
 
 </head><body><h1>Purixa Water Solution</h1><div class="muted">Quotation No: ${esc(q.number)} · Date: ${esc(q.date)} · Valid Until: ${esc(q.validUntil)}</div><hr><h3>Customer</h3><div>${esc(q.customer)}<br>${esc(q.mobile||"")}<br>${esc(q.address||"")}</div><table><thead><tr><th>Product</th><th>Qty</th><th>Price</th><th>Total</th></tr></thead><tbody><tr><td>${esc(q.product)}</td><td>${q.qty}</td><td>₹${Number(q.price||0).toLocaleString("en-IN")}</td><td>₹${Number(q.total||0).toLocaleString("en-IN")}</td></tr></tbody></table><div class="total">Grand Total: ₹${Number(q.total||0).toLocaleString("en-IN")}</div><div class="terms"><b>Notes</b>\n${esc(q.notes||"Quotation is subject to availability and final confirmation.")}</div><br><br><div>Authorised Signature</div><script>window.onload=()=>window.print()<\/script>
 
+
+<script>
+function togglePremiumTheme(){document.body.classList.toggle('dark-mode');localStorage.setItem('purixaPremiumDark',document.body.classList.contains('dark-mode')?'1':'0');}
+(function(){if(localStorage.getItem('purixaPremiumDark')==='1')document.body.classList.add('dark-mode');})();
+</script>
 </body></html>`);w.document.close();}
 function convertQuotationToSale(id){
   const q=db.quotations.find(x=>Number(x.id)===Number(id));if(!q)return;if(q.convertedSaleId){toast("Quotation already converted to Sale");return}
@@ -1451,6 +1476,11 @@ function printAMCInvoicePDF(){const invoice=document.getElementById("amcInvoiceP
 
 </head><body><div id="printInvoiceWrap">${invoice.outerHTML}</div><script>window.addEventListener('load',function(){setTimeout(function(){window.focus();window.print();},500)});<\/script>
 
+
+<script>
+function togglePremiumTheme(){document.body.classList.toggle('dark-mode');localStorage.setItem('purixaPremiumDark',document.body.classList.contains('dark-mode')?'1':'0');}
+(function(){if(localStorage.getItem('purixaPremiumDark')==='1')document.body.classList.add('dark-mode');})();
+</script>
 </body></html>`);w.document.close();toast("AMC Invoice PDF ke liye Save as PDF select karein.")}
 function downloadAMCInvoicePDF(){printAMCInvoicePDF()}
 function shareAMCInvoiceWhatsApp(){const num=String(currentAMCInvoiceMobile||"").replace(/\D/g,"");const msg=encodeURIComponent("Purixa Water Solution AMC Invoice — PDF attached.");const w=printAMCInvoicePDF();if(w&&typeof w.addEventListener==="function"){try{w.addEventListener("afterprint",()=>{setTimeout(()=>{if(num)window.open("https://wa.me/91"+num+"?text="+msg,"_blank");else window.open("https://web.whatsapp.com/","_blank")},300)},{once:true})}catch(e){}}toast(num?"PDF Save karein. Print window band karte hi customer ka WhatsApp khulega.":"PDF Save karein. Print window band karte hi WhatsApp khulega.")}
@@ -1762,6 +1792,11 @@ function printInvoiceForPDF(){
 </head><body><div id="printInvoiceWrap">${invoice.outerHTML}</div>
   <script>window.addEventListener('load',function(){setTimeout(function(){window.focus();window.print();},500)});<\/script>
 
+
+<script>
+function togglePremiumTheme(){document.body.classList.toggle('dark-mode');localStorage.setItem('purixaPremiumDark',document.body.classList.contains('dark-mode')?'1':'0');}
+(function(){if(localStorage.getItem('purixaPremiumDark')==='1')document.body.classList.add('dark-mode');})();
+</script>
 </body></html>`);
   w.document.close();
   toast("Print window open ho raha hai — Destination me Save as PDF select karein.");
@@ -2043,6 +2078,11 @@ setInterval(renderReminders,60000);
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',addIcons);else addIcons();
  const mo=new MutationObserver(()=>addIcons());mo.observe(document.body,{childList:true,subtree:true});
 })();
+</script>
+
+<script>
+function togglePremiumTheme(){document.body.classList.toggle('dark-mode');localStorage.setItem('purixaPremiumDark',document.body.classList.contains('dark-mode')?'1':'0');}
+(function(){if(localStorage.getItem('purixaPremiumDark')==='1')document.body.classList.add('dark-mode');})();
 </script>
 </body>
 </html>

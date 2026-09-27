@@ -1,0 +1,15 @@
+Purixa CRM v22.40 Premium UI
+
+Base: v22.39 Modern UI
+
+Visual upgrades only; existing CRM/Firebase/business logic retained.
+- Premium SaaS-style sidebar and navigation icons
+- Glass/sticky top bar
+- Premium KPI cards and panels
+- Modern buttons, inputs and tables
+- Mobile responsive refinements
+- Subtle page/card animations
+- Optional dark mode toggle in top bar
+- Purixa branding retained
+
+No database/schema changes were made.
