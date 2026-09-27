@@ -1,0 +1,11 @@
+Purixa CRM v22.36
+
+New: Quotation Management
+- Create quotations for existing or new customers
+- Automatic customer master linking
+- Quotation number, date, validity, status
+- Print quotation
+- Convert quotation to Sale without deleting quotation history
+- Quotations stored in Firebase normalized collection and main CRM backup
+
+Previous v22.35 features remain included.
