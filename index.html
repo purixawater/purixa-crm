@@ -61,6 +61,151 @@ th{background:#f8fafc;color:#53677d}
 .nav button[data-page="inventory"]:before{content:"📦"}.nav button[data-page="expenses"]:before{content:"💸"}.nav button[data-page="expenses"]:before{content:"💸"}
 @media(max-width:900px){.reminder-summary{grid-template-columns:1fr 1fr}}
 @media(max-width:520px){.reminder-summary{grid-template-columns:1fr}}
+
+/* ===== PURIXA MODERN UI v22.41 — VISUAL ONLY ===== */
+:root{
+  --p-primary:#0b73f6; --p-dark:#062b59; --p-bg:#eef6ff; --p-card:#fff;
+  --p-text:#102d55; --p-muted:#6d7f98; --p-line:#dfe9f5;
+}
+html,body{background:linear-gradient(135deg,#edf6ff 0%,#f8fbff 55%,#edf7ff 100%) !important}
+body{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif !important;color:var(--p-text)}
+.app{background:transparent}
+.sidebar{
+  width:226px !important; padding:16px 12px !important;
+  background:linear-gradient(180deg,#062e61 0%,#073d79 52%,#052b57 100%) !important;
+  box-shadow:8px 0 28px rgba(6,43,89,.14); border-right:1px solid rgba(255,255,255,.08)
+}
+.brand{padding:4px 8px 18px !important}
+.brand-logo{width:188px !important;height:58px !important;border-radius:12px !important;margin-bottom:10px !important;box-shadow:0 5px 18px rgba(0,0,0,.12)}
+.brand small{font-size:10px !important;letter-spacing:.08em;text-transform:uppercase}
+.nav button{padding:11px 13px !important;border-radius:11px !important;margin:3px 0 !important;font-size:13px !important;font-weight:600}
+.nav button:hover{background:rgba(255,255,255,.10) !important}
+.nav button.active{background:linear-gradient(90deg,#0b78ff,#1694ff) !important;box-shadow:0 7px 18px rgba(0,116,255,.22)}
+.main{margin-left:226px !important;width:calc(100% - 226px) !important;padding:12px 18px 28px !important}
+.top{
+  position:sticky;top:0;z-index:15;background:rgba(248,251,255,.92);
+  backdrop-filter:blur(14px);padding:8px 2px 12px;margin-bottom:8px !important;
+  border-bottom:1px solid rgba(223,233,245,.75)
+}
+.top h1{font-size:25px !important;letter-spacing:-.02em}
+.top p{font-size:12px !important}
+.cloud-status{background:#eaf8f0 !important;color:#12824a !important;border:1px solid #cdeedb;padding:8px 11px;border-radius:20px;font-size:11px}
+.btn{border-radius:10px !important;padding:10px 13px !important;font-weight:700;box-shadow:0 2px 8px rgba(17,61,103,.05)}
+.btn.primary{background:linear-gradient(135deg,#0876f9,#0b64e8) !important;box-shadow:0 7px 16px rgba(11,110,238,.20)}
+.card,.panel{
+  border:1px solid rgba(207,222,239,.9) !important;
+  box-shadow:0 8px 24px rgba(27,75,122,.07) !important;
+  border-radius:16px !important;
+}
+.panel{padding:16px !important}
+.card{padding:16px !important}
+.card .label{font-weight:600}
+.metric{letter-spacing:-.03em}
+.table-wrap{border-radius:12px}
+th{background:#f5f9fe !important;color:#48627f !important}
+th,td{padding:11px 10px !important}
+.search,.field input,.field select,.field textarea{
+  border:1px solid #d9e5f2 !important;border-radius:10px !important;
+  background:#fbfdff !important;outline:none
+}
+.search:focus,.field input:focus,.field select:focus,.field textarea:focus{
+  border-color:#71adff !important;box-shadow:0 0 0 3px rgba(11,115,246,.10)
+}
+.badge{border-radius:9px !important}
+.modal-box{border-radius:18px !important;box-shadow:0 24px 70px rgba(5,35,72,.22)}
+
+/* Dashboard reference layout */
+#dashboard .cards{
+  display:grid !important;grid-template-columns:repeat(5,minmax(0,1fr)) !important;
+  gap:11px !important;margin:0 0 12px !important
+}
+#dashboard .cards>.card{
+  min-height:91px;position:relative;overflow:hidden;padding:15px 14px 13px 57px !important;
+  color:#fff;border:0 !important;box-shadow:0 10px 22px rgba(31,91,157,.14) !important
+}
+#dashboard .cards>.card:before{
+  content:"";position:absolute;left:13px;top:18px;width:32px;height:32px;border-radius:50%;
+  background:rgba(255,255,255,.18)
+}
+#dashboard .cards>.card:nth-child(1){background:linear-gradient(135deg,#0879f8,#1689ff)}
+#dashboard .cards>.card:nth-child(2){background:linear-gradient(135deg,#16b95b,#26c96a)}
+#dashboard .cards>.card:nth-child(3){background:linear-gradient(135deg,#ff9d08,#ffb51b)}
+#dashboard .cards>.card:nth-child(4){background:linear-gradient(135deg,#7650e8,#955de9)}
+#dashboard .cards>.card:nth-child(5){background:linear-gradient(135deg,#ef3d67,#f45a77)}
+#dashboard .cards>.card:nth-child(n+6){background:#fff;color:var(--p-text);border:1px solid #dce8f5 !important;box-shadow:none !important}
+#dashboard .cards>.card:nth-child(n+6):before{background:#eaf3ff}
+#dashboard .cards>.card .label{font-size:10px;text-transform:uppercase;letter-spacing:.05em;opacity:.9}
+#dashboard .cards>.card .metric{font-size:23px;margin-top:6px}
+#dashboard .dashboard-hero{
+  background:linear-gradient(100deg,#dff2ff,#f6fbff 50%,#e5f3ff) !important;
+  border:1px solid #cce5fb !important;border-radius:16px !important;
+  min-height:112px;padding:18px 22px !important;position:relative;overflow:hidden
+}
+#dashboard .dashboard-hero h2{margin:0;font-size:26px;letter-spacing:-.03em;color:#082f66}
+#dashboard .dashboard-hero p{margin:6px 0 0;color:#56708f;font-size:12px}
+#dashboard .hero-links{margin-top:9px;font-size:11px;color:#0a5ebd;font-weight:700}
+#dashboard .dashboard-hero .water-art{position:absolute;right:24px;top:-25px;font-size:94px;opacity:.16}
+#dashboard .dashboard-main-grid{display:grid;grid-template-columns:1.25fr .9fr .85fr;gap:12px;margin:12px 0}
+#dashboard .dashboard-lower-grid{display:grid;grid-template-columns:1.05fr 1fr .8fr;gap:12px;margin-top:12px}
+#dashboard .modern-panel{background:#fff;border:1px solid #dce8f5;border-radius:16px;padding:15px;box-shadow:0 8px 24px rgba(27,75,122,.06)}
+#dashboard .modern-panel h3{margin:0 0 12px;font-size:15px;color:#102f58}
+#dashboard .mini-note{font-size:11px;color:#7b8da5}
+#dashboard .bar-chart{height:175px;display:flex;align-items:flex-end;gap:10px;padding:16px 8px 22px;border-top:1px solid #eef3f8}
+#dashboard .bar-chart span{flex:1;background:linear-gradient(180deg,#3294ff,#0875f5);border-radius:6px 6px 2px 2px;min-width:14px;position:relative}
+#dashboard .bar-chart span small{position:absolute;top:100%;left:50%;transform:translateX(-50%);font-size:9px;color:#71839a;margin-top:7px}
+#dashboard .donut-wrap{display:flex;align-items:center;justify-content:center;gap:15px;min-height:175px}
+#dashboard .donut{width:128px;height:128px;border-radius:50%;background:conic-gradient(#16bf62 0 68%,#ffae16 68% 80%,#2388f7 80% 94%,#ef4444 94%);position:relative}
+#dashboard .donut:after{content:"";position:absolute;inset:29px;background:#fff;border-radius:50%}
+#dashboard .donut b{position:absolute;z-index:1;inset:0;display:flex;align-items:center;justify-content:center;font-size:22px;color:#12345e}
+#dashboard .legend{font-size:11px;line-height:2}
+#dashboard .legend i{display:inline-block;width:9px;height:9px;border-radius:3px;margin-right:5px}
+#dashboard .activity{display:grid;gap:9px}
+#dashboard .activity-row{display:flex;gap:9px;align-items:center;padding:8px 0;border-bottom:1px solid #edf2f7}
+#dashboard .activity-icon{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;background:#e8f4ff;color:#0875f5}
+#dashboard .activity-row b{font-size:11px}.activity-row small{display:block;color:#8392a5;font-size:9px;margin-top:2px}
+#dashboard .quick-stack{display:grid;gap:8px}
+#dashboard .quick-stack .btn{justify-content:flex-start;text-align:left}
+#dashboard .modern-table{width:100%;border-collapse:collapse}
+#dashboard .modern-table th,#dashboard .modern-table td{font-size:10px;padding:9px 7px;border-bottom:1px solid #edf2f7;text-align:left}
+#dashboard .modern-table th{background:#f7faff !important}
+#dashboard .status{padding:4px 7px;border-radius:7px;font-size:9px;font-weight:700}
+#dashboard .status.green{background:#dcfce7;color:#168044}.status.orange{background:#fff0cc;color:#a56300}.status.blue{background:#e5f2ff;color:#1470cf}
+#dashboard .calendar{display:grid;grid-template-columns:repeat(7,1fr);border:1px solid #e7eef6;border-radius:10px;overflow:hidden}
+#dashboard .calendar div{min-height:34px;padding:5px;border-right:1px solid #edf2f7;border-bottom:1px solid #edf2f7;font-size:8px}
+#dashboard .calendar .head{background:#f6f9fd;font-weight:700;text-align:center;color:#71839a}
+#dashboard .cal-event{display:block;margin-top:3px;padding:2px 3px;border-radius:4px;background:#e7f2ff;color:#1671ca;white-space:nowrap;overflow:hidden}
+#dashboard .product-row{display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid #edf2f7;font-size:10px}
+#dashboard .product-row img{width:28px;height:28px;object-fit:contain;margin-right:7px}
+#dashboard .hide-legacy-dashboard{display:none !important}
+
+/* Keep the existing dynamic Today Work data available below the reference dashboard */
+#dashboard .legacy-work-holder{margin-top:12px}
+@media(max-width:1250px){
+  #dashboard .cards{grid-template-columns:repeat(3,minmax(0,1fr)) !important}
+  #dashboard .dashboard-main-grid{grid-template-columns:1fr 1fr}
+  #dashboard .dashboard-lower-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:850px){
+  .sidebar{width:220px !important}.main{margin-left:0 !important;width:100% !important;padding:10px !important}
+  #dashboard .cards{grid-template-columns:repeat(2,minmax(0,1fr)) !important}
+  #dashboard .dashboard-main-grid,#dashboard .dashboard-lower-grid{grid-template-columns:1fr}
+  #dashboard .dashboard-hero .water-art{right:-5px}
+}
+@media(max-width:560px){
+  #dashboard .cards{grid-template-columns:1fr 1fr !important;gap:8px !important}
+  #dashboard .cards>.card{min-height:80px;padding-left:48px !important}
+  #dashboard .cards>.card .metric{font-size:19px}
+}
+
+
+#dashboard .legacy-work-holder>.panel .cards{display:grid !important;grid-template-columns:repeat(3,minmax(0,1fr)) !important}
+#dashboard .legacy-work-holder>.panel .cards>.card{
+  min-height:auto;padding:16px !important;color:var(--p-text) !important;
+  background:#fff !important;border:1px solid #dce8f5 !important;box-shadow:0 3px 10px rgba(27,75,122,.05) !important
+}
+#dashboard .legacy-work-holder>.panel .cards>.card:before{display:none}
+@media(max-width:850px){#dashboard .legacy-work-holder>.panel .cards{grid-template-columns:repeat(2,minmax(0,1fr)) !important}}
+
 </style>
 
 <style>
@@ -268,78 +413,6 @@ table{border:1px solid #e1e8f0;border-radius:13px;overflow:hidden}thead th{backg
 }
 @media(min-width:701px){.mobile-drawer .menu-icon{display:inline-flex}}
 </style>
-
-<style id="purixa-modern-popular-ui-v2239">
-/* v22.39 VISUAL-ONLY REDESIGN — no HTML ids, JS functions, Firebase logic or data schema changed */
-:root{
-  --px9-blue:#1473ea;--px9-blue2:#0b57c7;--px9-navy:#071a31;--px9-navy2:#0d3155;
-  --px9-bg:#f5f8fc;--px9-text:#10243d;--px9-muted:#718096;--px9-line:#e1e8f0;
-  --px9-shadow:0 10px 30px rgba(9,31,58,.07);--px9-shadow2:0 18px 45px rgba(9,31,58,.11)
-}
-html{scroll-behavior:smooth}
-body{background:radial-gradient(circle at 85% 0%,rgba(20,115,234,.10),transparent 28%),linear-gradient(180deg,#eef5fd 0%,#f7f9fc 42%,#f3f6fa 100%);color:var(--px9-text)}
-.app{background:transparent}
-.sidebar{width:270px;background:linear-gradient(180deg,#06172b 0%,#092442 48%,#0c3153 100%);padding:18px 14px 16px;box-shadow:14px 0 40px rgba(4,22,42,.15);border-right:1px solid rgba(255,255,255,.08)}
-.brand{padding:3px 7px 18px;margin-bottom:10px;border-bottom:1px solid rgba(255,255,255,.10)}
-.brand-logo{width:158px;height:60px;border-radius:14px;background:#fff;padding:5px;box-shadow:0 10px 28px rgba(0,0,0,.20)}
-.brand small{color:#abc1d7;font-weight:600}
-.nav{gap:4px}.nav button{min-height:45px;border-radius:12px;color:#b9cadc;font-weight:750;padding:10px 12px;transition:transform .16s ease,background .16s ease,box-shadow .16s ease}
-.nav button:hover{background:rgba(255,255,255,.075);color:#fff;transform:translateX(3px)}
-.nav button.active{background:linear-gradient(135deg,#1b7cf1,#0d56bd);box-shadow:0 9px 24px rgba(13,86,189,.30);color:#fff}
-.nav button.active:after{right:7px;width:4px;height:22px;border-radius:8px;background:#fff}
-.main{margin-left:270px;width:calc(100% - 270px);padding:22px;max-width:none}
-.top{position:sticky;top:12px;z-index:10;min-height:72px;padding:13px 16px;border-radius:18px;background:rgba(255,255,255,.88);border:1px solid rgba(218,228,239,.95);backdrop-filter:blur(16px);box-shadow:var(--px9-shadow2);margin-bottom:18px}
-.top h1{font-size:26px;font-weight:900;letter-spacing:-.6px;color:#102a49}.top p{font-size:13px;color:var(--px9-muted);font-weight:600}
-.cards{gap:15px}.card{border:1px solid var(--px9-line);border-radius:17px;background:rgba(255,255,255,.96);box-shadow:var(--px9-shadow);position:relative;overflow:hidden}.card:before{height:100%;width:4px;background:linear-gradient(180deg,#2d88ff,#0d57c8)}
-.card:hover{transform:translateY(-3px);box-shadow:0 18px 40px rgba(9,31,58,.11)}.card .label{font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:#718198;font-weight:850}.metric{font-size:29px;font-weight:900;color:#102c4d}
-.panel{border:1px solid var(--px9-line);border-radius:17px;background:rgba(255,255,255,.97);box-shadow:var(--px9-shadow);padding:18px}.panel h3{font-size:17px;font-weight:900;color:#173250;letter-spacing:-.2px}
-.page-head{padding:3px 2px 8px}.page-head h2{font-size:22px;font-weight:900;color:#122d4c}.page-head p{color:#718096;font-weight:600}
-.toolbar{gap:9px}.search{height:44px;border-radius:12px!important;background:#fff;border-color:#d8e2ed!important}.btn{min-height:40px;border-radius:11px;background:#fff;border-color:#d6e1ed;font-weight:800;color:#29445f;box-shadow:0 3px 9px rgba(9,31,58,.045)}.btn.primary{background:linear-gradient(135deg,#1c78ee,#0d55be);border-color:#1465d5;box-shadow:0 8px 20px rgba(20,99,217,.22)}.btn.green{background:linear-gradient(135deg,#1ab36f,#087d4d);border-color:#098a57}.btn.red{background:#fff1f1;border-color:#ffd1d1}
-.btn:hover{transform:translateY(-1px);box-shadow:0 8px 17px rgba(9,31,58,.10)}
-.field input,.field select,.field textarea,input,select,textarea{border-radius:11px!important;border-color:#d6e1ed!important;min-height:40px} .field textarea{min-height:90px}
-.search:focus,.field input:focus,.field select:focus,.field textarea:focus{border-color:#62a0ef!important;box-shadow:0 0 0 4px rgba(20,99,217,.11)!important;outline:none}
-.table-wrap{border:1px solid #e2e8f0;border-radius:14px;box-shadow:0 4px 15px rgba(9,31,58,.035)}
-table{border:0;border-radius:0;overflow:hidden}thead th{background:linear-gradient(180deg,#f7f9fc,#f1f5f9)!important;color:#62738a!important;font-size:10.5px!important;font-weight:900!important;text-transform:uppercase;letter-spacing:.55px;padding:12px 10px;border-bottom:1px solid #e1e8f0!important}tbody td{padding:12px 10px;background:#fff;border-bottom:1px solid #edf1f5!important}tbody tr:hover td{background:#f7fbff!important}.badge{border-radius:999px!important;padding:5px 9px!important;font-weight:850!important}
-.modal{background:rgba(4,17,32,.58);backdrop-filter:blur(4px)}.modal-box{border-radius:21px!important;border:1px solid #dfe7f0!important;box-shadow:0 30px 90px rgba(5,22,42,.30)!important}
-.modal-head{padding-bottom:12px;border-bottom:1px solid #edf1f5}.modal-head h3{font-weight:900;color:#173250}.close{border-radius:10px!important;background:#f1f5f9;color:#52657a}
-.pipeline .stage{border-radius:15px;background:#f8fbff;border-color:#dfe8f2;box-shadow:0 5px 15px rgba(9,31,58,.04)}.lead{border-radius:11px;box-shadow:0 3px 9px rgba(9,31,58,.04)}
-.toast{border-radius:12px;box-shadow:0 15px 35px rgba(0,0,0,.20)}
-/* dashboard emphasis without changing its content */
-#dashboard .card{min-height:112px}.quick-actions,.quick-actions .btn{border-radius:13px}
-/* service / AMC visual hierarchy */
-.service-card{border-radius:15px!important;border-color:#dfe7f0!important;box-shadow:0 7px 20px rgba(9,31,58,.055)!important}.amc-visits{color:#173a61}
-/* responsive: preserve existing functionality, improve touch presentation */
-@media(max-width:900px){.sidebar{width:76px}.main{margin-left:76px;width:calc(100% - 76px);padding:15px}.brand-logo{width:48px;height:48px;margin:auto}.brand{padding-bottom:12px}.brand span,.brand small{display:none}.nav button{font-size:0;justify-content:center;padding:10px}.nav button .menu-icon{margin:0}.nav button.active:after{display:none}.cards{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:700px){.sidebar{display:none!important}.main{margin-left:0!important;width:100%!important;padding:10px 10px 88px!important}.top{position:relative;top:auto;min-height:64px;border-radius:15px;padding:9px 10px;margin-bottom:12px}.top h1{font-size:19px}.top p{font-size:10.5px}.cards{grid-template-columns:1fr 1fr!important;gap:9px}.card{border-radius:14px;padding:13px}.metric{font-size:21px}.panel{padding:14px;border-radius:14px}.panel h3{font-size:15px}.toolbar{gap:7px}.btn{min-height:40px;padding:9px 11px}.table-wrap{border-radius:12px}.mobile-bottom-nav{box-shadow:0 14px 35px rgba(11,31,58,.18)!important;border:1px solid #dce6f0!important}}
-@media(max-width:480px){.cards{grid-template-columns:1fr 1fr!important}.main{padding-left:8px!important;padding-right:8px!important}.top{padding:8px}.panel{padding:12px}.metric{font-size:20px}}
-</style>
-<style id="purixa-modern-ui">
-/* PURIXA CRM — MODERN UI SKIN ONLY
-   Visual overrides only. Do not change CRM logic/data/functions. */
-:root{
-  --blue:#1677ff;--blue2:#0b5ed7;--navy:#08264a;--navy2:#0d3564;
-  --bg:#f3f7fc;--card:#fff;--text:#102a43;--muted:#6b7c93;--line:#e3ebf5;
-  --green:#18b66a;--orange:#f59e0b;--purple:#7c4dff;--shadow:0 10px 30px rgba(25,65,110,.08)
-}
-html{background:var(--bg)}body{font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Arial,sans-serif;background:linear-gradient(135deg,#f7fbff 0%,#eef5fc 100%);color:var(--text)}
-.sidebar{width:250px;background:linear-gradient(180deg,#08264a 0%,#0b3565 100%);padding:18px 13px;box-shadow:8px 0 28px rgba(8,38,74,.10);border-right:1px solid rgba(255,255,255,.08)}
-.brand{padding:5px 10px 20px}.brand-logo{width:196px;height:70px;background:#fff;border-radius:14px;box-shadow:0 8px 24px rgba(0,0,0,.10)}
-.nav button{position:relative;display:flex;align-items:center;gap:10px;color:#cfe0f3;padding:12px 13px;border-radius:11px;margin:3px 0;font-weight:650;transition:.18s;background:transparent}
-.nav button:hover{background:rgba(255,255,255,.09);color:#fff;transform:translateX(2px)}.nav button.active{background:linear-gradient(90deg,#1677ff,#2387ff);color:#fff;box-shadow:0 7px 18px rgba(22,119,255,.28)}
-.main{margin-left:250px;width:calc(100% - 250px);padding:22px 24px 35px}.top{background:rgba(255,255,255,.82);backdrop-filter:blur(12px);border:1px solid var(--line);border-radius:18px;padding:15px 18px;margin-bottom:20px;box-shadow:var(--shadow)}.top h1{font-size:27px;letter-spacing:-.4px}.top p{color:var(--muted)}
-.page{animation:purixaFade .2s ease}@keyframes purixaFade{from{opacity:.3;transform:translateY(3px)}to{opacity:1;transform:none}}
-.cards{gap:16px;margin-bottom:18px}.card{border:1px solid var(--line);border-radius:16px;padding:18px;background:linear-gradient(145deg,#fff,#fafdff);box-shadow:var(--shadow);position:relative;overflow:hidden}.card:after{content:"";position:absolute;width:80px;height:80px;border-radius:50%;right:-30px;top:-30px;background:rgba(22,119,255,.05)}.card .label{font-weight:650}.metric{font-size:29px;letter-spacing:-.6px}
-.panel{border:1px solid var(--line);border-radius:16px;padding:18px;background:rgba(255,255,255,.94);box-shadow:var(--shadow)}.panel h3{font-size:17px;letter-spacing:-.2px}.page-head{padding:4px 2px 5px}.page-head h2{font-size:24px;letter-spacing:-.4px}
-.btn{border-radius:10px;padding:10px 15px;border:1px solid #dbe7f5;box-shadow:0 3px 10px rgba(20,60,100,.05);transition:.16s}.btn:hover{transform:translateY(-1px);box-shadow:0 7px 16px rgba(20,60,100,.10)}.btn.primary{background:linear-gradient(135deg,#1677ff,#0d63dc)}
-.search{border-radius:10px;background:#f8fbff;border-color:#dce7f3;outline:none}.search:focus,.field input:focus,.field select:focus,.field textarea:focus{border-color:#6aa8ff;box-shadow:0 0 0 3px rgba(22,119,255,.10)}
-table{border-collapse:separate;border-spacing:0;overflow:hidden;border:1px solid var(--line);border-radius:12px;background:#fff}th,td{padding:12px 10px;border-bottom:1px solid var(--line)}th{background:#f5f9fd;color:#48627d;font-size:12px;text-transform:uppercase;letter-spacing:.35px}tbody tr:last-child td{border-bottom:0}tbody tr:hover td{background:#f8fbff}.badge{border-radius:999px;padding:5px 9px}
-.form-grid{gap:14px}.field input,.field select,.field textarea{border-radius:10px;border-color:#dce7f3;background:#fbfdff}.modal{background:rgba(4,21,40,.58);backdrop-filter:blur(4px)}.modal-box{border-radius:18px;box-shadow:0 24px 70px rgba(0,0,0,.22);padding:22px}.modal-head{border-bottom:1px solid var(--line);padding-bottom:12px}
-.pipeline{gap:12px}.stage{border-radius:14px;border-color:var(--line);background:#f8fbff}.lead{border-radius:10px;border-color:#e2eaf3;box-shadow:0 3px 10px rgba(20,60,100,.04)}.toast{border-radius:12px;box-shadow:0 12px 35px rgba(0,0,0,.18)}
-.invoice{border-radius:8px;box-shadow:0 10px 35px rgba(25,65,110,.10)}
-@media(max-width:900px){.sidebar{width:76px}.main{margin-left:76px;width:calc(100% - 76px);padding:16px}.brand-logo{width:50px;height:50px;border-radius:12px}.nav button{justify-content:center;padding:12px}.nav button span{display:none}}
-@media(max-width:560px){.main{padding:10px}.top{padding:12px;border-radius:14px}.top h1{font-size:20px}.card{border-radius:13px;padding:13px}.metric{font-size:22px}.panel{border-radius:13px;padding:13px}.page-head h2{font-size:20px}}
-
-</style>
 </head>
 <body>
 <div id="authOverlay">
@@ -417,22 +490,111 @@ table{border-collapse:separate;border-spacing:0;overflow:hidden;border:1px solid
   </div>
 
   <section id="dashboard" class="page active">
-    <div class="cards">
-      <div class="card"><div class="label">Total Leads</div><div class="metric" id="mLeads">0</div></div>
-      <div class="card"><div class="label">Customers</div><div class="metric" id="mCustomers">0</div></div>
-      <div class="card"><div class="label">Sales</div><div class="metric" id="mSales">₹0</div></div>
-      <div class="card"><div class="label">Pending Payment</div><div class="metric" id="mPending">₹0</div></div>
-      <div class="card"><div class="label">Open Services</div><div class="metric" id="mService">0</div></div>
-      <div class="card"><div class="label">AMC Expiring</div><div class="metric" id="mAMC">0</div></div>
-      <div class="card"><div class="label">Follow-ups Today</div><div class="metric" id="mFollow">0</div></div>
-      <div class="card"><div class="label">Technicians</div><div class="metric" id="mTech">0</div></div><div class="card"><div class="label">Due Follow-ups</div><div class="metric" id="mDue">0</div></div><div class="card"><div class="label">AMC Next 30 Days</div><div class="metric" id="mAMC30">0</div></div><div class="card"><div class="label">Referral Customers</div><div class="metric" id="mReferral">0</div></div>
-    </div>
-    <div class="panel" style="background:#eef6ff;border-color:#cfe3ff">
-      <h3>Purixa Customer Lifecycle</h3>
-      <p style="margin:0;color:#52677d">🎯 Lead → 👥 Customer → 💰 Sale → 🛠️ Installation → 🔧 Service → 🔄 AMC → 🔔 Renewal</p>
-    </div>
+  <div class="dashboard-hero">
+    <div class="water-art">💧</div>
+    <h2>Welcome Back, Arvind! 👋</h2>
+    <p>Here's what's happening with your Purixa business today.</p>
+    <div class="hero-links">Sales &nbsp; | &nbsp; Service &nbsp; | &nbsp; AMC &nbsp; | &nbsp; Spare Parts</div>
+  </div>
 
-    <div class="panel" style="background:#fffdf5;border-color:#f2df9b;margin-bottom:15px">
+  <div class="cards" style="margin-top:12px">
+    <div class="card"><div class="label">Total Customers</div><div class="metric" id="mCustomers">0</div></div>
+    <div class="card"><div class="label">Open Services</div><div class="metric" id="mService">0</div></div>
+    <div class="card"><div class="label">AMC Expiring</div><div class="metric" id="mAMC">0</div></div>
+    <div class="card"><div class="label">Pending Payments</div><div class="metric" id="mPending">₹0</div></div>
+    <div class="card"><div class="label">Total Sales</div><div class="metric" id="mSales">₹0</div></div>
+    <div class="card"><div class="label">Total Leads</div><div class="metric" id="mLeads">0</div></div>
+    <div class="card"><div class="label">Open Services</div><div class="metric" id="mOpenService">0</div></div>
+    <div class="card"><div class="label">Follow-ups Today</div><div class="metric" id="mFollow">0</div></div>
+    <div class="card"><div class="label">Technicians</div><div class="metric" id="mTech">0</div></div>
+    <div class="card"><div class="label">AMC Next 30 Days</div><div class="metric" id="mAMC30">0</div></div>
+    <div class="card"><div class="label">Due Follow-ups</div><div class="metric" id="mDue">0</div></div>
+    <div class="card"><div class="label">Referral Customers</div><div class="metric" id="mReferral">0</div></div>
+  </div>
+
+  <div class="dashboard-main-grid">
+    <div class="modern-panel">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div><h3>Monthly Sales</h3><div class="mini-note">Business overview</div></div>
+        <span class="badge">2026 ▾</span>
+      </div>
+      <div class="bar-chart">
+        <span style="height:34%"><small>Jan</small></span><span style="height:46%"><small>Feb</small></span>
+        <span style="height:67%"><small>Mar</small></span><span style="height:51%"><small>Apr</small></span>
+        <span style="height:73%"><small>May</small></span><span style="height:88%"><small>Jun</small></span>
+        <span style="height:56%"><small>Jul</small></span><span style="height:70%"><small>Aug</small></span>
+        <span style="height:53%"><small>Sep</small></span><span style="height:62%"><small>Oct</small></span>
+      </div>
+    </div>
+    <div class="modern-panel">
+      <h3>Service Status</h3>
+      <div class="donut-wrap">
+        <div class="donut"><b>186</b></div>
+        <div class="legend">
+          <div><i style="background:#16bf62"></i>Completed</div>
+          <div><i style="background:#ffae16"></i>Pending</div>
+          <div><i style="background:#2388f7"></i>In Progress</div>
+          <div><i style="background:#ef4444"></i>Cancelled</div>
+        </div>
+      </div>
+    </div>
+    <div class="modern-panel">
+      <h3>Today's Activities <span style="float:right;font-size:10px;color:#0b6fd7">View All</span></h3>
+      <div class="activity">
+        <div class="activity-row"><div class="activity-icon">🔧</div><div><b>Service activity</b><small>Customer service updates</small></div></div>
+        <div class="activity-row"><div class="activity-icon">🛡️</div><div><b>AMC activity</b><small>AMC records & renewals</small></div></div>
+        <div class="activity-row"><div class="activity-icon">₹</div><div><b>Payment activity</b><small>Recent payment updates</small></div></div>
+        <div class="activity-row"><div class="activity-icon">👤</div><div><b>Customer activity</b><small>New customer records</small></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="dashboard-lower-grid">
+    <div class="modern-panel">
+      <h3>Recent Customers <span style="float:right;font-size:10px;color:#0b6fd7">View All</span></h3>
+      <div class="table-wrap"><table class="modern-table"><thead><tr><th>#</th><th>Name</th><th>Mobile</th><th>Type</th><th>Action</th></tr></thead>
+      <tbody id="dashboardRecentCustomers"></tbody></table></div>
+    </div>
+    <div class="modern-panel">
+      <h3>Upcoming Service Visits <span style="float:right;font-size:10px;color:#0b6fd7">View All</span></h3>
+      <div id="dashboardUpcomingVisits" class="activity"></div>
+    </div>
+    <div class="modern-panel">
+      <h3>AMC Renewals Due <span style="float:right;font-size:10px;color:#0b6fd7">View All</span></h3>
+      <div id="dashboardAmcDue" class="activity"></div>
+    </div>
+  </div>
+
+  <div class="dashboard-lower-grid">
+    <div class="modern-panel">
+      <div style="display:flex;justify-content:space-between;align-items:center"><h3>Service Calendar</h3><div><span class="badge">Month</span> <span class="mini-note">Week &nbsp; Day</span></div></div>
+      <div class="calendar">
+        <div class="head">Sun</div><div class="head">Mon</div><div class="head">Tue</div><div class="head">Wed</div><div class="head">Thu</div><div class="head">Fri</div><div class="head">Sat</div>
+        <div></div><div>1</div><div>2</div><div>3<span class="cal-event">Service</span></div><div>4</div><div>5</div><div>6</div>
+        <div>7</div><div>8<span class="cal-event">AMC</span></div><div>9</div><div>10</div><div>11<span class="cal-event">Service</span></div><div>12</div><div>13</div>
+        <div>14</div><div>15</div><div>16<span class="cal-event">Service</span></div><div>17</div><div>18</div><div>19<span class="cal-event">AMC</span></div><div>20</div>
+        <div>21</div><div>22<span class="cal-event">Service</span></div><div>23</div><div>24</div><div>25</div><div>26</div><div>27<span class="cal-event">Today</span></div>
+        <div>28<span class="cal-event">AMC</span></div><div>29</div><div>30</div><div></div><div></div><div></div><div></div>
+      </div>
+    </div>
+    <div class="modern-panel">
+      <h3>Recent Sales & Invoices <span style="float:right;font-size:10px;color:#0b6fd7">View All</span></h3>
+      <div class="table-wrap"><table class="modern-table"><thead><tr><th>Invoice</th><th>Date</th><th>Customer</th><th>Amount</th><th>Status</th></tr></thead>
+      <tbody id="dashboardRecentSales"></tbody></table></div>
+    </div>
+    <div class="modern-panel">
+      <h3>Top Products <span style="float:right;font-size:10px;color:#0b6fd7">This Month ›</span></h3>
+      <div class="product-row"><span>💧 RO Purifier</span><b>₹1,26,000</b></div>
+      <div class="product-row"><span>🔧 Spare Parts</span><b>₹42,500</b></div>
+      <div class="product-row"><span>🛢️ Storage Tank</span><b>₹22,500</b></div>
+      <div class="product-row"><span>⚙️ Filters & Cartridges</span><b>₹16,000</b></div>
+      <div class="product-row"><span>🔩 Accessories</span><b>₹9,500</b></div>
+    </div>
+  </div>
+
+  <!-- Existing live reminder/work widgets remain intact below the new visual dashboard -->
+  <div class="legacy-work-holder">
+    <div class="panel" style="background:#fffdf5;border-color:#f2df9b">
       <div class="toolbar" style="justify-content:space-between;align-items:center;margin-bottom:8px">
         <div><h3 style="margin:0">📋 Today's Work</h3><div class="mini">તમારા આજના service, AMC, follow-up અને payment કામ એક જગ્યાએ.</div></div>
         <button class="btn primary" onclick="goToPage('reminders')">🔔 All Reminders</button>
@@ -440,36 +602,26 @@ table{border-collapse:separate;border-spacing:0;overflow:hidden;border:1px solid
       <div class="cards" id="todaysWorkCards"></div>
       <div id="todaysWorkList"></div>
     </div>
-
     <div class="grid2">
       <div class="panel">
         <h3>⚡ Quick Actions</h3>
         <div class="toolbar" style="margin:0">
           <button class="btn primary" onclick="openModal('leadModal')">＋ New Lead</button>
           <button class="btn primary" onclick="openModal('customerModal')">＋ Customer</button>
-          <button class="btn primary" onclick="openModal('saleModal')">＋ New Sale</button><button class="btn primary" onclick="openQuotationModal()">🧾 Quotation</button>
+          <button class="btn primary" onclick="openModal('saleModal')">＋ New Sale</button>
+          <button class="btn primary" onclick="openQuotationModal()">🧾 Quotation</button>
           <button class="btn primary" onclick="openServiceModal()">🔧 New Service</button>
           <button class="btn primary" onclick="openAMCModal()">🔄 New AMC</button>
           <button class="btn green" onclick="goToPage('reminders')">🔔 Reminders</button>
         </div>
       </div>
-
-      <div class="panel">
-        <div class="toolbar" style="justify-content:space-between;align-items:center;margin-bottom:8px">
-          <h3 style="margin:0">📅 Due & Upcoming</h3>
-          <button class="btn" onclick="goToPage('reminders')">View All</button>
-        </div>
-        <div id="dashboardDueUpcoming"></div>
-      </div>
+      <div class="panel"><div class="toolbar" style="justify-content:space-between;align-items:center;margin-bottom:8px"><h3 style="margin:0">📅 Due & Upcoming</h3><button class="btn" onclick="goToPage('reminders')">View All</button></div><div id="dashboardDueUpcoming"></div></div>
     </div>
+    <div class="grid2"><div class="panel"><h3>Today's Follow-ups</h3><div id="todayFollow"></div></div><div class="panel"><h3>Recent Service Requests</h3><div id="recentService"></div></div></div>
+  </div>
+</section>
 
-    <div class="grid2">
-      <div class="panel"><h3>Today's Follow-ups</h3><div id="todayFollow"></div></div>
-      <div class="panel"><h3>Recent Service Requests</h3><div id="recentService"></div></div>
-    </div>
-  </section>
-
-  <section id="leads" class="page">
+<section id="leads" class="page">
     <div class="panel">
       <div class="toolbar"><input class="search" id="leadSearch" placeholder="Search leads..." oninput="renderLeads()"><button class="btn primary" onclick="openModal('leadModal')">＋ Add Lead</button></div>
       <div class="pipeline" id="pipeline"></div>
