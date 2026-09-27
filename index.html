@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#0b6efd">
-<title>Purixa CRM Cloud — v22.32 PWA</title>
+<title>Purixa CRM Cloud — v22.33 PWA</title>
 <style>
 *{box-sizing:border-box}
 :root{--blue:#0b6efd;--dark:#17324d;--bg:#f4f7fb;--card:#fff;--muted:#6b7c93;--line:#e4eaf1;--green:#16a34a;--red:#dc2626;--orange:#f59e0b}
@@ -51,12 +51,14 @@ th{background:#f8fafc;color:#53677d}
 .empty{text-align:center;color:var(--muted);padding:25px}
 .toast{position:fixed;right:18px;bottom:18px;background:#102a43;color:#fff;padding:12px 15px;border-radius:9px;display:none;z-index:80}
 .toast.show{display:block}
-@media(max-width:900px){.sidebar{width:72px}.brand{font-size:0}.brand-logo{width:48px;height:48px;padding:2px;margin:0 auto 8px}.brand small{display:none}.nav button{font-size:0;text-align:center}.nav button:before{font-size:20px}.nav button[data-page="dashboard"]:before{content:"🏠"}.nav button[data-page="leads"]:before{content:"🎯"}.nav button[data-page="customers"]:before{content:"👥"}.nav button[data-page="sales"]:before{content:"💰"}.nav button[data-page="service"]:before{content:"🔧"}.nav button[data-page="amc"]:before{content:"🔄"}.nav button[data-page="technicians"]:before{content:"👨‍🔧"}.nav button[data-page="reports"]:before{content:"📊"}.nav button[data-page="reminders"]:before{content:"🔔"}.nav button[data-page="settings"]:before{content:"⚙️"}.main{margin-left:72px;width:calc(100% - 72px)}.cards{grid-template-columns:repeat(2,1fr)}.grid2{grid-template-columns:1fr}}
+.nav button[data-page="inventory"]:before{content:"📦"}
+@media(max-width:900px){.sidebar{width:72px}.brand{font-size:0}.brand-logo{width:48px;height:48px;padding:2px;margin:0 auto 8px}.brand small{display:none}.nav button{font-size:0;text-align:center}.nav button:before{font-size:20px}.nav button[data-page="dashboard"]:before{content:"🏠"}.nav button[data-page="leads"]:before{content:"🎯"}.nav button[data-page="customers"]:before{content:"👥"}.nav button[data-page="sales"]:before{content:"💰"}.nav button[data-page="service"]:before{content:"🔧"}.nav button[data-page="inventory"]:before{content:"📦"}.nav button[data-page="amc"]:before{content:"🔄"}.nav button[data-page="technicians"]:before{content:"👨‍🔧"}.nav button[data-page="reports"]:before{content:"📊"}.nav button[data-page="reminders"]:before{content:"🔔"}.nav button[data-page="settings"]:before{content:"⚙️"}.main{margin-left:72px;width:calc(100% - 72px)}.cards{grid-template-columns:repeat(2,1fr)}.grid2{grid-template-columns:1fr}}
 @media(max-width:560px){.main{padding:12px}.modal-box .cards{grid-template-columns:repeat(2,1fr)!important}.cards{grid-template-columns:1fr 1fr;gap:8px}.card{padding:12px}.metric{font-size:21px}.form-grid{grid-template-columns:1fr}.top h1{font-size:20px}.btn{padding:9px 10px}}
 @media print{body>*:not(#invoiceModal):not(#printInvoiceWrap){display:none!important}#invoiceModal{display:block!important;position:static}.modal-box{box-shadow:none!important;width:100%!important;max-width:none!important}}
 
 .invoice .bill-info .name-row>span{min-height:24px;padding:1px 4px}.invoice .bill-info .mobile-row>span{min-height:24px;padding:1px 4px}.invoice .bill-info b{white-space:nowrap}
 @media(max-width:700px){.invoice .bill-info .name-row{grid-template-columns:90px minmax(0,1fr)}.invoice .bill-info .mobile-row{grid-template-columns:90px minmax(0,1fr) 70px minmax(0,1fr);gap:4px}.invoice .bill-info .mobile-row b{font-size:10px}.invoice .bill-info .row>span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}}
+.nav button[data-page="inventory"]:before{content:"📦"}
 @media(max-width:900px){.reminder-summary{grid-template-columns:1fr 1fr}}
 @media(max-width:520px){.reminder-summary{grid-template-columns:1fr}}
 </style>
@@ -76,7 +78,8 @@ th{background:#f8fafc;color:#53677d}
 
 <style>.service-card{border:1px solid #e5e7eb;border-radius:12px;padding:14px;margin:10px 0;background:#fff}.service-card .row{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}.mini{font-size:12px;opacity:.7}.page-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:15px}.page-head h2{margin:0 0 4px}.page-head p{margin:0;color:var(--muted)}.amc-visits{font-weight:700}.amc-visits small{display:block;color:var(--muted);font-weight:400}.history-link{color:var(--blue);cursor:pointer;font-weight:700;margin-left:7px}
 </style><style>
-.lifecycle{display:grid;grid-template-columns:repeat(7,1fr);gap:7px;margin:12px 0 18px}.life-step{padding:9px 5px;border-radius:9px;background:#f1f5f9;text-align:center;font-size:11px;font-weight:700;color:#64748b;border:1px solid #e2e8f0}.life-step.done{background:#dcfce7;color:#166534;border-color:#bbf7d0}.life-step.current{background:#dbeafe;color:#1d4ed8;border-color:#bfdbfe}.profile-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:15px}.profile-card{background:#f8fafc;border:1px solid #e4eaf1;border-radius:10px;padding:12px}.profile-card b{font-size:18px;display:block;margin-top:4px}.timeline{border-left:3px solid #dbeafe;margin:12px 0 0 8px;padding-left:15px}.timeline-item{position:relative;padding:8px 0 12px}.timeline-item:before{content:'';position:absolute;left:-22px;top:12px;width:10px;height:10px;border-radius:50%;background:#0b6efd}.section-title{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:10px}.section-title h3{margin:0}.profile-actions{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 15px}@media(max-width:900px){.profile-grid{grid-template-columns:1fr 1fr}.lifecycle{grid-template-columns:repeat(4,1fr)}}@media(max-width:560px){.profile-grid{grid-template-columns:1fr 1fr}.lifecycle{grid-template-columns:repeat(2,1fr)}}
+.lifecycle{display:grid;grid-template-columns:repeat(7,1fr);gap:7px;margin:12px 0 18px}.life-step{padding:9px 5px;border-radius:9px;background:#f1f5f9;text-align:center;font-size:11px;font-weight:700;color:#64748b;border:1px solid #e2e8f0}.life-step.done{background:#dcfce7;color:#166534;border-color:#bbf7d0}.life-step.current{background:#dbeafe;color:#1d4ed8;border-color:#bfdbfe}.profile-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:15px}.profile-card{background:#f8fafc;border:1px solid #e4eaf1;border-radius:10px;padding:12px}.profile-card b{font-size:18px;display:block;margin-top:4px}.timeline{border-left:3px solid #dbeafe;margin:12px 0 0 8px;padding-left:15px}.timeline-item{position:relative;padding:8px 0 12px}.timeline-item:before{content:'';position:absolute;left:-22px;top:12px;width:10px;height:10px;border-radius:50%;background:#0b6efd}.section-title{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:10px}.section-title h3{margin:0}.profile-actions{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 15px}.nav button[data-page="inventory"]:before{content:"📦"}
+@media(max-width:900px){.profile-grid{grid-template-columns:1fr 1fr}.lifecycle{grid-template-columns:repeat(4,1fr)}}@media(max-width:560px){.profile-grid{grid-template-columns:1fr 1fr}.lifecycle{grid-template-columns:repeat(2,1fr)}}
 </style>
 <link rel="manifest" href="manifest.json">
 <meta name="mobile-web-app-capable" content="yes">
@@ -174,7 +177,7 @@ th{background:#f8fafc;color:#53677d}
 <div id="authOverlay">
   <div class="auth-box">
     <img class="auth-logo" src="purixa-logo.png" alt="Purixa Water Solution">
-    <h2>☁️ Purixa CRM Cloud v22.32</h2>
+    <h2>☁️ Purixa CRM Cloud v22.33</h2>
     <p class="mini" id="authModeText">Cloud login is enabled after Firebase setup.</p>
     <div id="firebaseSetupBox">
       <label class="mini">Firebase Config JSON</label>
@@ -205,6 +208,7 @@ th{background:#f8fafc;color:#53677d}
     <button data-page="customers">Customers</button>
     <button data-page="sales">Sales & Payments</button>
     <button data-page="service">Service</button>
+    <button data-page="inventory">Inventory</button>
     <button data-page="amc">AMC</button>
     <button data-page="technicians">Technicians</button>
     <button data-page="reports">Reports</button>
@@ -225,6 +229,7 @@ th{background:#f8fafc;color:#53677d}
     <button data-page="customers">Customers</button>
     <button data-page="sales">Sales & Payments</button>
     <button data-page="service">Service</button>
+    <button data-page="inventory">Inventory</button>
     <button data-page="amc">AMC</button>
     <button data-page="technicians">Technicians</button>
     <button data-page="reports">Reports</button>
@@ -318,6 +323,18 @@ th{background:#f8fafc;color:#53677d}
       <div class="toolbar" style="justify-content:space-between;align-items:center"><div><h3 style="margin:0">Service Management</h3><div class="mini">Service requests, technician assignment and service history</div></div><button class="btn primary" onclick="openServiceModal()">＋ New Service</button></div>
       <div class="toolbar"><input class="search" id="serviceSearch" placeholder="Search customer or service..." oninput="renderServices()"></div>
       <div id="serviceList"></div>
+    </div>
+  </section>
+
+  <section id="inventory" class="page">
+    <div class="panel">
+      <div class="toolbar" style="justify-content:space-between;align-items:center">
+        <div><h3 style="margin:0">📦 Spare Parts & Inventory</h3><div class="mini">Stock in/out, current quantity and low-stock alerts</div></div>
+        <button class="btn primary" onclick="openInventoryModal()">＋ Add Part</button>
+      </div>
+      <div class="cards" id="inventorySummary"></div>
+      <div class="toolbar"><input class="search" id="inventorySearch" placeholder="Search part..." oninput="renderInventory()"></div>
+      <div class="table-wrap"><table><thead><tr><th>Part</th><th>Stock</th><th>Low Alert</th><th>Purchase</th><th>Sale</th><th>Value</th><th>Actions</th></tr></thead><tbody id="inventoryTable"></tbody></table></div>
     </div>
   </section>
 
@@ -541,6 +558,24 @@ th{background:#f8fafc;color:#53677d}
 <div id="amcHistoryBody"></div></div></div>
 
 <!-- Tech Modal -->
+<div class="modal" id="inventoryModal"><div class="modal-box">
+<div class="modal-head"><h3 id="inventoryModalTitle">📦 Add Spare Part</h3><button class="close" onclick="closeModal('inventoryModal')">×</button></div>
+<form onsubmit="saveInventory(event)"><div class="grid2">
+<div class="field"><label>Part Name *</label><input id="invName" required placeholder="RO Membrane, Pump, Filter..."></div>
+<div class="field"><label>SKU / Code</label><input id="invSku" placeholder="Optional"></div>
+<div class="field"><label>Current Stock *</label><input id="invStock" type="number" min="0" step="1" value="0" required></div>
+<div class="field"><label>Low Stock Alert</label><input id="invLow" type="number" min="0" step="1" value="2"></div>
+<div class="field"><label>Purchase Price</label><input id="invPurchase" type="number" min="0" step="0.01" value="0"></div>
+<div class="field"><label>Sale Price</label><input id="invSale" type="number" min="0" step="0.01" value="0"></div>
+<div class="field full"><label>Notes</label><textarea id="invNotes" rows="2"></textarea></div>
+</div><div class="actions"><button type="button" class="btn" onclick="closeModal('inventoryModal')">Cancel</button><button class="btn primary">💾 Save Part</button></div></form></div></div>
+<div class="modal" id="stockModal"><div class="modal-box">
+<div class="modal-head"><h3>📦 Stock In / Out</h3><button class="close" onclick="closeModal('stockModal')">×</button></div>
+<form onsubmit="saveStockMovement(event)"><div id="stockPartInfo" class="panel" style="margin-bottom:12px"></div><div class="grid2">
+<div class="field"><label>Movement</label><select id="stockType"><option value="in">Stock In (+)</option><option value="out">Stock Out (-)</option></select></div>
+<div class="field"><label>Quantity *</label><input id="stockQty" type="number" min="1" step="1" required></div>
+<div class="field"><label>Date</label><input id="stockDate" type="date"></div><div class="field"><label>Note</label><input id="stockNote" placeholder="Purchase / damaged / used..."></div>
+</div><div class="actions"><button type="button" class="btn" onclick="closeModal('stockModal')">Cancel</button><button class="btn primary">💾 Save Movement</button></div></form></div></div>
 <div class="modal" id="techModal"><div class="modal-box">
 <div class="modal-head"><h3>New Technician</h3><button class="close" onclick="closeModal('techModal')">×</button></div>
 <form onsubmit="saveTech(event)"><div class="form-grid">
@@ -594,7 +629,7 @@ th{background:#f8fafc;color:#53677d}
 <script>
 const KEY="purixaCRM_v1";
 const today=new Date().toISOString().slice(0,10);
-const emptyDB=()=>({leads:[],customers:[],sales:[],services:[],amcs:[],technicians:[],invoiceCounter:701});
+const emptyDB=()=>({leads:[],customers:[],sales:[],services:[],amcs:[],technicians:[],inventory:[],inventoryMovements:[],invoiceCounter:701});
 let db=loadDB();
 let editingCustomerId=null, editingServiceId=null, currentInvoiceMobile="", currentAMCVisitId=null, editingAMCVisitIndex=null, currentAMCInvoiceMobile="";
 
@@ -602,7 +637,7 @@ function loadDB(){
   try{
     const raw=JSON.parse(localStorage.getItem(KEY)||"null")||emptyDB();
     const d=Object.assign(emptyDB(),raw);
-    ["leads","customers","sales","services","amcs","technicians"].forEach(k=>{if(!Array.isArray(d[k]))d[k]=[]});
+    ["leads","customers","sales","services","amcs","technicians"].forEach(k=>{if(!Array.isArray(d[k]))d[k]=[]}); if(!Array.isArray(d.inventory))d.inventory=[]; if(!Array.isArray(d.inventoryMovements))d.inventoryMovements=[];
     d.invoiceCounter=Number(d.invoiceCounter||701);
     d.customers.forEach(c=>{
       c.notes=c.notes||"";
@@ -737,7 +772,7 @@ async function commitFirestoreOps(ops){
 }
 async function syncNormalizedCollections(){
   const base=await cloudUserBase();
-  const keys=["leads","customers","sales","services","amcs","technicians"];
+  const keys=["leads","customers","sales","services","amcs","technicians","inventory","inventoryMovements"];
   for(const key of keys){
     const col=base.collection(key);
     const snap=await col.get();
@@ -751,7 +786,7 @@ async function syncNormalizedCollections(){
 }
 async function loadNormalizedCollections(){
   const base=await cloudUserBase();
-  const keys=["leads","customers","sales","services","amcs","technicians"];
+  const keys=["leads","customers","sales","services","amcs","technicians","inventory","inventoryMovements"];
   const result=emptyDB();
   let count=0;
   for(const key of keys){
@@ -814,7 +849,7 @@ async function syncCloudData(silent=false){
   if(!firestore||!firebaseAuth.currentUser||cloudSyncing)return false;
   cloudSyncing=true;
   try{
-    await firestore.collection("users").doc(firebaseAuth.currentUser.uid).collection("crm").doc("main").set({data:db,updatedAt:firebase.firestore.FieldValue.serverTimestamp(),version:"v22.32"},{merge:true});
+    await firestore.collection("users").doc(firebaseAuth.currentUser.uid).collection("crm").doc("main").set({data:db,updatedAt:firebase.firestore.FieldValue.serverTimestamp(),version:"v22.33"},{merge:true});
     await syncNormalizedCollections();
     if(!silent)toast("☁️ Cloud synced");
     return true;
@@ -845,7 +880,7 @@ function toast(t){const x=document.getElementById("toast");if(!x)return;x.textCo
 function openModal(id){const x=document.getElementById(id);if(x)x.classList.add("show")}
 function closeModal(id){const x=document.getElementById(id);if(x)x.classList.remove("show")}
 
-const pageActions={dashboard:["＋ New Lead","openModal('leadModal')"],leads:["＋ Add Lead","openModal('leadModal')"],customers:["＋ Add Customer","openModal('customerModal')"],sales:["＋ New Sale","openModal('saleModal')"],service:["＋ New Service","openServiceModal()"],amc:["＋ Add AMC","openAMCModal()"],technicians:["＋ Add Technician","openModal('techModal')"],reports:["",""],reminders:["",""],settings:["",""]};
+const pageActions={dashboard:["＋ New Lead","openModal('leadModal')"],leads:["＋ Add Lead","openModal('leadModal')"],customers:["＋ Add Customer","openModal('customerModal')"],sales:["＋ New Sale","openModal('saleModal')"],service:["＋ New Service","openServiceModal()"],inventory:["＋ Add Part","openInventoryModal()"],amc:["＋ Add AMC","openAMCModal()"],technicians:["＋ Add Technician","openModal('techModal')"],reports:["",""],reminders:["",""],settings:["",""]};
 function updateTopAction(pageName){const b=document.getElementById("topActionBtn");if(!b)return;const a=pageActions[pageName]||["",""];if(!a[0]){b.style.display="none";return}b.style.display="inline-block";b.textContent=a[0];b.setAttribute("onclick",a[1]);}
 document.querySelectorAll(".nav button").forEach(b=>b.onclick=()=>{
   document.querySelectorAll(".nav button").forEach(x=>x.classList.remove("active"));b.classList.add("active");
@@ -954,7 +989,7 @@ function openServiceModal(customerId=""){
 function openCustomerService(id){const c=db.customers.find(x=>x.id===Number(id));if(!c)return;openServiceModal(c.id)}
 function saveService(e){e.preventDefault();const cid=Number(svcCustomer.value);const c=db.customers.find(x=>x.id===cid);if(!c){toast("Please select a customer");return}const tid=Number(svcTech.value)||null;const tech=db.technicians.find(x=>x.id===tid);const serviceDate=svcDate.value||today;const parts=servicePartsFromForm();const partsTotal=parts.reduce((sum,x)=>sum+x.amount,0);const serviceCharge=Math.max(0,+svcAmount.value||0);const grandTotal=serviceCharge+partsTotal;const data={customerId:cid,customer:c.name,mobile:c.mobile||"",problem:svcProblem.value||"General Service",tech:tech?.name||"",technicianId:tid,status:svcStatus.value,amount:serviceCharge,charge:serviceCharge,totalAmount:grandTotal,parts,partsTotal,date:serviceDate,follow:svcFollow.value,notes:svcNotes.value.trim()};let savedId=null,sendCompleted=false;
   if(editingServiceId){const s=db.services.find(x=>x.id===editingServiceId);if(s){const wasCompleted=s.status==="Completed";Object.assign(s,data);savedId=s.id;sendCompleted=!wasCompleted&&data.status==="Completed"}}else{savedId=Date.now();db.services.unshift({id:savedId,...data});sendCompleted=data.status==="Completed"}
-  if(data.status==="Completed"){c.nextService=addMonths(serviceDate,3)}
+  if(data.status==="Completed"){c.nextService=addMonths(serviceDate,3); if(!editingServiceId || !db.services.find(x=>x.id===editingServiceId)?.inventoryDeducted){deductServiceParts(parts,savedId); const ss=db.services.find(x=>x.id===savedId); if(ss)ss.inventoryDeducted=true}}
   persist();e.target.reset();closeModal("serviceModal");toast(editingServiceId?(data.status==="Completed"?"Service updated — next service set after 3 months":"Service updated"):"Service saved");editingServiceId=null;
   if(sendCompleted){setTimeout(()=>sendServiceBillAndReviewWhatsApp(savedId),450)}
 }
@@ -1242,6 +1277,15 @@ function renderAMC(){
     return '<tr><td><b>'+esc(x.customer||"-")+'</b><div class="mini">'+esc(x.mobile||"")+'</div></td><td>'+esc(x.start||"-")+'</td><td>'+esc(x.end||"-")+'<div class="mini">'+endInfo+'</div></td><td>'+money(x.amount)+'</td><td><span class="amc-visits">'+(total===0?'Unlimited':used+'/'+total)+'</span> <span class="mini">'+(total===0?'visits': '('+left+' left)')+'</span><br><button class="btn" onclick="openAMCVisit('+x.id+')">＋ Visit</button> <button class="btn" onclick="showAMCHistory('+x.id+')">▣ History</button></td><td>'+esc(x.nextService||"-")+'<div class="mini">'+nextInfo+'</div></td><td>'+statusBadge(label)+'</td><td><button class="btn primary" onclick="openAMCInvoice('+x.id+')">🧾 Invoice</button> <button class="btn" onclick="openAMCRenewal('+x.id+')">🔄 Renew</button> <button class="btn" onclick="editAMC('+x.id+')">✏️ Edit</button> <button class="btn red" onclick="del(\'amcs\','+x.id+')">Delete</button></td></tr>';
   }).join("");
 }
+let editingInventoryId=null, stockMovementPartId=null;
+function openInventoryModal(id=null){editingInventoryId=id;document.getElementById("inventoryModalTitle").textContent=id?"✏️ Edit Spare Part":"📦 Add Spare Part";const p=id?db.inventory.find(x=>x.id===id):null;invName.value=p?.name||"";invSku.value=p?.sku||"";invStock.value=Number(p?.stock||0);invLow.value=Number(p?.lowStock||2);invPurchase.value=Number(p?.purchasePrice||0);invSale.value=Number(p?.salePrice||0);invNotes.value=p?.notes||"";openModal("inventoryModal")}
+function saveInventory(e){e.preventDefault();const name=invName.value.trim();if(!name)return;const data={name,sku:invSku.value.trim(),stock:Math.max(0,Number(invStock.value||0)),lowStock:Math.max(0,Number(invLow.value||0)),purchasePrice:Math.max(0,Number(invPurchase.value||0)),salePrice:Math.max(0,Number(invSale.value||0)),notes:invNotes.value.trim()};if(editingInventoryId){const p=db.inventory.find(x=>x.id===editingInventoryId);if(p)Object.assign(p,data)}else{db.inventory.unshift({id:Date.now(),...data})}persist();closeModal("inventoryModal");toast("Spare part saved")}
+function openStockMovement(id){const p=db.inventory.find(x=>x.id===id);if(!p)return;stockMovementPartId=id;stockPartInfo.innerHTML=`<b>${esc(p.name)}</b><div class="mini">Current stock: ${Number(p.stock||0)} ${Number(p.stock||0)<=Number(p.lowStock||0)?' · ⚠️ Low stock':''}</div>`;stockType.value="in";stockQty.value="1";stockDate.value=today;stockNote.value="";openModal("stockModal")}
+function saveStockMovement(e){e.preventDefault();const p=db.inventory.find(x=>x.id===stockMovementPartId);if(!p)return;const qty=Math.max(1,Number(stockQty.value||0));if(stockType.value==='out'&&Number(p.stock||0)<qty){toast("Not enough stock");return}p.stock=Number(p.stock||0)+(stockType.value==='in'?qty:-qty);db.inventoryMovements.unshift({id:Date.now(),partId:p.id,type:stockType.value,qty,date:stockDate.value||today,note:stockNote.value.trim()});persist();closeModal("stockModal");toast(stockType.value==='in'?"Stock added":"Stock removed")}
+function inventoryLowCount(){return db.inventory.filter(p=>Number(p.stock||0)<=Number(p.lowStock||0)).length}
+function renderInventory(){const box=document.getElementById("inventoryTable");if(!box)return;const q=(document.getElementById("inventorySearch")?.value||"").toLowerCase();const arr=db.inventory.filter(p=>(String(p.name||"")+String(p.sku||"")).toLowerCase().includes(q));const totalValue=db.inventory.reduce((a,p)=>a+Number(p.stock||0)*Number(p.purchasePrice||0),0);document.getElementById("inventorySummary").innerHTML=`<div class="card"><div class="label">Parts</div><div class="metric">${db.inventory.length}</div></div><div class="card"><div class="label">Units in Stock</div><div class="metric">${db.inventory.reduce((a,p)=>a+Number(p.stock||0),0)}</div></div><div class="card"><div class="label">Low Stock</div><div class="metric">${inventoryLowCount()}</div></div><div class="card"><div class="label">Stock Value</div><div class="metric">${money(totalValue)}</div></div>`;box.innerHTML=arr.length?arr.map(p=>{const low=Number(p.stock||0)<=Number(p.lowStock||0);return `<tr><td><b>${esc(p.name)}</b><div class="mini">${esc(p.sku||"")}</div></td><td><span class="badge ${low?'red':'green'}">${Number(p.stock||0)}</span></td><td>${Number(p.lowStock||0)}</td><td>${money(p.purchasePrice||0)}</td><td>${money(p.salePrice||0)}</td><td>${money(Number(p.stock||0)*Number(p.purchasePrice||0))}</td><td><button class="btn primary" onclick="openStockMovement(${p.id})">＋/− Stock</button> <button class="btn" onclick="openInventoryModal(${p.id})">✏️ Edit</button> <button class="btn red" onclick="deleteInventory(${p.id})">🗑️</button></td></tr>`}).join(""):`<tr><td colspan="7" class="empty">No spare parts found.</td></tr>`}
+function deleteInventory(id){if(!confirm("Delete this spare part?"))return;db.inventory=db.inventory.filter(x=>x.id!==id);db.inventoryMovements=db.inventoryMovements.filter(x=>x.partId!==id);persist();toast("Spare part deleted")}
+function deductServiceParts(parts,serviceId){if(!Array.isArray(parts)||!parts.length)return;const warnings=[];parts.forEach(part=>{const name=String(part.name||"").trim().toLowerCase();const p=db.inventory.find(x=>String(x.name||"").trim().toLowerCase()===name);const qty=Math.max(1,Number(part.qty||1));if(!p)return;if(Number(p.stock||0)<qty){warnings.push(`${p.name}: stock ${p.stock||0}, used ${qty}`);return}p.stock=Number(p.stock||0)-qty;db.inventoryMovements.unshift({id:Date.now()+Math.random(),partId:p.id,type:"service",qty,date:today,note:`Used in service #${serviceId}`})});if(warnings.length)toast("Some parts had insufficient stock: "+warnings.join("; "))}
 function renderTech(){techTable.innerHTML=db.technicians.map(x=>`<tr><td>${esc(x.name)}</td><td>${esc(x.mobile)} <button class="btn" onclick="callNo('${String(x.mobile||"").replace(/'/g,"\\'")}')">📞</button></td><td>${esc(x.area)}</td><td>${statusBadge(x.status)}</td><td>${db.services.filter(s=>(s.technicianId===x.id||s.tech===x.name)&&!["Completed","Cancelled"].includes(s.status)).length}</td><td><button class="btn red" onclick="del('technicians',${x.id})">Delete</button></td></tr>`).join("")||`<tr><td colspan="6" class="empty">No technicians</td></tr>`}
 function renderReports(){const total=db.leads.length,won=db.leads.filter(x=>x.status==="Won").length;rConversion.textContent=(total?Math.round(won/total*100):0)+"%";rCollected.textContent=money(db.sales.reduce((a,x)=>a+Number(x.paid||0),0));rService.textContent=money(db.services.filter(x=>x.status==="Completed").reduce((a,x)=>a+Number(x.amount??x.charge??0),0));rAMC.textContent=money(db.amcs.reduce((a,x)=>a+Number(x.amount||0),0));reportSummary.innerHTML=`<p><b>Leads:</b> ${total}</p><p><b>Won:</b> ${won}</p><p><b>Customers:</b> ${db.customers.length}</p><p><b>Total Sales:</b> ${money(db.sales.reduce((a,x)=>a+Number(x.total||0),0))}</p><p><b>Pending:</b> ${money(db.sales.reduce((a,x)=>a+Number(x.pending||0),0))}</p><p><b>Services:</b> ${db.services.length}</p><p><b>AMC:</b> ${db.amcs.length}</p><p><b>Referral Customers:</b> ${db.customers.filter(x=>String(x.source||"").toLowerCase()==="referral").length}</p>`}
 
@@ -1375,7 +1419,7 @@ async function shareInvoiceWhatsApp(){
   toast(num ? "PDF Save karein. Print window band karte hi customer ka WhatsApp khulega." : "PDF Save karein. Print window band karte hi WhatsApp khulega.");
 }
 
-function renderAll(){renderDashboard();renderTodaysWork();renderLeads();renderCustomers();renderSales();renderServices();renderAMC();renderTech();renderReports();renderReminders()}
+function renderAll(){renderDashboard();renderTodaysWork();renderLeads();renderCustomers();renderSales();renderServices();renderAMC();renderTech();renderInventory();renderReports();renderReminders()}
 async function deleteSale(id){
   const s=db.sales.find(x=>x.id===id);
   if(!s)return;
@@ -1470,7 +1514,7 @@ async function safeStartFresh(){
     if(!confirm("A backup file has been started for download.\n\nIf you have any REAL customer/business data in this CRM, press Cancel and keep the backup.\n\nIf the data is only FAKE/TEST data, press OK to permanently delete it from Firebase and this browser.")) return;
     if(firestore && firebaseAuth?.currentUser){
       const base=await cloudUserBase();
-      const keys=["leads","customers","sales","services","amcs","technicians"];
+      const keys=["leads","customers","sales","services","amcs","technicians","inventory","inventoryMovements"];
 
       // Delete documents one-by-one instead of Firestore batch.commit().
       // Firebase Diagnostic confirmed direct DELETE permission, so this avoids

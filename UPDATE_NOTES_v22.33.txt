@@ -1,0 +1,15 @@
+Purixa CRM v22.33
+
+NEW: Spare Parts & Inventory module
+- Add/edit spare parts
+- Current stock and low-stock alert level
+- Purchase and sale price
+- Stock In / Stock Out with date and note
+- Inventory value summary
+- Low-stock badges
+- Search parts
+- Delete parts and movement history
+- Completed service can automatically deduct matching inventory parts by name/quantity
+- Inventory and movement data included in local backup/cloud sync database structure
+
+Previous v22.32 features are preserved.
