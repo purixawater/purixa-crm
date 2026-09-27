@@ -1,5 +1,4 @@
-Purixa CRM v22.35 COMPLETE BACKUP
+Purixa CRM v22.35 Complete Backup
 
-This is the complete web/PWA project backup.
-Keep older version backups (v22.34 and earlier) unchanged.
-Firebase configuration is embedded in index.html; live Firestore business data remains in Firebase Cloud and should also be exported separately for data backup.
+Use this version after verifying GitHub Pages. Keep v22.34 and older backups.
+Firebase customer data is stored in the Firebase project and is not embedded as Firestore data in this ZIP.

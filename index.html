@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#0b6efd">
-<title>Purixa CRM Cloud — v22.34 PWA</title>
+<title>Purixa CRM Cloud — v22.35 PWA</title>
 <style>
 *{box-sizing:border-box}
 :root{--blue:#0b6efd;--dark:#17324d;--bg:#f4f7fb;--card:#fff;--muted:#6b7c93;--line:#e4eaf1;--green:#16a34a;--red:#dc2626;--orange:#f59e0b}
@@ -105,6 +105,7 @@ th{background:#f8fafc;color:#53677d}
 @media print{.invoice .sig-img{width:150px;height:54px}.invoice .pws-head{grid-template-columns:105px minmax(0,1fr) 155px}.invoice .pws-logo img{width:94px;height:82px}.invoice .bill-table th:nth-child(1){width:8%}.invoice .bill-table th:nth-child(2){width:54%}.invoice .bill-table th:nth-child(3){width:9%}.invoice .bill-table th:nth-child(4){width:14.5%}.invoice .bill-table th:nth-child(5){width:14.5%}}
 </style>
 <style>
+/* v22.35: advanced reports, date range, service parts cost and estimated profit */
 /* v22.23: all-customer 3-month service reminders + history improvements */
 /* v22.31: automatic customer master linking for Sale, Service and AMC.
    New customers created from any transaction are saved in Customers and linked by customerId;
@@ -177,7 +178,7 @@ th{background:#f8fafc;color:#53677d}
 <div id="authOverlay">
   <div class="auth-box">
     <img class="auth-logo" src="purixa-logo.png" alt="Purixa Water Solution">
-    <h2>☁️ Purixa CRM Cloud v22.34</h2>
+    <h2>☁️ Purixa CRM Cloud v22.35</h2>
     <p class="mini" id="authModeText">Cloud login is enabled after Firebase setup.</p>
     <div id="firebaseSetupBox">
       <label class="mini">Firebase Config JSON</label>
@@ -370,11 +371,23 @@ th{background:#f8fafc;color:#53677d}
   </section>
 
   <section id="reports" class="page">
+    <div class="panel">
+      <div class="toolbar">
+        <label class="mini">From <input id="reportFrom" type="date" onchange="renderReports()"></label>
+        <label class="mini">To <input id="reportTo" type="date" onchange="renderReports()"></label>
+        <button class="btn" onclick="clearReportDates()">All Time</button>
+        <button class="btn primary" onclick="window.print()">🖨️ Print Report</button>
+      </div>
+      <div class="mini">Revenue includes completed services (service charge + parts billed) and AMC/sales revenue. Profit subtracts recorded expenses and spare-parts purchase cost used in completed services.</div>
+    </div>
     <div class="cards">
       <div class="card"><div class="label">Conversion Rate</div><div class="metric" id="rConversion">0%</div></div>
       <div class="card"><div class="label">Collected</div><div class="metric" id="rCollected">₹0</div></div>
       <div class="card"><div class="label">Service Revenue</div><div class="metric" id="rService">₹0</div></div>
-      <div class="card"><div class="label">AMC Revenue</div><div class="metric" id="rAMC">₹0</div></div><div class="card"><div class="label">Expenses</div><div class="metric" id="rExpenses">₹0</div></div><div class="card"><div class="label">Estimated Profit</div><div class="metric" id="rProfit">₹0</div></div>
+      <div class="card"><div class="label">AMC Revenue</div><div class="metric" id="rAMC">₹0</div></div>
+      <div class="card"><div class="label">Expenses</div><div class="metric" id="rExpenses">₹0</div></div>
+      <div class="card"><div class="label">Parts Cost</div><div class="metric" id="rPartsCost">₹0</div></div>
+      <div class="card"><div class="label">Estimated Profit</div><div class="metric" id="rProfit">₹0</div></div>
     </div>
     <div class="panel"><h3>Business Summary</h3><div id="reportSummary"></div></div>
   </section>
@@ -873,7 +886,7 @@ async function syncCloudData(silent=false){
   if(!firestore||!firebaseAuth.currentUser||cloudSyncing)return false;
   cloudSyncing=true;
   try{
-    await firestore.collection("users").doc(firebaseAuth.currentUser.uid).collection("crm").doc("main").set({data:db,updatedAt:firebase.firestore.FieldValue.serverTimestamp(),version:"v22.34"},{merge:true});
+    await firestore.collection("users").doc(firebaseAuth.currentUser.uid).collection("crm").doc("main").set({data:db,updatedAt:firebase.firestore.FieldValue.serverTimestamp(),version:"v22.35"},{merge:true});
     await syncNormalizedCollections();
     if(!silent)toast("☁️ Cloud synced");
     return true;
@@ -1318,7 +1331,10 @@ function deleteExpense(id){if(!confirm("Delete this expense?"))return;db.expense
 function expenseStats(filter=""){const expenses=db.expenses.filter(x=>!filter||String(x.date||"").startsWith(filter));const expenseTotal=expenses.reduce((a,x)=>a+Number(x.amount||0),0);const sales=db.sales.filter(x=>!filter||String(x.date||"").startsWith(filter));const services=db.services.filter(x=>(!filter||String(x.date||"").startsWith(filter))&&x.status==="Completed");const amcs=db.amcs.filter(x=>!filter||String(x.start||"").startsWith(filter));const revenue=sales.reduce((a,x)=>a+Number(x.total||0),0)+services.reduce((a,x)=>a+Number(x.amount??x.charge??0),0)+amcs.reduce((a,x)=>a+Number(x.amount||0),0);return {expenses,expenseTotal,revenue,profit:revenue-expenseTotal}}
 function renderExpenses(){const filter=document.getElementById("expenseMonthFilter")?.value||"",q=(document.getElementById("expenseSearch")?.value||"").toLowerCase();const st=expenseStats(filter);const shown=st.expenses.filter(x=>(String(x.category||"")+String(x.description||"")+String(x.notes||"")).toLowerCase().includes(q));expenseSummary.innerHTML=`<div class="card"><div class="label">Revenue</div><div class="metric">${money(st.revenue)}</div></div><div class="card"><div class="label">Expenses</div><div class="metric">${money(st.expenseTotal)}</div></div><div class="card"><div class="label">Estimated Profit</div><div class="metric">${money(st.profit)}</div></div><div class="card"><div class="label">Expense Entries</div><div class="metric">${st.expenses.length}</div></div>`;expenseTable.innerHTML=shown.length?shown.map(x=>`<tr><td>${esc(x.date||"-")}</td><td>${esc(x.category||"Other")}</td><td><b>${esc(x.description||"")}</b><div class="mini">${esc(x.notes||"")}</div></td><td>${money(x.amount||0)}</td><td>${esc(x.mode||"-")}</td><td><button class="btn" onclick="openExpenseModal(${x.id})">✏️ Edit</button> <button class="btn red" onclick="deleteExpense(${x.id})">🗑️</button></td></tr>`).join(""): `<tr><td colspan="6" class="empty">No expenses found.</td></tr>`}
 
-function renderReports(){const total=db.leads.length,won=db.leads.filter(x=>x.status==="Won").length;const revenue=db.sales.reduce((a,x)=>a+Number(x.total||0),0)+db.services.filter(x=>x.status==="Completed").reduce((a,x)=>a+Number(x.amount??x.charge??0),0)+db.amcs.reduce((a,x)=>a+Number(x.amount||0),0);const expenses=db.expenses.reduce((a,x)=>a+Number(x.amount||0),0);rConversion.textContent=(total?Math.round(won/total*100):0)+"%";rCollected.textContent=money(db.sales.reduce((a,x)=>a+Number(x.paid||0),0));rService.textContent=money(db.services.filter(x=>x.status==="Completed").reduce((a,x)=>a+Number(x.amount??x.charge??0),0));rAMC.textContent=money(db.amcs.reduce((a,x)=>a+Number(x.amount||0),0));rExpenses.textContent=money(expenses);rProfit.textContent=money(revenue-expenses);reportSummary.innerHTML=`<p><b>Leads:</b> ${total}</p><p><b>Won:</b> ${won}</p><p><b>Customers:</b> ${db.customers.length}</p><p><b>Total Revenue:</b> ${money(revenue)}</p><p><b>Total Sales:</b> ${money(db.sales.reduce((a,x)=>a+Number(x.total||0),0))}</p><p><b>Collected:</b> ${money(db.sales.reduce((a,x)=>a+Number(x.paid||0),0))}</p><p><b>Pending:</b> ${money(db.sales.reduce((a,x)=>a+Number(x.pending||0),0))}</p><p><b>Expenses:</b> ${money(expenses)}</p><p><b>Estimated Profit:</b> ${money(revenue-expenses)}</p><p><b>Services:</b> ${db.services.length}</p><p><b>AMC:</b> ${db.amcs.length}</p><p><b>Referral Customers:</b> ${db.customers.filter(x=>String(x.source||"").toLowerCase()==="referral").length}</p>`}
+function reportInRange(date,from,to){const d=String(date||"");return (!from||d>=from)&&(!to||d<=to)}
+function servicePartsCost(s){if(!s||!Array.isArray(s.parts))return 0;return s.parts.reduce((sum,p)=>{const inv=db.inventory.find(i=>String(i.name||"").trim().toLowerCase()===String(p.name||"").trim().toLowerCase());const unit=Number(p.purchasePrice??p.cost??inv?.purchasePrice??0);return sum+unit*Math.max(0,Number(p.qty||1))},0)}
+function clearReportDates(){if(document.getElementById("reportFrom"))document.getElementById("reportFrom").value="";if(document.getElementById("reportTo"))document.getElementById("reportTo").value="";renderReports()}
+function renderReports(){const from=document.getElementById("reportFrom")?.value||"",to=document.getElementById("reportTo")?.value||"";const total=db.leads.filter(x=>reportInRange(x.date||x.createdAt,from,to)).length,won=db.leads.filter(x=>x.status==="Won"&&reportInRange(x.date||x.createdAt,from,to)).length;const sales=db.sales.filter(x=>reportInRange(x.date,from,to));const services=db.services.filter(x=>x.status==="Completed"&&reportInRange(x.date,from,to));const amcs=db.amcs.filter(x=>reportInRange(x.start||x.date,from,to));const expensesRows=db.expenses.filter(x=>reportInRange(x.date,from,to));const salesRevenue=sales.reduce((a,x)=>a+Number(x.total||0),0);const serviceRevenue=services.reduce((a,x)=>a+Number(x.totalAmount??(Number(x.amount??x.charge??0)+Number(x.partsTotal||0))),0);const amcRevenue=amcs.reduce((a,x)=>a+Number(x.amount||0),0);const revenue=salesRevenue+serviceRevenue+amcRevenue;const expenseTotal=expensesRows.reduce((a,x)=>a+Number(x.amount||0),0);const partsCost=services.reduce((a,x)=>a+servicePartsCost(x),0);const profit=revenue-expenseTotal-partsCost;const collected=sales.reduce((a,x)=>a+Number(x.paid||0),0)+services.reduce((a,x)=>a+Number(x.paid||0),0)+amcs.reduce((a,x)=>a+Number(x.paid??x.amount??0),0);const pending=sales.reduce((a,x)=>a+Number(x.pending||Math.max(0,Number(x.total||0)-Number(x.paid||0))),0);rConversion.textContent=(total?Math.round(won/total*100):0)+"%";rCollected.textContent=money(collected);rService.textContent=money(serviceRevenue);rAMC.textContent=money(amcRevenue);rExpenses.textContent=money(expenseTotal);rPartsCost.textContent=money(partsCost);rProfit.textContent=money(profit);reportSummary.innerHTML=`<p><b>Period:</b> ${from||"Start"} → ${to||"Today/All"}</p><p><b>Leads:</b> ${total}</p><p><b>Won:</b> ${won}</p><p><b>Customers:</b> ${db.customers.length}</p><p><b>Total Revenue:</b> ${money(revenue)}</p><p><b>Sales Revenue:</b> ${money(salesRevenue)}</p><p><b>Service Revenue:</b> ${money(serviceRevenue)}</p><p><b>AMC Revenue:</b> ${money(amcRevenue)}</p><p><b>Collected:</b> ${money(collected)}</p><p><b>Pending Sales:</b> ${money(pending)}</p><p><b>Operating Expenses:</b> ${money(expenseTotal)}</p><p><b>Service Spare Parts Cost:</b> ${money(partsCost)}</p><p><b>Estimated Profit:</b> ${money(profit)}</p><p><b>Completed Services:</b> ${services.length}</p><p><b>AMC Records:</b> ${amcs.length}</p><p><b>Referral Customers:</b> ${db.customers.filter(x=>String(x.source||"").toLowerCase()==="referral").length}</p>`}
 
 function viewInvoice(saleId){const s=db.sales.find(x=>x.id===saleId);if(!s){toast("Sale not found");return}const c=db.customers.find(x=>x.id===s.customerId)||{};currentInvoiceMobile=c.mobile||s.mobile||"";openInvoice(saleId)}
 function numberWords(n){

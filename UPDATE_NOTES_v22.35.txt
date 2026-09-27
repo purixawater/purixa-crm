@@ -1,7 +1,10 @@
 Purixa CRM v22.35
 
-- Advanced business reports with date-range filters.
-- Report includes Sales, Service, AMC revenue, collections, pending, expenses and spare-parts cost.
-- Estimated profit = total revenue - operating expenses - spare-parts purchase cost used in completed services.
-- Added printable business report.
-- Existing v22.34 features preserved.
+- Advanced business reports
+- From/To date filtering
+- Sales, Service and AMC revenue breakdown
+- Operating expenses
+- Service spare-parts purchase cost
+- Estimated profit = revenue - expenses - service spare-parts cost
+- Printable report
+- Existing Firebase/customer/service/AMC/inventory features preserved
