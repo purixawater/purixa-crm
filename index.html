@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#0b6efd">
-<title>Purixa CRM Cloud — v22.39 Modern PWA</title>
+<title>Purixa CRM Cloud — v22.39 Modern UI</title>
 <style>
 *{box-sizing:border-box}
 :root{--blue:#0b6efd;--dark:#17324d;--bg:#f4f7fb;--card:#fff;--muted:#6b7c93;--line:#e4eaf1;--green:#16a34a;--red:#dc2626;--orange:#f59e0b}
@@ -61,6 +61,118 @@ th{background:#f8fafc;color:#53677d}
 .nav button[data-page="inventory"]:before{content:"📦"}.nav button[data-page="expenses"]:before{content:"💸"}.nav button[data-page="expenses"]:before{content:"💸"}
 @media(max-width:900px){.reminder-summary{grid-template-columns:1fr 1fr}}
 @media(max-width:520px){.reminder-summary{grid-template-columns:1fr}}
+
+/* ================= PURIXA MODERN UI v22.39 ================= */
+:root{
+ --blue:#2563eb;--blue2:#0ea5e9;--navy:#0b1830;--ink:#172033;
+ --bg:#f5f7fb;--card:#ffffff;--muted:#64748b;--line:#e7ebf2;
+ --green:#16a34a;--red:#dc2626;--orange:#f59e0b;--purple:#7c3aed;
+ --shadow:0 8px 28px rgba(15,23,42,.07);--shadow2:0 16px 45px rgba(15,23,42,.10);
+}
+html{scroll-behavior:smooth}
+body{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;background:var(--bg);color:var(--ink);letter-spacing:-.01em}
+.sidebar{
+ width:258px!important;background:linear-gradient(180deg,#071a35 0%,#0b294b 52%,#0a3153 100%)!important;
+ padding:18px 13px!important;box-shadow:10px 0 35px rgba(2,15,35,.12)!important
+}
+.brand{padding:4px 8px 22px!important}
+.brand-logo{width:205px!important;height:68px!important;border-radius:14px!important;box-shadow:0 6px 20px rgba(0,0,0,.16);background:#fff}
+.brand span{display:block;font-size:13px;letter-spacing:.12em;color:#dbeafe;margin-top:11px;font-weight:800}
+.brand small{display:block;color:#93c5fd!important;font-size:11px!important;margin-top:3px}
+.nav{gap:5px!important}
+.nav button.nav-item{
+ position:relative;display:flex;align-items:center;gap:12px;width:100%;
+ min-height:46px;padding:10px 12px!important;border-radius:12px!important;
+ color:#cbd5e1!important;background:transparent!important;
+ font-weight:650!important;border:1px solid transparent!important;
+ transition:all .18s ease!important;text-align:left!important
+}
+.nav button.nav-item:hover{background:rgba(255,255,255,.075)!important;color:#fff!important;transform:translateX(2px)}
+.nav button.nav-item.active{
+ background:linear-gradient(90deg,rgba(37,99,235,.95),rgba(14,165,233,.72))!important;
+ color:#fff!important;box-shadow:0 8px 22px rgba(14,116,219,.22)!important;
+ border-color:rgba(255,255,255,.08)!important
+}
+.nav-icon{
+ width:30px;height:30px;display:grid;place-items:center;border-radius:9px;
+ background:rgba(255,255,255,.07);font-size:16px;font-weight:800;flex:0 0 30px;
+ color:#bfdbfe
+}
+.nav button.active .nav-icon{background:rgba(255,255,255,.18);color:#fff}
+.nav-label{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.main{background:var(--bg)!important}
+.top{
+ position:sticky!important;top:0;z-index:10;padding:17px 24px!important;
+ background:rgba(245,247,251,.88)!important;backdrop-filter:blur(14px);
+ border-bottom:1px solid rgba(226,232,240,.75)!important;
+ box-shadow:0 4px 18px rgba(15,23,42,.035)
+}
+.top h1{font-size:27px!important;letter-spacing:-.035em!important;margin:0!important;color:#0f172a}
+.top-subtitle{margin:4px 0 0!important;color:#64748b!important;font-size:13px!important}
+.top-dot{color:#22c55e;font-weight:900}
+.cloud-status{border:1px solid #dbe5f1!important;background:#fff!important;border-radius:999px!important;padding:7px 11px!important;box-shadow:0 3px 10px rgba(15,23,42,.04)}
+.btn{border-radius:10px!important;border:1px solid #dbe3ed!important;background:#fff!important;box-shadow:0 3px 10px rgba(15,23,42,.04);transition:.16s ease!important}
+.btn:hover{transform:translateY(-1px);box-shadow:0 8px 18px rgba(15,23,42,.09)!important}
+.btn.primary{background:linear-gradient(135deg,#2563eb,#0ea5e9)!important;border-color:transparent!important;box-shadow:0 7px 17px rgba(37,99,235,.18)!important}
+.cards{gap:14px!important}
+.card{
+ position:relative;overflow:hidden;border:1px solid var(--line)!important;border-radius:17px!important;
+ background:linear-gradient(145deg,#fff 0%,#fbfdff 100%)!important;
+ box-shadow:var(--shadow)!important;padding:18px!important;
+ transition:transform .18s ease,box-shadow .18s ease!important
+}
+.card:hover{transform:translateY(-3px);box-shadow:var(--shadow2)!important}
+.card:after{content:"";position:absolute;right:-25px;top:-25px;width:78px;height:78px;border-radius:50%;background:rgba(37,99,235,.06)}
+.card .label{font-size:12px!important;font-weight:700!important;text-transform:uppercase;letter-spacing:.06em;color:#64748b!important}
+.card .metric{font-size:28px!important;line-height:1.15!important;margin-top:8px;font-weight:850!important;color:#0f172a!important}
+.panel{
+ border:1px solid var(--line)!important;border-radius:17px!important;background:#fff!important;
+ box-shadow:var(--shadow)!important;padding:18px!important
+}
+.panel h3{font-size:16px!important;color:#162033!important;letter-spacing:-.015em}
+.toolbar{gap:9px!important}
+input,select,textarea{
+ border:1px solid #d9e1eb!important;border-radius:10px!important;background:#fff!important;
+ transition:border-color .15s,box-shadow .15s
+}
+input:focus,select:focus,textarea:focus{
+ outline:none!important;border-color:#60a5fa!important;box-shadow:0 0 0 3px rgba(59,130,246,.12)!important
+}
+table{border-collapse:separate!important;border-spacing:0 7px!important}
+th{font-size:11px!important;text-transform:uppercase;letter-spacing:.05em;color:#64748b!important}
+td{background:#fff!important;border-top:1px solid #edf1f5!important;border-bottom:1px solid #edf1f5!important}
+td:first-child{border-left:1px solid #edf1f5!important;border-radius:10px 0 0 10px}
+td:last-child{border-right:1px solid #edf1f5!important;border-radius:0 10px 10px 0}
+.mobile-menu-btn{border-radius:10px!important;background:#fff!important;border:1px solid #e2e8f0!important;box-shadow:0 3px 10px rgba(15,23,42,.06)!important}
+.page{animation:pageIn .22s ease both}
+@keyframes pageIn{from{opacity:.25;transform:translateY(5px)}to{opacity:1;transform:none}}
+/* Dashboard hierarchy */
+#dashboard>.cards:first-child .card:nth-child(1){border-top:3px solid #2563eb!important}
+#dashboard>.cards:first-child .card:nth-child(2){border-top:3px solid #06b6d4!important}
+#dashboard>.cards:first-child .card:nth-child(3){border-top:3px solid #16a34a!important}
+#dashboard>.cards:first-child .card:nth-child(4){border-top:3px solid #f59e0b!important}
+#dashboard>.cards:first-child .card:nth-child(5){border-top:3px solid #7c3aed!important}
+#dashboard>.cards:first-child .card:nth-child(6){border-top:3px solid #ef4444!important}
+/* cleaner lifecycle */
+#dashboard .panel[style*="eef6ff"]{background:linear-gradient(135deg,#eff6ff,#f8fbff)!important;border-color:#dbeafe!important}
+#dashboard .panel[style*="fffdf5"]{background:linear-gradient(135deg,#fffbeb,#fff)!important;border-color:#f5e7b0!important}
+@media(max-width:900px){
+ .sidebar{width:238px!important}
+ .top{padding:13px 14px!important}
+ .top h1{font-size:22px!important}
+ .top>div:last-child .btn{font-size:12px!important;padding:9px 10px!important}
+ .cards{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+ .card .metric{font-size:23px!important}
+}
+@media(max-width:600px){
+ .cards{grid-template-columns:1fr 1fr!important;gap:10px!important}
+ .card{padding:14px!important;border-radius:14px!important}
+ .panel{padding:14px!important;border-radius:14px!important}
+ .top-subtitle{font-size:11px!important}
+ .cloud-status{display:none!important}
+ #topActionBtn{font-size:11px!important}
+}
+
 </style>
 
 <style>
@@ -267,114 +379,6 @@ table{border:1px solid #e1e8f0;border-radius:13px;overflow:hidden}thead th{backg
   .mobile-drawer .nav button{font-size:13px!important;min-height:45px!important;padding:10px 12px!important;display:flex!important;gap:11px!important}.mobile-drawer .nav button.active{background:linear-gradient(135deg,#1a70ea,#0e55bd)!important}
 }
 @media(min-width:701px){.mobile-drawer .menu-icon{display:inline-flex}}
-
-/* ===== PURIXA MODERN UI v22.39 ===== */
-:root{
-  --blue:#2563eb;--blue2:#1d4ed8;--navy:#0f172a;--navy2:#172554;
-  --bg:#f6f8fc;--card:#ffffff;--muted:#64748b;--line:#e5eaf2;
-  --green:#16a34a;--red:#dc2626;--orange:#f59e0b;--purple:#7c3aed;
-  --shadow:0 8px 28px rgba(15,23,42,.07);
-}
-*{scrollbar-width:thin;scrollbar-color:#cbd5e1 transparent}
-body{
-  font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
-  background:linear-gradient(180deg,#f8fafc 0%,#f3f6fb 100%);
-  color:#172033;letter-spacing:-.01em;
-}
-.sidebar{
-  width:258px;background:linear-gradient(180deg,#0b1730 0%,#102a56 58%,#123a6b 100%);
-  padding:18px 13px;box-shadow:10px 0 35px rgba(15,23,42,.12);
-}
-.brand{padding:5px 10px 18px}
-.brand-logo{
-  width:100%;height:68px;object-position:center;background:rgba(255,255,255,.96);
-  border-radius:14px;padding:7px;box-shadow:0 8px 24px rgba(0,0,0,.14);
-}
-.brand small{color:#b9c9df;margin:8px 3px 0}
-.nav{display:flex;flex-direction:column;gap:4px}
-.nav button{
-  position:relative;display:flex;align-items:center;gap:11px;
-  padding:11px 13px;border-radius:11px;color:#cbd7e8;font-size:14px;
-  transition:.18s ease;background:transparent;
-}
-.nav button::first-letter{font-size:17px}
-.nav button:hover{background:rgba(255,255,255,.09);color:#fff;transform:translateX(2px)}
-.nav button.active{
-  background:linear-gradient(90deg,rgba(59,130,246,.95),rgba(37,99,235,.65));
-  color:#fff;box-shadow:0 7px 18px rgba(37,99,235,.25);
-}
-.nav button.active::after{
-  content:"";position:absolute;right:7px;width:4px;height:22px;border-radius:4px;background:#fff;
-}
-.main{margin-left:258px;width:calc(100% - 258px);padding:24px 26px 40px}
-.top{
-  position:sticky;top:0;z-index:10;margin:-24px -26px 22px;padding:17px 26px;
-  background:rgba(248,250,252,.88);backdrop-filter:blur(14px);
-  border-bottom:1px solid rgba(226,232,240,.8);
-}
-.top h1{font-size:27px;letter-spacing:-.03em;color:#0f172a}
-.top p{font-size:12px;color:#718096}
-.cloud-status{
-  background:#fff;border:1px solid var(--line);padding:8px 11px;border-radius:10px;
-  box-shadow:0 2px 8px rgba(15,23,42,.04);font-size:12px;font-weight:700;
-}
-.btn{
-  border-radius:10px;padding:10px 14px;font-weight:700;border:1px solid transparent;
-  box-shadow:none;transition:.18s ease;
-}
-.btn:hover{transform:translateY(-1px);box-shadow:0 7px 16px rgba(15,23,42,.08)}
-.btn.primary{background:linear-gradient(135deg,#2563eb,#1d4ed8)}
-.cards{grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:15px}
-.card{
-  position:relative;overflow:hidden;border:1px solid #e7ebf2;border-radius:16px;
-  padding:18px;background:rgba(255,255,255,.94);box-shadow:var(--shadow);
-  transition:.18s ease;
-}
-.card:hover{transform:translateY(-2px);box-shadow:0 13px 34px rgba(15,23,42,.10)}
-.card::after{
-  content:"";position:absolute;right:-26px;bottom:-35px;width:92px;height:92px;
-  border-radius:50%;background:rgba(37,99,235,.055);
-}
-.card .label{font-weight:600;color:#64748b;font-size:12px;text-transform:uppercase;letter-spacing:.04em}
-.metric{font-size:29px;line-height:1.15;margin-top:9px;color:#0f172a}
-.panel{
-  border:1px solid #e6ebf2;border-radius:16px;padding:18px;background:#fff;
-  box-shadow:0 6px 24px rgba(15,23,42,.055);
-}
-.panel h3{color:#172033;font-size:16px}
-table{border-collapse:separate!important;border-spacing:0}
-th{
-  background:#f8fafc!important;color:#64748b!important;font-size:11px!important;
-  text-transform:uppercase;letter-spacing:.045em;padding:11px!important;
-}
-td{border-bottom:1px solid #eef2f7!important;padding:11px!important}
-tr:hover td{background:#f8fbff}
-input,select,textarea{
-  border:1px solid #dbe3ee!important;border-radius:10px!important;
-  background:#fff!important;min-height:40px;
-}
-input:focus,select:focus,textarea:focus{
-  outline:none!important;border-color:#60a5fa!important;
-  box-shadow:0 0 0 3px rgba(37,99,235,.10)!important;
-}
-.modal,.dialog{border-radius:18px!important;box-shadow:0 24px 70px rgba(15,23,42,.22)!important}
-.badge,.pill{border-radius:999px!important}
-.toolbar{gap:8px}
-.reminder-summary{gap:12px}
-.mobile-menu-btn{border-radius:10px!important}
-@media(max-width:900px){
-  .sidebar{width:235px}
-  .main{margin-left:0;width:100%;padding:18px 15px 30px}
-  .top{margin:-18px -15px 18px;padding:13px 15px}
-  .top h1{font-size:21px}
-}
-@media(max-width:640px){
-  .cards{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-  .card{padding:14px;border-radius:13px}.metric{font-size:23px}
-  .panel{padding:13px;border-radius:13px}
-  .top .cloud-status{display:none}
-}
-
 </style>
 </head>
 <body>
@@ -448,7 +452,7 @@ input:focus,select:focus,textarea:focus{
 
 <main class="main">
   <div class="top">
-    <div style="display:flex;align-items:center;gap:8px"><button class="mobile-menu-btn" onclick="openMobileMenu()" aria-label="Open menu">☰</button><div><h1 id="pageTitle">Dashboard</h1><p>Purixa Water Solution — Business Management</p></div></div>
+    <div style="display:flex;align-items:center;gap:8px"><button class="mobile-menu-btn" onclick="openMobileMenu()" aria-label="Open menu">☰</button><div><h1 id="pageTitle">Dashboard</h1><p class="top-subtitle">Business command center <span class="top-dot">•</span> Rajkot</p></div></div>
     <div style="display:flex;align-items:center;gap:8px"><span id="cloudStatus" class="cloud-status">💾 Local</span><button id="topActionBtn" class="btn primary" onclick="openModal('leadModal')">＋ New Lead</button></div>
   </div>
 
@@ -1233,26 +1237,6 @@ function quotationPrint(id){
 
 </head><body><h1>Purixa Water Solution</h1><div class="muted">Quotation No: ${esc(q.number)} · Date: ${esc(q.date)} · Valid Until: ${esc(q.validUntil)}</div><hr><h3>Customer</h3><div>${esc(q.customer)}<br>${esc(q.mobile||"")}<br>${esc(q.address||"")}</div><table><thead><tr><th>Product</th><th>Qty</th><th>Price</th><th>Total</th></tr></thead><tbody><tr><td>${esc(q.product)}</td><td>${q.qty}</td><td>₹${Number(q.price||0).toLocaleString("en-IN")}</td><td>₹${Number(q.total||0).toLocaleString("en-IN")}</td></tr></tbody></table><div class="total">Grand Total: ₹${Number(q.total||0).toLocaleString("en-IN")}</div><div class="terms"><b>Notes</b>\n${esc(q.notes||"Quotation is subject to availability and final confirmation.")}</div><br><br><div>Authorised Signature</div><script>window.onload=()=>window.print()<\/script>
 
-
-<script>
-document.addEventListener('DOMContentLoaded', function(){
-  const icons = {
-    dashboard:'▦', leads:'♧', customers:'♙', quotations:'▤',
-    sales:'₹', service:'⌁', inventory:'▥', expenses:'◈',
-    amc:'↻', technicians:'⚒', reports:'▥', reminders:'◷', settings:'⚙'
-  };
-  document.querySelectorAll('.nav button[data-page]').forEach(function(b){
-    const key=b.getAttribute('data-page');
-    if(!b.dataset.modernized){
-      b.dataset.modernized='1';
-      const label=b.textContent.replace(/^[^A-Za-z₹]+/,'').trim();
-      b.innerHTML='<span style="width:24px;height:24px;display:grid;place-items:center;border-radius:7px;background:rgba(255,255,255,.08);font-size:14px">'+(icons[key]||'•')+'</span><span>'+label+'</span>';
-      b.title=label;
-    }
-  });
-});
-</script>
-
 </body></html>`);w.document.close();}
 function convertQuotationToSale(id){
   const q=db.quotations.find(x=>Number(x.id)===Number(id));if(!q)return;if(q.convertedSaleId){toast("Quotation already converted to Sale");return}
@@ -1466,26 +1450,6 @@ function openAMCInvoice(amcId){const a=db.amcs.find(x=>x.id===amcId);if(!a){toas
 function printAMCInvoicePDF(){const invoice=document.getElementById("amcInvoicePreview");if(!invoice){toast("AMC Invoice not found");return}const w=window.open("","_blank","width=900,height=1200");if(!w){toast("Popup blocked. Please allow popups for this site.");return}const styles=[...document.querySelectorAll("style")].map(x=>x.outerHTML).join("\n");const links=[...document.querySelectorAll('link[rel="stylesheet"]')].map(x=>x.outerHTML).join("\n");const filename="Purixa_AMC_Invoice_"+(document.querySelector("#amcInvoicePreview .pws-inv strong")?.textContent||"Invoice").trim().replace(/[^a-zA-Z0-9_-]/g,"");w.document.open();w.document.write(`<!doctype html><html><head><meta charset="utf-8"><title>${filename}</title>${links}${styles}<style>html,body{margin:0!important;padding:0!important;background:#fff!important}body{width:210mm!important;min-height:297mm!important}#printInvoiceWrap{width:190mm!important;margin:0 auto!important;padding:0!important;background:#fff!important}#printInvoiceWrap .invoice{width:190mm!important;max-width:190mm!important;margin:0!important;overflow:visible!important}@page{size:A4 portrait;margin:10mm}@media print{html,body{width:210mm!important;background:#fff!important}body>#printInvoiceWrap{display:block!important;visibility:visible!important;width:190mm!important}#printInvoiceWrap{width:190mm!important}#printInvoiceWrap .invoice{display:block!important;visibility:visible!important}.invoice .bill-table tr.item-spacer{height:105mm!important}}</style>
 
 </head><body><div id="printInvoiceWrap">${invoice.outerHTML}</div><script>window.addEventListener('load',function(){setTimeout(function(){window.focus();window.print();},500)});<\/script>
-
-
-<script>
-document.addEventListener('DOMContentLoaded', function(){
-  const icons = {
-    dashboard:'▦', leads:'♧', customers:'♙', quotations:'▤',
-    sales:'₹', service:'⌁', inventory:'▥', expenses:'◈',
-    amc:'↻', technicians:'⚒', reports:'▥', reminders:'◷', settings:'⚙'
-  };
-  document.querySelectorAll('.nav button[data-page]').forEach(function(b){
-    const key=b.getAttribute('data-page');
-    if(!b.dataset.modernized){
-      b.dataset.modernized='1';
-      const label=b.textContent.replace(/^[^A-Za-z₹]+/,'').trim();
-      b.innerHTML='<span style="width:24px;height:24px;display:grid;place-items:center;border-radius:7px;background:rgba(255,255,255,.08);font-size:14px">'+(icons[key]||'•')+'</span><span>'+label+'</span>';
-      b.title=label;
-    }
-  });
-});
-</script>
 
 </body></html>`);w.document.close();toast("AMC Invoice PDF ke liye Save as PDF select karein.")}
 function downloadAMCInvoicePDF(){printAMCInvoicePDF()}
@@ -1798,26 +1762,6 @@ function printInvoiceForPDF(){
 </head><body><div id="printInvoiceWrap">${invoice.outerHTML}</div>
   <script>window.addEventListener('load',function(){setTimeout(function(){window.focus();window.print();},500)});<\/script>
 
-
-<script>
-document.addEventListener('DOMContentLoaded', function(){
-  const icons = {
-    dashboard:'▦', leads:'♧', customers:'♙', quotations:'▤',
-    sales:'₹', service:'⌁', inventory:'▥', expenses:'◈',
-    amc:'↻', technicians:'⚒', reports:'▥', reminders:'◷', settings:'⚙'
-  };
-  document.querySelectorAll('.nav button[data-page]').forEach(function(b){
-    const key=b.getAttribute('data-page');
-    if(!b.dataset.modernized){
-      b.dataset.modernized='1';
-      const label=b.textContent.replace(/^[^A-Za-z₹]+/,'').trim();
-      b.innerHTML='<span style="width:24px;height:24px;display:grid;place-items:center;border-radius:7px;background:rgba(255,255,255,.08);font-size:14px">'+(icons[key]||'•')+'</span><span>'+label+'</span>';
-      b.title=label;
-    }
-  });
-});
-</script>
-
 </body></html>`);
   w.document.close();
   toast("Print window open ho raha hai — Destination me Save as PDF select karein.");
@@ -2100,25 +2044,5 @@ setInterval(renderReminders,60000);
  const mo=new MutationObserver(()=>addIcons());mo.observe(document.body,{childList:true,subtree:true});
 })();
 </script>
-
-<script>
-document.addEventListener('DOMContentLoaded', function(){
-  const icons = {
-    dashboard:'▦', leads:'♧', customers:'♙', quotations:'▤',
-    sales:'₹', service:'⌁', inventory:'▥', expenses:'◈',
-    amc:'↻', technicians:'⚒', reports:'▥', reminders:'◷', settings:'⚙'
-  };
-  document.querySelectorAll('.nav button[data-page]').forEach(function(b){
-    const key=b.getAttribute('data-page');
-    if(!b.dataset.modernized){
-      b.dataset.modernized='1';
-      const label=b.textContent.replace(/^[^A-Za-z₹]+/,'').trim();
-      b.innerHTML='<span style="width:24px;height:24px;display:grid;place-items:center;border-radius:7px;background:rgba(255,255,255,.08);font-size:14px">'+(icons[key]||'•')+'</span><span>'+label+'</span>';
-      b.title=label;
-    }
-  });
-});
-</script>
-
 </body>
 </html>
