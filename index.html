@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#0b6efd">
-<title>Purixa CRM Cloud — v22.31 PWA</title>
+<title>Purixa CRM Cloud — v22.32 PWA</title>
 <style>
 *{box-sizing:border-box}
 :root{--blue:#0b6efd;--dark:#17324d;--bg:#f4f7fb;--card:#fff;--muted:#6b7c93;--line:#e4eaf1;--green:#16a34a;--red:#dc2626;--orange:#f59e0b}
@@ -174,7 +174,7 @@ th{background:#f8fafc;color:#53677d}
 <div id="authOverlay">
   <div class="auth-box">
     <img class="auth-logo" src="purixa-logo.png" alt="Purixa Water Solution">
-    <h2>☁️ Purixa CRM Cloud v22.31</h2>
+    <h2>☁️ Purixa CRM Cloud v22.32</h2>
     <p class="mini" id="authModeText">Cloud login is enabled after Firebase setup.</p>
     <div id="firebaseSetupBox">
       <label class="mini">Firebase Config JSON</label>
@@ -253,6 +253,15 @@ th{background:#f8fafc;color:#53677d}
     <div class="panel" style="background:#eef6ff;border-color:#cfe3ff">
       <h3>Purixa Customer Lifecycle</h3>
       <p style="margin:0;color:#52677d">🎯 Lead → 👥 Customer → 💰 Sale → 🛠️ Installation → 🔧 Service → 🔄 AMC → 🔔 Renewal</p>
+    </div>
+
+    <div class="panel" style="background:#fffdf5;border-color:#f2df9b;margin-bottom:15px">
+      <div class="toolbar" style="justify-content:space-between;align-items:center;margin-bottom:8px">
+        <div><h3 style="margin:0">📋 Today's Work</h3><div class="mini">તમારા આજના service, AMC, follow-up અને payment કામ એક જગ્યાએ.</div></div>
+        <button class="btn primary" onclick="goToPage('reminders')">🔔 All Reminders</button>
+      </div>
+      <div class="cards" id="todaysWorkCards"></div>
+      <div id="todaysWorkList"></div>
     </div>
 
     <div class="grid2">
@@ -805,7 +814,7 @@ async function syncCloudData(silent=false){
   if(!firestore||!firebaseAuth.currentUser||cloudSyncing)return false;
   cloudSyncing=true;
   try{
-    await firestore.collection("users").doc(firebaseAuth.currentUser.uid).collection("crm").doc("main").set({data:db,updatedAt:firebase.firestore.FieldValue.serverTimestamp(),version:"v22.31"},{merge:true});
+    await firestore.collection("users").doc(firebaseAuth.currentUser.uid).collection("crm").doc("main").set({data:db,updatedAt:firebase.firestore.FieldValue.serverTimestamp(),version:"v22.32"},{merge:true});
     await syncNormalizedCollections();
     if(!silent)toast("☁️ Cloud synced");
     return true;
@@ -1167,6 +1176,30 @@ function renderDashboardDueUpcoming(){
   }).join("");
 }
 
+function renderTodaysWork(){
+  const cards=document.getElementById("todaysWorkCards"), list=document.getElementById("todaysWorkList");
+  if(!cards||!list)return;
+  const reminders=getReminderItems();
+  const overdue=reminders.filter(x=>x.days<0);
+  const dueToday=reminders.filter(x=>x.days===0);
+  const serviceDue=reminders.filter(x=>x.type==="Service"&&x.days<=0);
+  const amcDue=reminders.filter(x=>(x.type==="AMC Service"||x.type==="AMC Expiry")&&x.days<=30);
+  const followups=reminders.filter(x=>x.type==="Follow-up"&&x.days<=0);
+  const paymentDue=db.sales.filter(x=>Number(x.pending||0)>0);
+  cards.innerHTML=`
+    <div class="card"><div class="label">🔴 Overdue</div><div class="metric">${overdue.length}</div></div>
+    <div class="card"><div class="label">📅 Due Today</div><div class="metric">${dueToday.length}</div></div>
+    <div class="card"><div class="label">🔧 Service Due</div><div class="metric">${serviceDue.length}</div></div>
+    <div class="card"><div class="label">🔄 AMC</div><div class="metric">${amcDue.length}</div></div>
+    <div class="card"><div class="label">📞 Follow-up</div><div class="metric">${followups.length}</div></div>
+    <div class="card"><div class="label">💰 Payment Due</div><div class="metric">${paymentDue.length}</div></div>`;
+  const work=[...reminders].filter(x=>x.days<=0).slice(0,10);
+  const payRows=paymentDue.slice(0,5).map(s=>`<div class="lead" style="margin:6px 0"><div style="display:flex;justify-content:space-between;gap:8px"><div><b>${esc(s.customer||"Customer")}</b><div class="mini">Payment pending · ${esc(s.date||"")}</div></div><b>${money(s.pending)}</b></div><div class="toolbar" style="margin:6px 0 0"><button class="btn" onclick="viewInvoice(${s.id})">🧾 Invoice</button><button class="btn" onclick="openReceivePayment(${s.id})">💰 Receive Payment</button></div></div>`).join("");
+  const reminderRows=work.map((x,i)=>`<div class="lead" style="margin:6px 0"><div style="display:flex;justify-content:space-between;gap:8px"><div><b>${esc(x.customer||"Customer")}</b><div class="mini">${esc(x.type)} · ${esc(x.date)}</div></div><span class="badge ${reminderClass(x.days)}">${x.days<0?Math.abs(x.days)+" days overdue":"Due today"}</span></div><div class="toolbar" style="margin:6px 0 0"><button class="btn" onclick="reminderCall(${i})">📞 Call</button><button class="btn" onclick="reminderWhatsApp(${i})">💬 WhatsApp</button>${x.type==="Service"&&x.customerId?`<button class="btn primary" onclick="reminderRecordServiceByCustomer(${x.customerId})">🔧 Record Service</button>`:""}</div></div>`).join("");
+  list.innerHTML=(reminderRows||payRows)?`<div class="grid2"><div><h4 style="margin:8px 0">Today / Overdue Work</h4>${reminderRows||'<div class="empty">No service or follow-up work due today.</div>'}</div><div><h4 style="margin:8px 0">Payment Due</h4>${payRows||'<div class="empty">No pending payments.</div>'}</div></div>`:'<div class="empty">✅ No urgent work for today.</div>';
+}
+function reminderRecordServiceByCustomer(id){goToPage("service");setTimeout(()=>openServiceModal(id),100)}
+
 function renderDashboard(){mLeads.textContent=db.leads.length;mCustomers.textContent=db.customers.length;mSales.textContent=money(db.sales.reduce((a,x)=>a+Number(x.total||0),0));mPending.textContent=money(db.sales.reduce((a,x)=>a+Number(x.pending||0),0));mService.textContent=db.services.filter(x=>!["Completed","Cancelled"].includes(x.status)).length;const amcExpiring=getAMCExpiryRecords().filter(x=>{const d=daysFromToday(x.end);return d!==null&&d>=0&&d<=30});mAMC.textContent=amcExpiring.length;mFollow.textContent=db.leads.filter(x=>x.follow===today&&x.status!=="Lost").length;mTech.textContent=db.technicians.length;mDue.textContent=db.services.filter(x=>x.follow&&x.follow<=today&&x.status!=="Completed").length+db.customers.filter(x=>x.nextService&&x.nextService<=today).length;mAMC30.textContent=amcExpiring.length;const f=db.leads.filter(x=>x.follow===today).slice(0,8);todayFollow.innerHTML=f.length?f.map(x=>`<div class="lead"><b>${esc(x.name)}</b><div class="mini">${esc(x.product)} · ${statusBadge(x.status)}</div><div class="toolbar" style="margin:7px 0 0"><button class="btn" onclick="leadCall(${x.id})">📞 Call</button><button class="btn" onclick="leadWhatsApp(${x.id})">💬 WhatsApp</button></div></div>`).join(""):"<div class='empty'>No follow-ups today</div>";const s=db.services.slice(0,6);recentService.innerHTML=s.length?s.map(x=>`<div class="lead"><b>${esc(x.customer||"Customer")}</b><div class="mini">${esc(x.problem||"General Service")} · ${statusBadge(x.status)}</div></div>`).join(""):"<div class='empty'>No service requests</div>";renderDashboardDueUpcoming()}
 function leadCall(id){const x=db.leads.find(x=>x.id===id);if(x)callNo(x.mobile)}
 function leadWhatsApp(id){const x=db.leads.find(x=>x.id===id);if(x)wa(x.mobile,"Hello "+x.name+", this is Purixa Water Solution. How can we help you?")}
@@ -1342,7 +1375,7 @@ async function shareInvoiceWhatsApp(){
   toast(num ? "PDF Save karein. Print window band karte hi customer ka WhatsApp khulega." : "PDF Save karein. Print window band karte hi WhatsApp khulega.");
 }
 
-function renderAll(){renderDashboard();renderLeads();renderCustomers();renderSales();renderServices();renderAMC();renderTech();renderReports();renderReminders()}
+function renderAll(){renderDashboard();renderTodaysWork();renderLeads();renderCustomers();renderSales();renderServices();renderAMC();renderTech();renderReports();renderReminders()}
 async function deleteSale(id){
   const s=db.sales.find(x=>x.id===id);
   if(!s)return;

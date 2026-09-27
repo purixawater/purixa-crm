@@ -1,0 +1,16 @@
+PURIXA CRM v22.32
+
+New in v22.32:
+- Today's Work dashboard: overdue, due today, service, AMC, follow-up and payment-due counts.
+- Quick actions from Today's Work for calls, WhatsApp, service recording, invoice and payment collection.
+- Customer 360 profile remains available and linked to Sales, Services and AMC.
+- 3-month service reminder system retained.
+- Customer auto-master linking from Sale/Service/AMC retained.
+- Firebase cloud version updated to v22.32.
+- PWA service-worker cache updated to v22.32.1.
+
+Backup:
+- Keep v22.30 original backup.
+- Keep v22.31 backup.
+- This v22.32 ZIP is the latest project backup.
+- Firebase cloud data itself remains in Firebase; export JSON separately from CRM for data backup.
