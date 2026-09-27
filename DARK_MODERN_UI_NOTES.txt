@@ -1,0 +1,1 @@
+Purixa CRM Dark Modern UI final visual skin. Existing HTML/JavaScript/data bindings were preserved; only a CSS style block was added before </head>. Invoice print styling remains light.

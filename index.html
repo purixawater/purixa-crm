@@ -268,6 +268,76 @@ table{border:1px solid #e1e8f0;border-radius:13px;overflow:hidden}thead th{backg
 }
 @media(min-width:701px){.mobile-drawer .menu-icon{display:inline-flex}}
 </style>
+<style id="purixa-dark-modern-ui-v22-final">
+/* Purixa CRM — Dark Modern UI skin
+   Visual-only layer. Existing HTML, JavaScript, IDs and data bindings remain unchanged. */
+:root{
+  --blue:#3b82f6;
+  --blue2:#60a5fa;
+  --dark:#07111f;
+  --dark2:#0b1728;
+  --sidebar:#071a2f;
+  --bg:#081321;
+  --card:#0d1b2e;
+  --card2:#102238;
+  --muted:#91a4bd;
+  --text:#e8f1ff;
+  --line:#20344c;
+  --green:#22c55e;
+  --red:#ef4444;
+  --orange:#f59e0b;
+}
+html{background:var(--bg)}
+body{background:radial-gradient(circle at 85% 0%,#10294a 0,#081321 34%,#060e19 100%);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;min-height:100vh}
+.app{background:transparent}
+.sidebar{width:245px;background:linear-gradient(180deg,#071c34 0%,#061426 55%,#050e1a 100%);border-right:1px solid #1b3551;box-shadow:12px 0 35px #0008;padding:16px 12px}
+.brand{padding:8px 10px 18px;border-bottom:1px solid #1c3550;margin-bottom:10px}
+.brand-logo{width:100%;height:76px;background:#fff;border:1px solid #dce8f7;border-radius:13px;padding:5px;box-shadow:0 8px 24px #0005}
+.brand>span{display:block;color:#eaf4ff;font-size:15px;letter-spacing:1.2px;margin-top:10px;font-weight:800}
+.brand small{color:#7f98b7;letter-spacing:.25px}
+.nav{display:flex;flex-direction:column;gap:4px}
+.nav button{position:relative;display:flex;align-items:center;gap:11px;background:transparent;color:#aebed2;text-align:left;padding:11px 12px;border:1px solid transparent;border-radius:10px;margin:0;transition:all .18s ease;font-weight:650}
+.nav button .menu-icon{width:22px;height:22px;display:inline-flex;align-items:center;justify-content:center;color:#8fa8c7;flex:0 0 22px}
+.nav button .menu-icon svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.nav button .menu-label{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.nav button:hover{background:#102b49;color:#eaf4ff;border-color:#1d4268;transform:translateX(2px)}
+.nav button.active{background:linear-gradient(90deg,#1769d9,#0d4ea8);color:#fff;border-color:#3181ee;box-shadow:0 7px 20px #0b5dcc55}
+.nav button.active .menu-icon{color:#fff}
+.main{margin-left:245px;width:calc(100% - 245px);padding:22px;min-height:100vh}
+.top{background:rgba(10,27,46,.78);border:1px solid #1e3854;border-radius:15px;padding:14px 16px;margin-bottom:18px;box-shadow:0 12px 30px #0003;backdrop-filter:blur(14px)}
+.top h1{color:#f4f8ff;font-size:27px;letter-spacing:-.3px}.top p{color:#8298b2}
+.top>div:last-child{display:flex;align-items:center;gap:9px}
+.cloud-status{background:#0c2439!important;color:#71d89b!important;border:1px solid #245b4b;padding:7px 11px;border-radius:999px;font-size:12px;font-weight:700}
+.btn{background:#102942;color:#b9d6f5;border:1px solid #254663;border-radius:10px;padding:10px 14px;box-shadow:0 4px 12px #0002;transition:all .18s ease}
+.btn:hover{transform:translateY(-1px);filter:brightness(1.1)}
+.btn.primary{background:linear-gradient(135deg,#277bf0,#1459bd);border-color:#3f8df5;color:#fff;box-shadow:0 8px 18px #1261c044}
+.btn.green{background:linear-gradient(135deg,#16a34a,#087c3c);border-color:#35c56d;color:#fff}
+.btn.red{background:#351b25;border-color:#6d2a3b;color:#ff8b9d}
+.cards{grid-template-columns:repeat(4,minmax(0,1fr));gap:13px;margin-bottom:18px}
+.card{position:relative;background:linear-gradient(145deg,#10243b,#0b192b);border:1px solid #203a56;border-radius:14px;padding:16px;box-shadow:0 10px 25px #0004;overflow:hidden;transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease}
+.card:before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:#3b82f6}
+.card:nth-child(4n+2):before{background:#8b5cf6}.card:nth-child(4n+3):before{background:#22c55e}.card:nth-child(4n+4):before{background:#f59e0b}
+.card:hover{transform:translateY(-2px);border-color:#31597f;box-shadow:0 14px 32px #0006}
+.card .label{color:#8ea5bf;font-size:12px;text-transform:uppercase;letter-spacing:.45px;font-weight:700}.metric{color:#f2f7ff;font-size:27px;font-weight:850;margin-top:7px}
+.panel{background:linear-gradient(145deg,#0e1e32,#0a1728);border:1px solid #203a56;border-radius:14px;padding:16px;margin-bottom:15px;box-shadow:0 10px 25px #0004}
+.panel h3,.page-head h2{color:#f1f6ff}.page-head p{color:#8097b2}
+.grid2{gap:15px}
+.toolbar{gap:8px}.search{background:#09192a;color:#e8f1ff;border:1px solid #28435e;border-radius:10px;padding:10px 12px}.search::placeholder{color:#667f9b}
+.table-wrap{border:1px solid #1d3650;border-radius:11px;overflow:auto;background:#091727}
+table{min-width:700px}th,td{border-bottom:1px solid #1c334b;color:#cbd9e9;background:transparent;padding:11px 9px}th{background:#0f2237;color:#9eb4cd;font-size:11px;text-transform:uppercase;letter-spacing:.4px;position:sticky;top:0;z-index:1}tbody tr:hover td{background:#10263e}
+.badge{background:#172d48;color:#8fc1ff;border:1px solid #2b4e72}.badge.green{background:#0d3324;color:#67e39a;border-color:#1e6a49}.badge.orange{background:#3b2a0e;color:#f9c76b;border-color:#72531d}.badge.red{background:#3a1820;color:#ff8b9d;border-color:#6d2a3b}
+.form-grid{gap:12px}.field label{color:#8da3bd}.field input,.field select,.field textarea{background:#09192a;color:#e7f0fb;border:1px solid #29445f;border-radius:10px}.field input::placeholder,.field textarea::placeholder{color:#607895}
+.modal{background:#000b18}.modal-box{background:linear-gradient(145deg,#0d1d31,#081522);border:1px solid #2a4867;border-radius:16px;box-shadow:0 30px 80px #000b;color:#eaf2fb}.modal-head{border-bottom:1px solid #20384f;padding-bottom:12px}.modal-head h3{color:#f4f8ff}.close{background:#14263b;color:#b9cce0;border:1px solid #28435e}
+.pipeline{gap:10px}.stage{background:#09192a;border:1px solid #233e59;border-radius:12px}.stage h4{color:#e6effa}.lead{background:#10243a;border:1px solid #29445f;color:#d7e4f1}
+.service-card{background:linear-gradient(145deg,#0f2136,#0a1728);border:1px solid #24415e;border-radius:12px;color:#d8e5f2}.mini{color:#7f96b1}.history-link{color:#66a9ff}
+.reminder-summary{gap:13px}.empty{color:#7890aa}.toast{background:#10263d;border:1px solid #2b4966;box-shadow:0 12px 30px #0006}
+/* Keep invoice output intentionally light for printing and customer-facing PDFs. */
+.invoice{background:#fff!important;color:#111!important}
+/* Mobile: preserve the existing responsive behavior while giving it the dark treatment. */
+@media(max-width:900px){.sidebar{width:72px}.brand{padding:8px 5px 14px}.brand-logo{width:48px;height:48px;margin:0 auto 8px}.brand>span,.brand small{display:none}.nav button{justify-content:center;padding:11px 8px}.nav button .menu-label{display:none}.main{margin-left:72px;width:calc(100% - 72px);padding:15px}.cards{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:560px){body{background:#07111f}.main{padding:10px}.top{padding:12px;border-radius:12px}.top h1{font-size:21px}.cards{grid-template-columns:1fr 1fr;gap:8px}.card{padding:12px}.metric{font-size:21px}.panel{padding:12px;border-radius:12px}.btn{padding:9px 10px}}
+
+</style>
 </head>
 <body>
 <div id="authOverlay">
