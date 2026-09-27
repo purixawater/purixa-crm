@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#0b6efd">
-<title>Purixa CRM Cloud — v22.36 PWA</title>
+<title>Purixa CRM Cloud — v22.38 PWA</title>
 <style>
 *{box-sizing:border-box}
 :root{--blue:#0b6efd;--dark:#17324d;--bg:#f4f7fb;--card:#fff;--muted:#6b7c93;--line:#e4eaf1;--green:#16a34a;--red:#dc2626;--orange:#f59e0b}
@@ -105,7 +105,7 @@ th{background:#f8fafc;color:#53677d}
 @media print{.invoice .sig-img{width:150px;height:54px}.invoice .pws-head{grid-template-columns:105px minmax(0,1fr) 155px}.invoice .pws-logo img{width:94px;height:82px}.invoice .bill-table th:nth-child(1){width:8%}.invoice .bill-table th:nth-child(2){width:54%}.invoice .bill-table th:nth-child(3){width:9%}.invoice .bill-table th:nth-child(4){width:14.5%}.invoice .bill-table th:nth-child(5){width:14.5%}}
 </style>
 <style>
-/* v22.36: quotation management, print quotation and convert quotation to sale */
+/* v22.38: quotation management, print quotation and convert quotation to sale */
 /* v22.35: advanced reports, date range, service parts cost and estimated profit */
 /* v22.23: all-customer 3-month service reminders + history improvements */
 /* v22.31: automatic customer master linking for Sale, Service and AMC.
@@ -174,12 +174,106 @@ th{background:#f8fafc;color:#53677d}
 @media(min-width:701px){.mobile-drawer,.mobile-drawer-backdrop{display:none!important}}
 
 </style>
+
+<style id="purixa-modern-ui-v2237">
+/* v22.38 Professional UI refresh — functionality/data unchanged */
+:root{
+  --blue:#1769e0;--blue2:#0f4fc7;--navy:#0b1f3a;--bg:#f3f7fc;--card:#ffffff;
+  --line:#e2e8f0;--muted:#64748b;--text:#12233f;--shadow:0 10px 30px rgba(15,35,65,.08)
+}
+body{font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;background:linear-gradient(180deg,#eef5ff 0,#f7f9fc 38%,#f3f6fa 100%);color:var(--text)}
+.sidebar{background:linear-gradient(180deg,#0b1f3a 0%,#102f52 55%,#0c2745 100%);box-shadow:8px 0 28px rgba(7,24,45,.12);border-right:1px solid rgba(255,255,255,.08)}
+.brand{padding-bottom:18px}.brand-logo{box-shadow:0 6px 20px rgba(0,0,0,.12);border:1px solid rgba(255,255,255,.18)}
+.nav button{border:1px solid transparent;transition:.18s ease;position:relative}.nav button:hover{background:rgba(255,255,255,.09);transform:translateX(2px)}.nav button.active{background:linear-gradient(90deg,#1b6fe8,#1558be);box-shadow:0 6px 18px rgba(10,79,180,.28)}
+.main{padding:24px;max-width:1700px}.top{padding:14px 16px;background:rgba(255,255,255,.78);backdrop-filter:blur(10px);border:1px solid rgba(226,232,240,.9);border-radius:18px;box-shadow:var(--shadow)}
+.top h1{font-size:26px;letter-spacing:-.4px}.top p{font-size:13px}
+.cards{gap:16px}.card,.panel{border:1px solid rgba(226,232,240,.95);border-radius:16px;box-shadow:var(--shadow);transition:transform .18s ease,box-shadow .18s ease}.card:hover{transform:translateY(-2px);box-shadow:0 14px 32px rgba(15,35,65,.11)}
+.card{position:relative;overflow:hidden}.card:before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:linear-gradient(180deg,#2a7bf0,#0f4fc7);border-radius:4px}.card .label{font-weight:700;color:#64748b}.metric{color:#102a4a;letter-spacing:-.5px}
+.panel{padding:18px}.panel h3{font-size:17px}.btn{border:1px solid #dbe5f2;background:#f5f9ff;box-shadow:0 2px 7px rgba(15,35,65,.05);transition:.16s ease}.btn:hover{transform:translateY(-1px);box-shadow:0 6px 15px rgba(15,35,65,.10)}.btn.primary{background:linear-gradient(135deg,#1c73ec,#0f56c9);box-shadow:0 7px 18px rgba(23,105,224,.25)}
+.search,.field input,.field select,.field textarea{border:1px solid #d9e2ee;box-shadow:inset 0 1px 2px rgba(15,35,65,.03);transition:border-color .15s,box-shadow .15s}.search:focus,.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:#6aa1ef;box-shadow:0 0 0 3px rgba(23,105,224,.12)}
+table{border-collapse:separate;border-spacing:0}th{background:#f5f8fc;color:#52657d;font-weight:800}th:first-child{border-radius:8px 0 0 8px}th:last-child{border-radius:0 8px 8px 0}td{background:#fff}tbody tr:hover td{background:#f8fbff}
+.badge{border:1px solid rgba(57,73,171,.08)}.toast{box-shadow:0 10px 28px rgba(0,0,0,.2)}
+.page-head h2{letter-spacing:-.3px}.page-head p{font-size:13px}
+.modal-box{border:1px solid #e2e8f0;box-shadow:0 24px 70px rgba(8,25,48,.25);border-radius:18px}.modal-head{border-bottom:1px solid #eef2f7;padding-bottom:10px}
+.pipeline .stage{border-radius:14px;box-shadow:0 4px 12px rgba(15,35,65,.04)}
+#cloudStatus,.cloud-status{box-shadow:0 2px 8px rgba(15,35,65,.05)}
+@media(max-width:700px){body{background:#f5f8fc}.main{padding:10px 10px 82px}.top{border-radius:14px;padding:10px 11px}.top h1{font-size:19px}.card,.panel{border-radius:13px;box-shadow:0 5px 18px rgba(15,35,65,.07)}.mobile-bottom-nav{box-shadow:0 10px 30px rgba(15,35,65,.16);border-color:#dbe5f0}.mobile-bottom-nav button.active{background:#e7f0ff;color:#135fcf}}
+</style>
+
+
+<style id="purixa-professional-ui-v2238">
+:root{
+  --px-primary:#1463d9;--px-primary-2:#0b4db7;--px-navy:#081b33;--px-navy-2:#0d2949;
+  --px-sky:#eaf3ff;--px-bg:#f4f7fb;--px-text:#14243a;--px-muted:#6b7b90;--px-line:#dfe7f0;
+  --px-card:#fff;--px-shadow:0 12px 34px rgba(11,31,58,.08);--px-radius:16px;
+}
+*{box-sizing:border-box}
+body{background:linear-gradient(135deg,#eef4fb 0%,#f8fafc 45%,#f2f6fb 100%);color:var(--px-text)}
+.sidebar{
+  width:264px;padding:18px 14px 16px;background:linear-gradient(180deg,#071a31 0%,#0a2340 45%,#0d2c4e 100%);
+  border-right:1px solid rgba(255,255,255,.09);box-shadow:14px 0 36px rgba(4,20,39,.16);overflow-y:auto
+}
+.brand{padding:4px 6px 18px;margin-bottom:10px;border-bottom:1px solid rgba(255,255,255,.10);text-align:left}
+.brand-logo{width:150px;height:58px;object-fit:contain;object-position:left center;background:#fff;border-radius:13px;padding:5px;box-shadow:0 10px 25px rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.18)}
+.brand>span{display:block;margin-top:13px;font-size:13px;letter-spacing:1.8px;font-weight:900;color:#fff}
+.brand small{display:block;margin-top:4px;font-size:11px;color:#a9bfd6;letter-spacing:.2px}
+.nav{display:flex;flex-direction:column;gap:5px}
+.nav button{
+  min-height:44px;padding:10px 12px;border:1px solid transparent;border-radius:12px;background:transparent;color:#b9cade;
+  font-size:13px;font-weight:750;letter-spacing:.1px;display:flex;align-items:center;gap:11px;position:relative;text-align:left;transition:all .18s ease
+}
+.nav button:hover{background:rgba(255,255,255,.07);color:#fff;transform:translateX(3px)}
+.nav button.active{background:linear-gradient(135deg,#1a70ea,#0e55bd);color:#fff;box-shadow:0 8px 22px rgba(13,87,190,.30);border-color:rgba(255,255,255,.10)}
+.nav button.active:after{content:"";position:absolute;right:7px;width:5px;height:22px;border-radius:5px;background:#fff;opacity:.9}
+.menu-icon{width:22px;height:22px;display:inline-flex;align-items:center;justify-content:center;flex:none;color:currentColor}
+.menu-icon svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.nav button[data-page="sales"],.nav button[data-page="amc"],.nav button[data-page="reports"]{margin-top:8px}
+.nav button[data-page="sales"]:before,.nav button[data-page="amc"]:before,.nav button[data-page="reports"]:before{content:"";position:absolute;left:8px;right:8px;top:-5px;height:1px;background:rgba(255,255,255,.08)}
+.main{margin-left:264px;padding:24px;max-width:none;width:calc(100% - 264px)}
+.top{min-height:76px;padding:14px 18px;background:rgba(255,255,255,.90);backdrop-filter:blur(16px);border:1px solid #e0e8f1;border-radius:18px;box-shadow:var(--px-shadow);display:flex;align-items:center;justify-content:space-between}
+.top h1{font-size:25px;font-weight:850;color:#10243f;margin:0}.top p{color:#718198;font-weight:600}
+#cloudStatus{border:1px solid #dbe8f5!important;border-radius:999px!important;padding:7px 11px!important;background:#f6fbff!important;font-weight:800!important;color:#2362a5!important}
+.page{animation:pxPage .22s ease}@keyframes pxPage{from{opacity:.65;transform:translateY(4px)}to{opacity:1;transform:none}}
+.card,.panel{background:var(--px-card);border:1px solid var(--px-line);border-radius:var(--px-radius);box-shadow:var(--px-shadow)}
+.card{overflow:hidden}.card:hover{transform:translateY(-2px);box-shadow:0 16px 36px rgba(11,31,58,.10)}
+.card .label{font-size:12px;text-transform:uppercase;letter-spacing:.45px;color:#73839a;font-weight:850}
+.metric{font-size:28px!important;font-weight:900;color:#102b4b}
+.panel h3{font-weight:850;color:#18304e}
+.toolbar{gap:9px}.search{height:44px;border-radius:11px!important;background:#fff}
+.btn{min-height:40px;border-radius:11px;font-weight:800;letter-spacing:.05px;border-color:#d8e2ed;background:#fff;color:#28425f}
+.btn.primary{background:linear-gradient(135deg,#1b70e6,#0d55bd);border-color:#145fcf;color:#fff;box-shadow:0 7px 18px rgba(20,99,217,.20)}
+.btn.green{background:linear-gradient(135deg,#1aa66b,#087d4c);color:#fff;border-color:#0b8b56}
+.btn.danger{background:#fff1f1;color:#bd3030;border-color:#ffd0d0}
+.btn:hover{transform:translateY(-1px)}
+input,select,textarea{border-radius:11px!important;border-color:#d7e1ec!important;background:#fff}
+table{border:1px solid #e1e8f0;border-radius:13px;overflow:hidden}thead th{background:#f4f7fb!important;color:#607188!important;text-transform:uppercase;letter-spacing:.45px;font-size:11px!important;border-bottom:1px solid #e0e7ef!important}tbody td{border-bottom:1px solid #edf1f5!important}tbody tr:last-child td{border-bottom:0!important}tbody tr:hover td{background:#f7fbff!important}
+.badge{border-radius:999px!important;padding:5px 9px!important;font-weight:800!important}
+.modal-box{border-radius:20px!important;border:1px solid #dfe7f0!important;box-shadow:0 28px 80px rgba(7,24,45,.28)!important}
+.modal-head h3{font-size:18px!important;font-weight:900}.close{border-radius:10px!important;background:#f2f5f9!important;color:#53657a!important}
+.auth-box{border-radius:22px!important;box-shadow:0 30px 90px rgba(7,24,45,.25)!important;border:1px solid #dfe7f0!important}
+.auth-box h2{font-weight:900;color:#102944}
+/* Remove legacy emoji pseudo icons; JS supplies SVG icons. */
+.nav button:before{content:none!important;display:none!important}
+/* Mobile professional navigation */
+@media(max-width:700px){
+  .sidebar{display:none!important}.main{margin-left:0!important;width:100%!important;padding:10px 10px 88px!important}
+  .top{min-height:66px;border-radius:15px;padding:10px 11px}.top h1{font-size:19px!important}.top p{font-size:10.5px!important}
+  .mobile-menu-btn{width:42px!important;height:42px!important;border-radius:12px!important;background:linear-gradient(135deg,#1463d9,#0b4db7)!important;box-shadow:0 7px 18px rgba(20,99,217,.25);font-size:0!important}
+  .mobile-menu-btn:after{content:"";width:19px;height:14px;background:linear-gradient(currentColor,currentColor) 0 0/100% 2px no-repeat,linear-gradient(currentColor,currentColor) 0 6px/100% 2px no-repeat,linear-gradient(currentColor,currentColor) 0 12px/100% 2px no-repeat;color:#fff}
+  .mobile-bottom-nav{left:9px!important;right:9px!important;bottom:9px!important;height:66px!important;border-radius:18px!important;background:rgba(255,255,255,.97)!important;border:1px solid #dce6f0!important;box-shadow:0 14px 35px rgba(11,31,58,.18)!important;padding:5px!important}
+  .mobile-bottom-nav button{color:#708198!important;border-radius:13px!important;font-size:9px!important;gap:2px!important}.mobile-bottom-nav button.active{background:#eaf3ff!important;color:#1261d2!important}
+  .mobile-bottom-nav .menu-icon{width:22px;height:22px}.mobile-bottom-nav .menu-icon svg{width:19px;height:19px}
+  .mobile-drawer{width:min(310px,86vw)!important;background:linear-gradient(180deg,#071a31,#0d2c4e)!important;padding:16px 13px!important}
+  .mobile-drawer .nav button{font-size:13px!important;min-height:45px!important;padding:10px 12px!important;display:flex!important;gap:11px!important}.mobile-drawer .nav button.active{background:linear-gradient(135deg,#1a70ea,#0e55bd)!important}
+}
+@media(min-width:701px){.mobile-drawer .menu-icon{display:inline-flex}}
+</style>
 </head>
 <body>
 <div id="authOverlay">
   <div class="auth-box">
     <img class="auth-logo" src="purixa-logo.png" alt="Purixa Water Solution">
-    <h2>☁️ Purixa CRM Cloud v22.36</h2>
+    <h2>☁️ Purixa CRM Cloud v22.38</h2>
     <p class="mini" id="authModeText">Cloud login is enabled after Firebase setup.</p>
     <div id="firebaseSetupBox">
       <label class="mini">Firebase Config JSON</label>
@@ -916,7 +1010,7 @@ async function syncCloudData(silent=false){
   if(!firestore||!firebaseAuth.currentUser||cloudSyncing)return false;
   cloudSyncing=true;
   try{
-    await firestore.collection("users").doc(firebaseAuth.currentUser.uid).collection("crm").doc("main").set({data:db,updatedAt:firebase.firestore.FieldValue.serverTimestamp(),version:"v22.36"},{merge:true});
+    await firestore.collection("users").doc(firebaseAuth.currentUser.uid).collection("crm").doc("main").set({data:db,updatedAt:firebase.firestore.FieldValue.serverTimestamp(),version:"v22.38"},{merge:true});
     await syncNormalizedCollections();
     if(!silent)toast("☁️ Cloud synced");
     return true;
@@ -993,7 +1087,11 @@ function saveQuotation(e){
 }
 function quotationPrint(id){
   const q=db.quotations.find(x=>Number(x.id)===Number(id));if(!q)return;const w=window.open("","_blank","width=900,height=700");if(!w){toast("Allow pop-ups to print quotation");return}
-  w.document.write(`<!doctype html><html><head><title>Quotation ${esc(q.number)}</title><style>body{font-family:Arial,sans-serif;padding:35px;color:#1f2937}h1{margin:0 0 5px}table{width:100%;border-collapse:collapse;margin-top:25px}th,td{border:1px solid #ddd;padding:10px;text-align:left}th{background:#f3f6fa}.total{text-align:right;font-size:20px;font-weight:bold;margin-top:18px}.muted{color:#64748b}.terms{margin-top:30px;white-space:pre-line}</style></head><body><h1>Purixa Water Solution</h1><div class="muted">Quotation No: ${esc(q.number)} · Date: ${esc(q.date)} · Valid Until: ${esc(q.validUntil)}</div><hr><h3>Customer</h3><div>${esc(q.customer)}<br>${esc(q.mobile||"")}<br>${esc(q.address||"")}</div><table><thead><tr><th>Product</th><th>Qty</th><th>Price</th><th>Total</th></tr></thead><tbody><tr><td>${esc(q.product)}</td><td>${q.qty}</td><td>₹${Number(q.price||0).toLocaleString("en-IN")}</td><td>₹${Number(q.total||0).toLocaleString("en-IN")}</td></tr></tbody></table><div class="total">Grand Total: ₹${Number(q.total||0).toLocaleString("en-IN")}</div><div class="terms"><b>Notes</b>\n${esc(q.notes||"Quotation is subject to availability and final confirmation.")}</div><br><br><div>Authorised Signature</div><script>window.onload=()=>window.print()<\/script></body></html>`);w.document.close();}
+  w.document.write(`<!doctype html><html><head><title>Quotation ${esc(q.number)}</title><style>body{font-family:Arial,sans-serif;padding:35px;color:#1f2937}h1{margin:0 0 5px}table{width:100%;border-collapse:collapse;margin-top:25px}th,td{border:1px solid #ddd;padding:10px;text-align:left}th{background:#f3f6fa}.total{text-align:right;font-size:20px;font-weight:bold;margin-top:18px}.muted{color:#64748b}.terms{margin-top:30px;white-space:pre-line}</style>
+
+</head><body><h1>Purixa Water Solution</h1><div class="muted">Quotation No: ${esc(q.number)} · Date: ${esc(q.date)} · Valid Until: ${esc(q.validUntil)}</div><hr><h3>Customer</h3><div>${esc(q.customer)}<br>${esc(q.mobile||"")}<br>${esc(q.address||"")}</div><table><thead><tr><th>Product</th><th>Qty</th><th>Price</th><th>Total</th></tr></thead><tbody><tr><td>${esc(q.product)}</td><td>${q.qty}</td><td>₹${Number(q.price||0).toLocaleString("en-IN")}</td><td>₹${Number(q.total||0).toLocaleString("en-IN")}</td></tr></tbody></table><div class="total">Grand Total: ₹${Number(q.total||0).toLocaleString("en-IN")}</div><div class="terms"><b>Notes</b>\n${esc(q.notes||"Quotation is subject to availability and final confirmation.")}</div><br><br><div>Authorised Signature</div><script>window.onload=()=>window.print()<\/script>
+
+</body></html>`);w.document.close();}
 function convertQuotationToSale(id){
   const q=db.quotations.find(x=>Number(x.id)===Number(id));if(!q)return;if(q.convertedSaleId){toast("Quotation already converted to Sale");return}
   const paid=0,saleId=Date.now();db.sales.unshift({id:saleId,date:today,customerId:q.customerId,customer:q.customer,mobile:q.mobile||"",address:q.address||"",product:q.product,qty:q.qty||1,warranty:"",gstin:"",total:Number(q.total||0),amount:Number(q.total||0),paid,pending:Number(q.total||0),mode:"Cash",payments:[],paymentStatus:"Pending"});q.status="Accepted";q.convertedSaleId=saleId;persist();toast("Quotation converted to Sale");}
@@ -1203,7 +1301,11 @@ function openAMCModal(customerId=""){editingAMCId=null;renewingAMCId=null;docume
 function editAMC(id){const a=db.amcs.find(x=>x.id===id);if(!a)return;editingAMCId=id;renewingAMCId=null;document.getElementById("amcModalTitle").textContent="Edit AMC";fillAMCCustomerOptions(a.customerId||"");if(!a.customerId){const opt=[...amcCustomer.options].find(o=>o.textContent.split(" — ")[0].toLowerCase()===String(a.customer||"").toLowerCase());if(opt)amcCustomer.value=opt.value}amcAmount.value=a.amount||0;amcPaid.value=Number(a.paid??a.amount??0);amcMode.value=a.paymentMode||"Cash";amcStart.value=a.start||"";amcEnd.value=a.end||"";amcVisits.value=a.visitsTotal??a.visits??0;amcNext.value=a.nextService||"";openModal("amcModal")}
 function saveAMC(e){e.preventDefault();const cid=Number(amcCustomer.value)||null;const c=db.customers.find(x=>x.id===cid);if(!c){toast("Please select a customer");return}const amount=+amcAmount.value||0,paid=Math.min(amount,Math.max(0,+amcPaid.value||0));const old=editingAMCId?db.amcs.find(x=>x.id===editingAMCId):null;const data={customerId:cid,customer:c.name,mobile:c.mobile||"",amount,paid,pending:Math.max(0,amount-paid),paymentMode:amcMode.value||"Cash",start:amcStart.value,end:amcEnd.value,visitsTotal:+amcVisits.value||0,nextService:amcNext.value,visitHistory:[]};if(renewingAMCId){const source=db.amcs.find(x=>x.id===renewingAMCId);db.amcs.unshift({id:Date.now(),...data,renewalOf:source?.id||null,renewalDate:today,visitHistory:[]});c.amc=data.end||"";persist();e.target.reset();closeModal("amcModal");renewingAMCId=null;editingAMCId=null;toast("🔄 AMC renewed successfully");return}if(editingAMCId){if(old)Object.assign(old,{...data,visitHistory:Array.isArray(old.visitHistory)?old.visitHistory:[]})}else db.amcs.unshift({id:Date.now(),...data});c.amc=data.end||"";persist();e.target.reset();closeModal("amcModal");toast(editingAMCId?"AMC updated":"AMC saved");editingAMCId=null;renewingAMCId=null}
 function openAMCInvoice(amcId){const a=db.amcs.find(x=>x.id===amcId);if(!a){toast("AMC not found");return}const c=db.customers.find(x=>x.id===a.customerId)||{};currentAMCInvoiceMobile=c.mobile||a.mobile||"";let inv=String(a.invoiceNo||"").replace(/^PWS-AMC-/i,"");if(!/^\d+$/.test(inv)||Number(inv)<1||Number(inv)>999999){inv=nextBillNumber();a.invoiceNo=inv}const total=Number(a.amount||0),paid=Number(a.paid??total),pending=Math.max(0,Number(a.pending??(total-paid))),mode=String(a.paymentMode||"Cash");const checks=["Cash","Cheque","UPI","Online Transfer","POS","Finance","EMI"].map(x=>`<span>${mode===x?"☑":"☐"} ${x}</span>`).join("");document.getElementById("amcInvoicePreview").innerHTML=`<div class="pws-head"><div class="pws-logo"><img src="purixa-logo.png" alt="Purixa Water Solution"></div><div class="pws-title"><h2>PURIXA WATER SOLUTION</h2><div>Nr. Harihar Chowk, Sadar Bazar, Sadar,<br>Rajkot, Gujarat 360001<br>☎ 9998267304 / 7016715463</div></div><div class="pws-inv"><b>AMC INVOICE</b><div>Bill No. : <strong>${esc(inv)}</strong><br>Date : <u>${esc(formatInvoiceDate(a.invoiceDate||today))}</u></div></div></div><div class="bill-info"><div class="row name-row"><b>Customer Name :</b><span>${esc(c.name||a.customer||"-")}</span></div><div class="row mobile-row"><b>Address :</b><span>${esc(c.address||"-")}</span><b>Mobile No. :</b><span>${esc(c.mobile||a.mobile||"-")}</span></div></div><div class="pay"><b>Mode of Payment:</b><div class="checks">${checks}</div></div><table class="bill-table"><thead><tr><th>Sr. No.</th><th>Item Description</th><th>Qty.</th><th>Price</th><th>Amount Rs.</th></tr></thead><tbody><tr><td style="text-align:center">1</td><td>AMC – Annual Maintenance Contract<br><small><b>AMC Period :</b> <span class="amc-period-date">${esc(formatInvoiceDate(a.start||"-"))}</span> <span class="amc-period-to">to</span> <span class="amc-period-date">${esc(formatInvoiceDate(a.end||"-"))}</span></small></td><td>1</td><td>${total.toLocaleString("en-IN",{minimumFractionDigits:2,maximumFractionDigits:2})}</td><td>${total.toLocaleString("en-IN",{minimumFractionDigits:2,maximumFractionDigits:2})}</td></tr><tr class="item-spacer"><td></td><td></td><td></td><td></td><td></td></tr></tbody></table><div class="summary"><div class="summary-left"><div class="words"><b>Rupees :</b> ${esc(numberWords(total))} Only</div><div class="warranty"><b>Warranty & Service Details :</b> AMC period mein service + all parts FREE • Unlimited service visits</div><div class="gst"><b>GSTIN :</b> __________________</div><div class="terms"><b>નિયમો અને શરતો :</b><br>(1) AMC સમયગાળા દરમિયાન સર્વિસ અને જરૂરી પાર્ટ્સ મફત રહેશે.<br>(2) AMC દરમિયાન સર્વિસ વિઝિટની કોઈ મર્યાદા રહેશે નહીં.<br>(3) AMC સમયગાળો પૂરો થયા બાદ નવીનીકરણ જરૂરી રહેશે.<br>(4) સર્વિસ માટે ગ્રાહકે યોગ્ય સહકાર આપવાનો રહેશે.<br>(5) રાજકોટ જ્યુરિસ્ડિક્શનને આધીન.</div></div><div class="totalbox"><div><b>Total Rs.</b><b>${total.toLocaleString("en-IN",{minimumFractionDigits:2,maximumFractionDigits:2})}</b></div><div><span>Dues (if any)</span><b>${pending.toLocaleString("en-IN",{minimumFractionDigits:2,maximumFractionDigits:2})}</b></div></div></div><div class="footer"><div class="sig"><div class="sig-line">Customer's Signature</div></div><div class="sig"><div class="for">For, PURIXA WATER SOLUTION</div><img class="sig-img" src="authorized-signature-clean.png" alt="Authorised Signatory"><div class="sig-label">Authorised Signatory</div></div></div>`;persist();openModal("amcInvoiceModal")}
-function printAMCInvoicePDF(){const invoice=document.getElementById("amcInvoicePreview");if(!invoice){toast("AMC Invoice not found");return}const w=window.open("","_blank","width=900,height=1200");if(!w){toast("Popup blocked. Please allow popups for this site.");return}const styles=[...document.querySelectorAll("style")].map(x=>x.outerHTML).join("\n");const links=[...document.querySelectorAll('link[rel="stylesheet"]')].map(x=>x.outerHTML).join("\n");const filename="Purixa_AMC_Invoice_"+(document.querySelector("#amcInvoicePreview .pws-inv strong")?.textContent||"Invoice").trim().replace(/[^a-zA-Z0-9_-]/g,"");w.document.open();w.document.write(`<!doctype html><html><head><meta charset="utf-8"><title>${filename}</title>${links}${styles}<style>html,body{margin:0!important;padding:0!important;background:#fff!important}body{width:210mm!important;min-height:297mm!important}#printInvoiceWrap{width:190mm!important;margin:0 auto!important;padding:0!important;background:#fff!important}#printInvoiceWrap .invoice{width:190mm!important;max-width:190mm!important;margin:0!important;overflow:visible!important}@page{size:A4 portrait;margin:10mm}@media print{html,body{width:210mm!important;background:#fff!important}body>#printInvoiceWrap{display:block!important;visibility:visible!important;width:190mm!important}#printInvoiceWrap{width:190mm!important}#printInvoiceWrap .invoice{display:block!important;visibility:visible!important}.invoice .bill-table tr.item-spacer{height:105mm!important}}</style></head><body><div id="printInvoiceWrap">${invoice.outerHTML}</div><script>window.addEventListener('load',function(){setTimeout(function(){window.focus();window.print();},500)});<\/script></body></html>`);w.document.close();toast("AMC Invoice PDF ke liye Save as PDF select karein.")}
+function printAMCInvoicePDF(){const invoice=document.getElementById("amcInvoicePreview");if(!invoice){toast("AMC Invoice not found");return}const w=window.open("","_blank","width=900,height=1200");if(!w){toast("Popup blocked. Please allow popups for this site.");return}const styles=[...document.querySelectorAll("style")].map(x=>x.outerHTML).join("\n");const links=[...document.querySelectorAll('link[rel="stylesheet"]')].map(x=>x.outerHTML).join("\n");const filename="Purixa_AMC_Invoice_"+(document.querySelector("#amcInvoicePreview .pws-inv strong")?.textContent||"Invoice").trim().replace(/[^a-zA-Z0-9_-]/g,"");w.document.open();w.document.write(`<!doctype html><html><head><meta charset="utf-8"><title>${filename}</title>${links}${styles}<style>html,body{margin:0!important;padding:0!important;background:#fff!important}body{width:210mm!important;min-height:297mm!important}#printInvoiceWrap{width:190mm!important;margin:0 auto!important;padding:0!important;background:#fff!important}#printInvoiceWrap .invoice{width:190mm!important;max-width:190mm!important;margin:0!important;overflow:visible!important}@page{size:A4 portrait;margin:10mm}@media print{html,body{width:210mm!important;background:#fff!important}body>#printInvoiceWrap{display:block!important;visibility:visible!important;width:190mm!important}#printInvoiceWrap{width:190mm!important}#printInvoiceWrap .invoice{display:block!important;visibility:visible!important}.invoice .bill-table tr.item-spacer{height:105mm!important}}</style>
+
+</head><body><div id="printInvoiceWrap">${invoice.outerHTML}</div><script>window.addEventListener('load',function(){setTimeout(function(){window.focus();window.print();},500)});<\/script>
+
+</body></html>`);w.document.close();toast("AMC Invoice PDF ke liye Save as PDF select karein.")}
 function downloadAMCInvoicePDF(){printAMCInvoicePDF()}
 function shareAMCInvoiceWhatsApp(){const num=String(currentAMCInvoiceMobile||"").replace(/\D/g,"");const msg=encodeURIComponent("Purixa Water Solution AMC Invoice — PDF attached.");const w=printAMCInvoicePDF();if(w&&typeof w.addEventListener==="function"){try{w.addEventListener("afterprint",()=>{setTimeout(()=>{if(num)window.open("https://wa.me/91"+num+"?text="+msg,"_blank");else window.open("https://web.whatsapp.com/","_blank")},300)},{once:true})}catch(e){}}toast(num?"PDF Save karein. Print window band karte hi customer ka WhatsApp khulega.":"PDF Save karein. Print window band karte hi WhatsApp khulega.")}
 function fillAMCVisitTechnicians(selected=""){const s=document.getElementById("visitTechnician");if(!s)return;s.innerHTML='<option value="">Unassigned</option>'+db.technicians.map(x=>`<option value="${x.id}">${esc(x.name)}</option>`).join("");if(selected)s.value=String(selected)}
@@ -1509,8 +1611,12 @@ function printInvoiceForPDF(){
       #printInvoiceWrap .invoice{display:block!important;visibility:visible!important}
       .invoice .bill-table tr.item-spacer{height:105mm!important}
     }
-  </style></head><body><div id="printInvoiceWrap">${invoice.outerHTML}</div>
-  <script>window.addEventListener('load',function(){setTimeout(function(){window.focus();window.print();},500)});<\/script></body></html>`);
+  </style>
+
+</head><body><div id="printInvoiceWrap">${invoice.outerHTML}</div>
+  <script>window.addEventListener('load',function(){setTimeout(function(){window.focus();window.print();},500)});<\/script>
+
+</body></html>`);
   w.document.close();
   toast("Print window open ho raha hai — Destination me Save as PDF select karein.");
   return w;
@@ -1749,6 +1855,48 @@ try{if(!localStorage.getItem(FIREBASE_KEY))localStorage.setItem(FIREBASE_KEY,JSO
 if(initFirebase() && !firebaseAuth.currentUser) showLoginOverlay();
 loadReviewLink();
 setInterval(renderReminders,60000);
+</script>
+
+<script id="purixa-professional-icons-v2238">
+(function(){
+ const icons={
+  dashboard:'<path d="M3 12.5 12 4l9 8.5"/><path d="M5.5 10.5V20h13v-9.5"/><path d="M9.5 20v-5h5v5"/>',
+  leads:'<circle cx="12" cy="7" r="3"/><path d="M5 20a7 7 0 0 1 14 0"/><path d="m18 4 2 2-2 2"/>',
+  customers:'<circle cx="9" cy="8" r="3"/><path d="M3.5 20a5.5 5.5 0 0 1 11 0"/><path d="M16 5.5a3 3 0 0 1 0 5.8"/><path d="M17 14a5 5 0 0 1 4 5"/>',
+  quotations:'<path d="M6 3h9l3 3v15H6z"/><path d="M15 3v4h4"/><path d="M9 12h6M9 16h6"/>',
+  sales:'<path d="M4 5h16v14H4z"/><path d="M7 9h10M7 13h5"/><circle cx="16.5" cy="16" r="1.2"/>',
+  service:'<path d="m14.7 6.3 3-3 3 3-3 3"/><path d="M16 8 9 15"/><path d="M7 17a3 3 0 1 0 4 4l2-2"/><path d="M5 5l4 4"/>',
+  inventory:'<path d="M4 7 12 3l8 4-8 4z"/><path d="M4 7v10l8 4 8-4V7"/><path d="M12 11v10"/>',
+  expenses:'<path d="M5 4h14v16H5z"/><path d="M8 8h8M8 12h5M8 16h6"/>',
+  amc:'<path d="M18 8V4h-4"/><path d="M6 16v4h4"/><path d="M18 4a8 8 0 0 0-12 5"/><path d="M6 20a8 8 0 0 0 12-5"/>',
+  technicians:'<circle cx="12" cy="7" r="3"/><path d="M5 21a7 7 0 0 1 14 0"/><path d="m17 12 2 2 3-3"/>',
+  reports:'<path d="M5 20V10M12 20V4M19 20v-7"/><path d="M3 20h18"/>',
+  reminders:'<path d="M18 9a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/><path d="M10 22h4"/>',
+  settings:'<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1-2 2-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.5V20h-2.8v-.1a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.9.3l-.1.1-2-2 .1-.1A1.7 1.7 0 0 0 7.4 15a1.7 1.7 0 0 0-1.5-1H5v-2.8h.1a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.9l-.1-.1 2-2 .1.1a1.7 1.7 0 0 0 1.9.3 1.7 1.7 0 0 0 1-1.5V4H14v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.9-.3l.1-.1 2 2-.1.1a1.7 1.7 0 0 0-.3 1.9 1.7 1.7 0 0 0 1.5 1h.1V14h-.1a1.7 1.7 0 0 0-1.5 1z"/>'
+ };
+ function addIcons(){
+  document.querySelectorAll('.nav button[data-page]').forEach(b=>{
+   if(b.querySelector('.menu-icon')) return;
+   const key=b.dataset.page, path=icons[key]; if(!path) return;
+   const label=b.textContent.replace(/🔔/g,'').trim();
+   b.textContent='';
+   const sp=document.createElement('span');sp.className='menu-icon';sp.setAttribute('aria-hidden','true');sp.innerHTML='<svg viewBox="0 0 24 24">'+path+'</svg>';
+   const tx=document.createElement('span');tx.className='menu-label';tx.textContent=label;
+   b.append(sp,tx);
+  });
+  const nav=document.getElementById('mobileBottomNav');
+  if(nav){nav.querySelectorAll('button[data-page]').forEach(b=>{
+   if(b.querySelector('.menu-icon')) return;
+   const key=b.dataset.page,path=icons[key]; if(!path)return;
+   const text=b.textContent.trim();b.textContent='';
+   const sp=document.createElement('span');sp.className='menu-icon';sp.innerHTML='<svg viewBox="0 0 24 24">'+path+'</svg>';
+   const tx=document.createElement('span');tx.className='menu-label';tx.textContent=text;b.append(sp,tx);
+  });
+  }
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',addIcons);else addIcons();
+ const mo=new MutationObserver(()=>addIcons());mo.observe(document.body,{childList:true,subtree:true});
+})();
 </script>
 </body>
 </html>
