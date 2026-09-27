@@ -313,6 +313,33 @@ table{border:0;border-radius:0;overflow:hidden}thead th{background:linear-gradie
 @media(max-width:700px){.sidebar{display:none!important}.main{margin-left:0!important;width:100%!important;padding:10px 10px 88px!important}.top{position:relative;top:auto;min-height:64px;border-radius:15px;padding:9px 10px;margin-bottom:12px}.top h1{font-size:19px}.top p{font-size:10.5px}.cards{grid-template-columns:1fr 1fr!important;gap:9px}.card{border-radius:14px;padding:13px}.metric{font-size:21px}.panel{padding:14px;border-radius:14px}.panel h3{font-size:15px}.toolbar{gap:7px}.btn{min-height:40px;padding:9px 11px}.table-wrap{border-radius:12px}.mobile-bottom-nav{box-shadow:0 14px 35px rgba(11,31,58,.18)!important;border:1px solid #dce6f0!important}}
 @media(max-width:480px){.cards{grid-template-columns:1fr 1fr!important}.main{padding-left:8px!important;padding-right:8px!important}.top{padding:8px}.panel{padding:12px}.metric{font-size:20px}}
 </style>
+<style id="purixa-modern-ui">
+/* PURIXA CRM — MODERN UI SKIN ONLY
+   Visual overrides only. Do not change CRM logic/data/functions. */
+:root{
+  --blue:#1677ff;--blue2:#0b5ed7;--navy:#08264a;--navy2:#0d3564;
+  --bg:#f3f7fc;--card:#fff;--text:#102a43;--muted:#6b7c93;--line:#e3ebf5;
+  --green:#18b66a;--orange:#f59e0b;--purple:#7c4dff;--shadow:0 10px 30px rgba(25,65,110,.08)
+}
+html{background:var(--bg)}body{font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Arial,sans-serif;background:linear-gradient(135deg,#f7fbff 0%,#eef5fc 100%);color:var(--text)}
+.sidebar{width:250px;background:linear-gradient(180deg,#08264a 0%,#0b3565 100%);padding:18px 13px;box-shadow:8px 0 28px rgba(8,38,74,.10);border-right:1px solid rgba(255,255,255,.08)}
+.brand{padding:5px 10px 20px}.brand-logo{width:196px;height:70px;background:#fff;border-radius:14px;box-shadow:0 8px 24px rgba(0,0,0,.10)}
+.nav button{position:relative;display:flex;align-items:center;gap:10px;color:#cfe0f3;padding:12px 13px;border-radius:11px;margin:3px 0;font-weight:650;transition:.18s;background:transparent}
+.nav button:hover{background:rgba(255,255,255,.09);color:#fff;transform:translateX(2px)}.nav button.active{background:linear-gradient(90deg,#1677ff,#2387ff);color:#fff;box-shadow:0 7px 18px rgba(22,119,255,.28)}
+.main{margin-left:250px;width:calc(100% - 250px);padding:22px 24px 35px}.top{background:rgba(255,255,255,.82);backdrop-filter:blur(12px);border:1px solid var(--line);border-radius:18px;padding:15px 18px;margin-bottom:20px;box-shadow:var(--shadow)}.top h1{font-size:27px;letter-spacing:-.4px}.top p{color:var(--muted)}
+.page{animation:purixaFade .2s ease}@keyframes purixaFade{from{opacity:.3;transform:translateY(3px)}to{opacity:1;transform:none}}
+.cards{gap:16px;margin-bottom:18px}.card{border:1px solid var(--line);border-radius:16px;padding:18px;background:linear-gradient(145deg,#fff,#fafdff);box-shadow:var(--shadow);position:relative;overflow:hidden}.card:after{content:"";position:absolute;width:80px;height:80px;border-radius:50%;right:-30px;top:-30px;background:rgba(22,119,255,.05)}.card .label{font-weight:650}.metric{font-size:29px;letter-spacing:-.6px}
+.panel{border:1px solid var(--line);border-radius:16px;padding:18px;background:rgba(255,255,255,.94);box-shadow:var(--shadow)}.panel h3{font-size:17px;letter-spacing:-.2px}.page-head{padding:4px 2px 5px}.page-head h2{font-size:24px;letter-spacing:-.4px}
+.btn{border-radius:10px;padding:10px 15px;border:1px solid #dbe7f5;box-shadow:0 3px 10px rgba(20,60,100,.05);transition:.16s}.btn:hover{transform:translateY(-1px);box-shadow:0 7px 16px rgba(20,60,100,.10)}.btn.primary{background:linear-gradient(135deg,#1677ff,#0d63dc)}
+.search{border-radius:10px;background:#f8fbff;border-color:#dce7f3;outline:none}.search:focus,.field input:focus,.field select:focus,.field textarea:focus{border-color:#6aa8ff;box-shadow:0 0 0 3px rgba(22,119,255,.10)}
+table{border-collapse:separate;border-spacing:0;overflow:hidden;border:1px solid var(--line);border-radius:12px;background:#fff}th,td{padding:12px 10px;border-bottom:1px solid var(--line)}th{background:#f5f9fd;color:#48627d;font-size:12px;text-transform:uppercase;letter-spacing:.35px}tbody tr:last-child td{border-bottom:0}tbody tr:hover td{background:#f8fbff}.badge{border-radius:999px;padding:5px 9px}
+.form-grid{gap:14px}.field input,.field select,.field textarea{border-radius:10px;border-color:#dce7f3;background:#fbfdff}.modal{background:rgba(4,21,40,.58);backdrop-filter:blur(4px)}.modal-box{border-radius:18px;box-shadow:0 24px 70px rgba(0,0,0,.22);padding:22px}.modal-head{border-bottom:1px solid var(--line);padding-bottom:12px}
+.pipeline{gap:12px}.stage{border-radius:14px;border-color:var(--line);background:#f8fbff}.lead{border-radius:10px;border-color:#e2eaf3;box-shadow:0 3px 10px rgba(20,60,100,.04)}.toast{border-radius:12px;box-shadow:0 12px 35px rgba(0,0,0,.18)}
+.invoice{border-radius:8px;box-shadow:0 10px 35px rgba(25,65,110,.10)}
+@media(max-width:900px){.sidebar{width:76px}.main{margin-left:76px;width:calc(100% - 76px);padding:16px}.brand-logo{width:50px;height:50px;border-radius:12px}.nav button{justify-content:center;padding:12px}.nav button span{display:none}}
+@media(max-width:560px){.main{padding:10px}.top{padding:12px;border-radius:14px}.top h1{font-size:20px}.card{border-radius:13px;padding:13px}.metric{font-size:22px}.panel{border-radius:13px;padding:13px}.page-head h2{font-size:20px}}
+
+</style>
 </head>
 <body>
 <div id="authOverlay">
