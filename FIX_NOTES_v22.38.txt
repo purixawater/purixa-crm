@@ -1,0 +1,8 @@
+Purixa CRM v22.38 FIXED
+
+Fixed a critical UI redesign injection bug that caused JavaScript source to appear on screen and prevented menu buttons/login overlay from working.
+Removed duplicate professional UI/icon blocks that had been inserted inside print-template strings.
+Preserved CRM/Firebase business logic and data structure.
+Added manifest.json and sw.js with a new cache name: purixa-crm-v22.38-fixed.
+
+Use this version only after confirming the dashboard, Customers, Sales, Service, AMC, Reports and login flow. Keep v22.35/v22.36/v22.37 backups unchanged.
