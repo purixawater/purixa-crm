@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#0b6efd">
-<title>Purixa CRM Cloud — v22.51 Exact Reference UI</title>
+<title>Purixa CRM Cloud — v22.52 Unified Reference UI</title>
 <style>
 *{box-sizing:border-box}
 :root{--blue:#0b6efd;--dark:#17324d;--bg:#f4f7fb;--card:#fff;--muted:#6b7c93;--line:#e4eaf1;--green:#16a34a;--red:#dc2626;--orange:#f59e0b}
@@ -330,12 +330,53 @@ body{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,
 @media(max-width:780px){.sidebar{display:none!important}.main{margin-left:0!important;width:100%!important;padding:0 10px 24px!important}.reference-topbar{margin:0 -10px!important;height:64px!important;min-height:64px!important;padding:8px 10px!important}.ref-search{width:auto!important;flex:1!important;height:40px!important}.ref-top-right .ref-cloud,.ref-top-right .ref-user strong,.ref-top-right .ref-user em{display:none!important}.ref-new{font-size:0!important;width:42px!important;padding:0!important}.ref-new:after{content:"+";font-size:24px}.ref-user span{width:40px;height:40px}.reference-page-heading{padding:14px 2px 11px}.reference-page-heading h1{font-size:25px}.reference-date{display:none}.neon-kpis{grid-template-columns:repeat(2,minmax(0,1fr))!important}.neon-work-cards{grid-template-columns:repeat(2,minmax(0,1fr))!important}.neon-bottom-grid{grid-template-columns:1fr!important}.page:not(#dashboard) .table-wrap{margin:0 -4px}.page:not(#dashboard) th,.page:not(#dashboard) td{font-size:12px;padding:9px 7px}}
 </style>
 
+
+<style id="purixa-v22-52-unified-reference-final">
+/* v22.52 — Unified reference UI for EVERY CRM page. Presentation only. */
+:root{
+ --u-bg:#07172f;--u-bg2:#0b2447;--u-card:#f7fbff;--u-card2:#eaf5ff;--u-text:#102044;--u-muted:#627694;
+ --u-line:#cfe0ef;--u-blue:#1677ff;--u-shadow:0 10px 26px rgba(0,35,80,.15)
+}
+html,body{background:linear-gradient(135deg,#06152d 0%,#09203e 52%,#0a2448 100%)!important;color:#fff!important}
+.app{background:transparent!important}
+.sidebar{background:linear-gradient(180deg,#06152d 0%,#092344 55%,#0b294d 100%)!important;border-right:1px solid rgba(125,178,240,.16)!important;box-shadow:10px 0 32px rgba(0,0,0,.22)!important}
+.brand{border-bottom:1px solid rgba(125,178,240,.14)!important}.brand-logo{background:#fff!important;border-radius:14px!important;box-shadow:0 8px 22px rgba(0,0,0,.2)!important}.brand>span{color:#fff!important}.brand small{color:#9bb7d8!important}
+.nav{gap:4px!important}.nav button{color:#c4d4e8!important;border-radius:12px!important;border:1px solid transparent!important}.nav button:hover{background:rgba(57,136,255,.12)!important;color:#fff!important;transform:translateX(2px)}.nav button.active{background:linear-gradient(135deg,#1680ff,#1260d1)!important;color:#fff!important;box-shadow:0 8px 20px rgba(20,105,230,.28)!important}
+.main{background:transparent!important}.top,.reference-topbar{background:rgba(4,16,36,.82)!important;border-color:rgba(116,170,235,.18)!important;box-shadow:0 8px 24px rgba(0,0,0,.14)!important;color:#fff!important}.top h1,.top p{color:#fff!important}.top p{color:#aac2df!important}
+.reference-page-heading{color:#fff!important}.reference-page-heading h1{color:#fff!important}.reference-page-heading p{color:#b4c9e2!important}.reference-date{background:rgba(14,40,77,.78)!important;color:#eaf4ff!important}
+.ref-search,.ref-search input,.search{background:rgba(11,35,68,.92)!important;color:#edf6ff!important;border-color:rgba(106,166,239,.28)!important}.ref-search input::placeholder,.search::placeholder{color:#9db7d7!important}
+#cloudStatus,.cloud-status,.ref-cloud{background:rgba(17,49,88,.9)!important;color:#e8f3ff!important;border-color:rgba(91,161,241,.3)!important}
+.page{color:#fff!important}
+/* all page content surfaces */
+.page:not(#dashboard) > .panel,.page:not(#dashboard) > .cards > .card,.page:not(#dashboard) > .grid2 > .panel,
+.page:not(#dashboard) .panel,.page:not(#dashboard) .card,.page:not(#dashboard) .stage,.page:not(#dashboard) .lead,
+.page:not(#dashboard) .table-wrap,.page:not(#dashboard) .pipeline{
+ background:linear-gradient(145deg,var(--u-card),var(--u-card2))!important;color:var(--u-text)!important;border:1px solid var(--u-line)!important;border-radius:16px!important;box-shadow:var(--u-shadow),inset 0 1px 0 #fff!important
+}
+.page:not(#dashboard) .panel h1,.page:not(#dashboard) .panel h2,.page:not(#dashboard) .panel h3,
+.page:not(#dashboard) .card h1,.page:not(#dashboard) .card h2,.page:not(#dashboard) .card h3{color:var(--u-text)!important}
+.page:not(#dashboard) .mini,.page:not(#dashboard) .field label,.page:not(#dashboard) .page-head p{color:var(--u-muted)!important}
+.page:not(#dashboard) .toolbar{background:transparent!important}
+.page:not(#dashboard) .search,.page:not(#dashboard) input,.page:not(#dashboard) select,.page:not(#dashboard) textarea{background:#fff!important;color:var(--u-text)!important;border:1px solid #c9dced!important;border-radius:11px!important}
+.page:not(#dashboard) table{color:var(--u-text)!important;background:transparent!important}.page:not(#dashboard) th{background:linear-gradient(180deg,#edf7ff,#e4f1fb)!important;color:#4d6684!important;border-color:#d1e1ee!important}.page:not(#dashboard) td{background:rgba(255,255,255,.72)!important;color:var(--u-text)!important;border-color:#dbe8f2!important}.page:not(#dashboard) tbody tr:hover td{background:#f5fbff!important}
+.page:not(#dashboard) .btn{background:#f2f8ff!important;color:#145fbf!important;border-color:#c8dced!important;border-radius:10px!important}.page:not(#dashboard) .btn.primary{background:linear-gradient(135deg,#1677ff,#286cff)!important;color:#fff!important;border-color:#2687ff!important}.page:not(#dashboard) .btn.green{background:linear-gradient(135deg,#19b97b,#07925b)!important;color:#fff!important}.page:not(#dashboard) .btn.red,.page:not(#dashboard) .btn.danger{background:#fff0f2!important;color:#c62f4b!important;border-color:#ffd0d9!important}
+/* dashboard cards and work */
+.neon-dashboard .neon-kpi,.neon-dashboard .neon-panel,.neon-dashboard .neon-work-cards .card,.neon-dashboard .lead{background:linear-gradient(145deg,#f9fdff,#eaf5ff)!important;color:var(--u-text)!important;border-color:#cfe0ef!important;box-shadow:var(--u-shadow),inset 0 1px 0 #fff!important}
+.neon-dashboard .neon-kpi .label,.neon-dashboard .neon-work-cards .label{color:#526986!important}.neon-dashboard .neon-kpi .metric,.neon-dashboard .neon-work-cards .metric{color:var(--u-text)!important}.neon-dashboard .neon-panel h3,.neon-dashboard .life-node b{color:var(--u-text)!important}.neon-dashboard .mini{color:#657895!important}
+.neon-dashboard #todaysWorkList .lead,.neon-dashboard #dashboardDueUpcoming .lead,.neon-dashboard #todayFollow .lead,.neon-dashboard #recentService .lead{background:#fff!important;color:var(--u-text)!important;border:1px solid #d4e3ef!important}
+.neon-dashboard #todaysWorkList .btn,.neon-dashboard #dashboardDueUpcoming .btn{background:#f0f8ff!important;color:#1266d5!important;border-color:#c9dff2!important}.neon-dashboard .neon-action{background:linear-gradient(135deg,#1677ff,#286cff)!important;color:#fff!important}
+/* headings for non-dashboard pages */
+.page:not(#dashboard) .page-head h2{color:#fff!important;font-size:28px!important;font-weight:850!important}.page:not(#dashboard) .page-head p{color:#adc3dd!important}
+.modal{background:rgba(1,10,25,.78)!important}.modal-box{background:linear-gradient(145deg,#fff,#edf7ff)!important;color:var(--u-text)!important;border-color:#cfe0ef!important}.modal-head h3{color:var(--u-text)!important}
+@media(max-width:700px){html,body{background:#07172f!important}.main{background:transparent!important}.page:not(#dashboard) .page-head h2{font-size:23px!important}.page:not(#dashboard) .panel,.page:not(#dashboard) .card{border-radius:13px!important}}
+</style>
+
 </head>
 <body>
 <div id="authOverlay">
   <div class="auth-box">
     <img class="auth-logo" src="purixa-logo.png" alt="Purixa Water Solution">
-    <h2>☁️ Purixa CRM Cloud v22.38</h2>
+    <h2>☁️ Purixa CRM Cloud v22.52</h2>
     <p class="mini" id="authModeText">Cloud login is enabled after Firebase setup.</p>
     <div id="firebaseSetupBox">
       <label class="mini">Firebase Config JSON</label>

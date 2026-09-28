@@ -1,0 +1,1 @@
+v22.52: Unified reference visual theme applied across Dashboard, Leads, Customers, Quotations, Sales & Payments, Service, Inventory, Expenses, AMC, Technicians, Reports, Reminders and Settings. Business logic/data/Firebase functions preserved. Service-worker cache version bumped.
