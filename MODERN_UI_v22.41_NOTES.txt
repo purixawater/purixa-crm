@@ -1,0 +1,5 @@
+PURIXA CRM v22.41 — ACTUAL CRM FUTURISTIC GLASS UI
+
+Base: user-provided/current v22.40 actual CRM.
+Visual-only CSS layer; Firebase, business logic, data IDs and invoice functions retained.
+Changes: stronger glassmorphism, compact KPI tiles, color-coded metric accents, connected lifecycle pills, compact Today's Work tiles, colorful Quick Actions, modern panels/tables/forms, responsive desktop/tablet/mobile refinements.
