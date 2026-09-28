@@ -1,0 +1,3 @@
+Purixa CRM v22.45 — Modern Glass UI
+Visual redesign only. Existing Firebase, data, invoices and JavaScript functionality preserved.
+Strong dark glass dashboard, compact KPI cards, modern lifecycle, quick actions, tables/forms, responsive layout.
