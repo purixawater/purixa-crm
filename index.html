@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#0b6efd">
-<title>Purixa CRM Cloud — v22.45 PWA</title>
+<title>Purixa CRM Cloud — v22.46 PWA</title>
 <style>
 *{box-sizing:border-box}
 :root{--blue:#0b6efd;--dark:#17324d;--bg:#f4f7fb;--card:#fff;--muted:#6b7c93;--line:#e4eaf1;--green:#16a34a;--red:#dc2626;--orange:#f59e0b}
@@ -295,7 +295,7 @@ table{border:1px solid #e1e8f0;border-radius:13px;overflow:hidden}thead th{backg
 <div id="authOverlay">
   <div class="auth-box">
     <img class="auth-logo" src="purixa-logo.png" alt="Purixa Water Solution">
-    <h2>☁️ Purixa CRM Cloud v22.45</h2>
+    <h2>☁️ Purixa CRM Cloud v22.46</h2>
     <p class="mini" id="authModeText">Cloud login is enabled after Firebase setup.</p>
     <div id="firebaseSetupBox">
       <label class="mini">Firebase Config JSON</label>
@@ -1462,53 +1462,27 @@ function goToPage(pageName){
 function renderDashboardDueUpcoming(){
   const box=document.getElementById("dashboardDueUpcoming");
   if(!box)return;
-  const items=getReminderItems().slice(0,6);
-  if(!items.length){
-    box.innerHTML='<div class="empty" style="padding:12px">✅ No service, AMC or follow-up due in the next 30 days.</div>';
-    return;
-  }
-  box.innerHTML=items.map((x,i)=>{
-    const when=x.days<0?Math.abs(x.days)+" days overdue":x.days===0?"Due today":x.days+" days left";
-    const cls=reminderClass(x.days);
-    return `<div class="lead" style="margin:6px 0">
-      <div style="display:flex;justify-content:space-between;gap:8px;align-items:flex-start">
-        <div><b>${esc(x.customer)}</b><div class="mini">${esc(x.type)} · ${esc(x.date)}</div></div>
-        <span class="badge ${cls}">${esc(when)}</span>
-      </div>
-      <div class="toolbar" style="margin:6px 0 0">
-        <button class="btn" onclick="reminderCall(${i})">📞 Call</button>
-        <button class="btn" onclick="reminderWhatsApp(${i})">💬 WhatsApp</button>
-      </div>
-    </div>`;
-  }).join("");
+  let items=[];
+  try{items=(getReminderItems()||[]).slice(0,6)}catch(e){console.error("Upcoming render failed",e)}
+  if(!items.length){box.innerHTML='<div class="empty" style="padding:12px">✅ No service, AMC or follow-up due in the next 30 days.</div>';return;}
+  box.innerHTML=items.map((x,i)=>{const days=Number(x?.days);const when=days<0?Math.abs(days)+" days overdue":days===0?"Due today":days+" days left";const cls=reminderClass(days);return `<div class="lead" style="margin:6px 0"><div style="display:flex;justify-content:space-between;gap:8px;align-items:flex-start"><div><b>${esc(x?.customer||"Customer")}</b><div class="mini">${esc(x?.type||"Reminder")} · ${esc(x?.date||"")}</div></div><span class="badge ${cls}">${esc(when)}</span></div><div class="toolbar" style="margin:6px 0 0"><button class="btn" onclick="reminderCall(${i})">📞 Call</button><button class="btn" onclick="reminderWhatsApp(${i})">💬 WhatsApp</button></div></div>`}).join("");
 }
 
 function renderTodaysWork(){
   const cards=document.getElementById("todaysWorkCards"), list=document.getElementById("todaysWorkList");
   if(!cards||!list)return;
-  const reminders=getReminderItems();
-  const overdue=reminders.filter(x=>x.days<0);
-  const dueToday=reminders.filter(x=>x.days===0);
-  const serviceDue=reminders.filter(x=>x.type==="Service"&&x.days<=0);
-  const amcDue=reminders.filter(x=>(x.type==="AMC Service"||x.type==="AMC Expiry")&&x.days<=30);
-  const followups=reminders.filter(x=>x.type==="Follow-up"&&x.days<=0);
-  const paymentDue=db.sales.filter(x=>Number(x.pending||0)>0);
-  cards.innerHTML=`
-    <div class="card"><div class="label">🔴 Overdue</div><div class="metric">${overdue.length}</div></div>
-    <div class="card"><div class="label">📅 Due Today</div><div class="metric">${dueToday.length}</div></div>
-    <div class="card"><div class="label">🔧 Service Due</div><div class="metric">${serviceDue.length}</div></div>
-    <div class="card"><div class="label">🛠️ AMC Due</div><div class="metric">${amcDue.length}</div></div>
-    <div class="card"><div class="label">🔔 Follow-up</div><div class="metric">${followups.length}</div></div>
-    <div class="card"><div class="label">💳 Payment Due</div><div class="metric">${paymentDue.length}</div></div>`;
-  const work=[...reminders].filter(x=>x.days<=0).slice(0,8);
-  list.innerHTML=work.length?work.map((x,i)=>`<div class="today-row">
-    <div><b>${esc(x.customer||"Customer")}</b><div class="mini">${esc(x.type)} · <span class="due-badge ${x.days<0?'overdue':'today'}">${x.days<0?Math.abs(x.days)+" days overdue":"Due today"}</span></div></div>
-    <button class="row-action" onclick="reminderCall(${i})">☎ Call</button>
-    <button class="row-action" onclick="reminderWhatsApp(${i})">● WhatsApp</button>
-    ${x.type==="Service"&&x.customerId?`<button class="row-action primary" onclick="reminderRecordServiceByCustomer(${x.customerId})">Record Service</button>`:`<button class="row-action" onclick="goToPage('reminders')">View</button>`}
-  </div>`).join(""):`<div class="empty">✅ No service or follow-up work due today.</div>`;
+  let reminders=[];
+  try{reminders=getReminderItems()||[]}catch(e){console.error("Reminder render failed",e);reminders=[];}
+  const overdue=reminders.filter(x=>Number(x.days)<0);
+  const dueToday=reminders.filter(x=>Number(x.days)===0);
+  const serviceDue=reminders.filter(x=>x.type==="Service"&&Number(x.days)<=0);
+  const amcDue=reminders.filter(x=>(x.type==="AMC Service"||x.type==="AMC Expiry")&&Number(x.days)<=30);
+  const followups=reminders.filter(x=>x.type==="Follow-up"&&Number(x.days)<=0);
+  const paymentDue=(Array.isArray(db?.sales)?db.sales:[]).filter(x=>Number(x?.pending||0)>0);
+  cards.innerHTML=`<div class="card"><div class="label">🔴 Overdue</div><div class="metric">${overdue.length}</div></div><div class="card"><div class="label">📅 Due Today</div><div class="metric">${dueToday.length}</div></div><div class="card"><div class="label">🔧 Service Due</div><div class="metric">${serviceDue.length}</div></div><div class="card"><div class="label">🛠️ AMC Due</div><div class="metric">${amcDue.length}</div></div><div class="card"><div class="label">🔔 Follow-up</div><div class="metric">${followups.length}</div></div><div class="card"><div class="label">💳 Payment Due</div><div class="metric">${paymentDue.length}</div></div>`;
+  const work=reminders.filter(x=>Number(x.days)<=0).slice(0,8);
+  list.innerHTML=work.length?work.map((x,i)=>`<div class="today-row"><div><b>${esc(x?.customer||"Customer")}</b><div class="mini">${esc(x?.type||"Reminder")} · <span class="due-badge ${Number(x.days)<0?'overdue':'today'}">${Number(x.days)<0?Math.abs(Number(x.days))+" days overdue":"Due today"}</span></div></div><button class="row-action" onclick="reminderCall(${i})">☎ Call</button><button class="row-action" onclick="reminderWhatsApp(${i})">● WhatsApp</button>${x?.type==="Service"&&x?.customerId?`<button class="row-action primary" onclick="reminderRecordServiceByCustomer(${JSON.stringify(x.customerId)})">Record Service</button>`:`<button class="row-action" onclick="goToPage('reminders')">View</button>`}</div>`).join(""): `<div class="empty">✅ No service or follow-up work due today.</div>`;
 }
-function reminderRecordServiceByCustomer(id){goToPage("service");setTimeout(()=>openServiceModal(id),100)}
 
 function updateDashboardClock(){const d=new Date();const dateEl=document.getElementById("dashboardDate"),timeEl=document.getElementById("dashboardTime");if(dateEl)dateEl.textContent=d.toLocaleDateString("en-US",{weekday:"short",day:"2-digit",month:"short",year:"numeric"});if(timeEl)timeEl.textContent=d.toLocaleTimeString("en-US",{hour:"2-digit",minute:"2-digit"});}
 setInterval(updateDashboardClock,30000);setTimeout(updateDashboardClock,0);
@@ -1536,7 +1510,26 @@ async function deleteLead(id){
   toast("✅ Lead deleted");
 }
 function renderLeads(){const q=(leadSearch?.value||"").toLowerCase(),arr=db.leads.filter(x=>(x.name+x.mobile+x.product+x.source).toLowerCase().includes(q)),stages=["New","Contacted","Interested","Site Visit","Quotation","Negotiation","Won","Lost"];pipeline.innerHTML=stages.map(st=>`<div class="stage"><h4>${st} <span class="mini">(${arr.filter(x=>x.status===st).length})</span></h4>${arr.filter(x=>x.status===st).slice(0,12).map(x=>`<div class="lead"><b>${esc(x.name)}</b><div class="mini">${esc(x.product||"")}</div><div class="mini">${esc(x.mobile)}</div><div class="toolbar" style="margin:6px 0 0"><button class="btn" onclick="leadCall(${x.id})">📞</button><button class="btn" onclick="leadWhatsApp(${x.id})">💬</button>${x.status!=="Won"?`<button class="btn green" onclick="convertLead(${x.id})">→ Customer</button>`:""} <button class="btn red" onclick="deleteLead(${x.id})">🗑️ Delete</button></div></div>`).join("")||`<div class="mini">No leads</div>`}</div>`).join("")}
-function renderCustomers(){const q=(customerSearch?.value||"").toLowerCase(),arr=db.customers.filter(x=>(x.name+x.mobile+x.product+x.address).toLowerCase().includes(q));customerTable.innerHTML=arr.map(x=>{const d=x.nextService?daysFromToday(x.nextService):null;const when=d===null?"Not scheduled":d<0?`${Math.abs(d)} days overdue`:d===0?"Due today":`${d} days left`;const cls=d!==null&&d<=7?"red":d!==null&&d<=30?"orange":"green";return `<tr><td><b>${esc(x.name)}</b><div class="mini">${esc(x.address||"")}</div>${x.source?`<div class="mini">Source: ${esc(x.source)}${x.referredBy?` · ${esc(x.referredBy)}`:""}</div>`:""}</td><td>${esc(x.mobile)}<br><button class="btn" onclick="customerCallById(${x.id})">📞</button> <button class="btn" onclick="customerWhatsAppById(${x.id})">💬</button></td><td>${esc(x.product||"-")}</td><td>${esc(x.purchase||"-")}</td><td>${x.amc?esc(x.amc):"-"}</td><td>${esc(x.nextService||"-")}<div class="mini"><span class="badge ${cls}">${esc(when)}</span></div></td><td><button class="btn primary" onclick="openCustomerProfile(${x.id})">👤 View</button> <button class="btn" onclick="editCustomer(${x.id})">✏️ Edit</button> <button class="btn" onclick="openCustomerService(${x.id})">🔧 Service</button> <button class="btn red" onclick="del('customers',${x.id})">Delete</button></td></tr>`}).join("")||`<tr><td colspan="7" class="empty">No customers found</td></tr>`}
+function renderCustomers(){
+  const table=document.getElementById("customerTable");
+  if(!table)return;
+  const input=document.getElementById("customerSearch");
+  const q=String(input?.value||"").toLowerCase().trim();
+  const customers=Array.isArray(db?.customers)?db.customers:[];
+  const arr=customers.filter(x=>{
+    const hay=[x?.name,x?.mobile,x?.product,x?.address,x?.source,x?.referredBy].map(v=>String(v??"")).join(" ").toLowerCase();
+    return !q||hay.includes(q);
+  });
+  if(!arr.length){table.innerHTML='<tr><td colspan="7" class="empty">No customers found</td></tr>';return;}
+  table.innerHTML=arr.map(x=>{
+    const id=JSON.stringify(x?.id);
+    const d=x?.nextService?daysFromToday(x.nextService):null;
+    const when=d===null?"Not scheduled":d<0?`${Math.abs(d)} days overdue`:d===0?"Due today":`${d} days left`;
+    const cls=d!==null&&d<=7?"red":d!==null&&d<=30?"orange":"green";
+    return `<tr><td><b>${esc(x?.name||"Customer")}</b><div class="mini">${esc(x?.address||"")}</div>${x?.source?`<div class="mini">Source: ${esc(x.source)}${x?.referredBy?` · ${esc(x.referredBy)}`:""}</div>`:""}</td><td>${esc(x?.mobile||"")}<br><button class="btn" onclick="customerCallById(${id})">📞</button> <button class="btn" onclick="customerWhatsAppById(${id})">💬</button></td><td>${esc(x?.product||"-")}</td><td>${esc(x?.purchase||"-")}</td><td>${x?.amc?esc(x.amc):"-"}</td><td>${esc(x?.nextService||"-")}<div class="mini"><span class="badge ${cls}">${esc(when)}</span></div></td><td><button class="btn primary" onclick="openCustomerProfile(${id})">👤 View</button> <button class="btn" onclick="editCustomer(${id})">✏️ Edit</button> <button class="btn" onclick="openCustomerService(${id})">🔧 Service</button> <button class="btn red" onclick="del('customers',${id})">Delete</button></td></tr>`;
+  }).join("");
+}
+
 function renderSales(){updateSalesBalances();const box=document.getElementById("salesTable");if(!box)return;box.innerHTML=db.sales.length?db.sales.map(s=>{const c=db.customers.find(x=>x.id===s.customerId)||{};return `<tr><td>${esc(s.date||"-")}</td><td><b>${esc(c.name||s.customer||"-")}</b><div class="mini">${esc(c.mobile||s.mobile||"")}</div></td><td>${esc(s.product||"-")}</td><td>${money(s.total)}</td><td>${money(s.paid)}</td><td>${money(s.pending)}</td><td>${statusBadge(s.paymentStatus)}</td><td><button class="btn" onclick="viewInvoice(${s.id})">🧾 Invoice</button>${Number(s.pending||0)>0?` <button class="btn green" onclick="openReceivePayment(${s.id})">💵 Receive</button>`:` <button class="btn" onclick="openReceivePayment(${s.id})">💳 History</button>`} <button class="btn red" onclick="deleteSale(${s.id})">🗑️ Delete</button></td></tr>`}).join(""): `<tr><td colspan="8" class="empty">No sales yet.</td></tr>`}
 function renderServices(){const q=(document.getElementById("serviceSearch")?.value||"").toLowerCase();const arr=db.services.filter(s=>(s.customer+s.mobile+s.problem+s.tech+s.status).toLowerCase().includes(q));const box=document.getElementById("serviceList");if(!box)return;box.innerHTML=arr.length?arr.map(s=>{const c=db.customers.find(x=>x.id===s.customerId)||{};const mobile=c.mobile||s.mobile||"";return `<div class="service-card"><div class="row"><div><b>${esc(c.name||s.customer||"-")}</b><div class="mini">${esc(mobile)} • ${esc(s.problem||"Service")}</div></div>${statusBadge(s.status||"Open")}</div><div class="mini">📅 ${esc(s.date||"-")} • 👨‍🔧 ${esc(s.tech||"Unassigned")} • 💰 ${money(s.amount??s.charge??0)}${s.follow?` • 🔔 Follow-up ${esc(s.follow)}`:""}</div><div class="mini" style="margin-top:7px">${esc(s.notes||"")}</div><div class="toolbar" style="margin:8px 0 0"><button class="btn" onclick="viewService(${s.id})">👁 View</button><button class="btn primary" onclick="openServiceInvoice(${s.id})">🧾 Invoice</button><button class="btn" onclick="editService(${s.id})">✏️ Edit</button><button class="btn" onclick="waByService(${s.id})">💬 WhatsApp</button>${s.status==="Completed"?`<button class="btn green" onclick="sendServiceBillAndReviewWhatsApp(${s.id})">📲 Bill + Review</button>`:""}<button class="btn red" onclick="del('services',${s.id})">Delete</button></div></div>`}).join(""):`<div class="empty">No service requests found.</div>`}
 function renderAMC(){
@@ -1693,6 +1686,16 @@ body{font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Arial,sa
 @media(max-width:800px){body{background:#f2f7fc}.sidebar{display:none}.main{margin-left:0;width:100%;padding:0 10px 80px}.topbar-modern{height:64px}.modern-menu{display:block}.global-search{width:min(52vw,360px);height:40px}.modern-cloud{display:none}.top-new-btn{font-size:0;width:42px;padding:0}.top-new-btn b{font-size:23px}.top-icon-btn{width:38px}.page-heading-row{align-items:center}.page-heading-row h1{font-size:28px}.page-heading-row p{font-size:12px}.date-chip{min-width:150px;padding:8px 10px}.dashboard-modern{padding:10px;border-radius:14px}.metric-grid{grid-template-columns:repeat(2,1fr);gap:8px}.metric-card{min-height:78px;padding:10px}.metric-icon{width:42px;height:42px}.metric-copy b{font-size:18px}.lifecycle-modern{grid-template-columns:repeat(4,1fr);gap:8px}.life-circle{width:50px;height:50px;font-size:22px}.dashboard-lower,.dashboard-extra-grid{grid-template-columns:1fr}.work-metrics{grid-template-columns:repeat(2,1fr)}.work-reminders-btn{font-size:0;width:42px;height:42px;padding:0}.work-reminders-btn:first-letter{font-size:20px}.today-row,.upcoming-row{grid-template-columns:1fr auto}.today-row .row-action:nth-last-child(-n+2),.upcoming-row .row-action:nth-last-child(-n+2){display:none}.user-name{display:none}}
 @media(max-width:520px){.global-search{width:44vw}.page-heading-row{display:block}.date-chip{margin-top:8px;width:max-content}.metric-card{gap:8px}.metric-icon{width:38px;height:38px;font-size:20px}.metric-copy span{font-size:11px}.metric-copy b{font-size:16px}.metric-arrow{width:30px;height:30px;font-size:23px}.lifecycle-modern{grid-template-columns:repeat(2,1fr)}.section-head h2{font-size:17px}}
 
+
+/* v22.46 Full CRM Rendering Safety + Modern Tables */
+.table-wrap{background:#fff;border-radius:14px;overflow:auto}
+.table-wrap table{width:100%;min-width:980px}
+.table-wrap tbody tr{display:table-row!important;visibility:visible!important;opacity:1!important}
+.table-wrap tbody td{display:table-cell!important;visibility:visible!important;opacity:1!important;color:#10243f!important;background:#fff!important}
+.work-metrics{display:grid!important;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px;margin-top:12px}
+.work-metrics .card{display:flex!important;visibility:visible!important;opacity:1!important}
+@media(max-width:1100px){.work-metrics{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:700px){.work-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.table-wrap table{min-width:900px}}
 </style>
 
 </head><body><div id="printInvoiceWrap">${invoice.outerHTML}</div>
@@ -1730,255 +1733,8 @@ async function shareInvoiceWhatsApp(){
   toast(num ? "PDF Save karein. Print window band karte hi customer ka WhatsApp khulega." : "PDF Save karein. Print window band karte hi WhatsApp khulega.");
 }
 
-function renderAll(){renderDashboard();renderTodaysWork();renderLeads();renderCustomers();renderQuotations();renderSales();renderServices();renderAMC();renderTech();renderInventory();renderExpenses();renderReports();renderReminders()}
-async function deleteSale(id){
-  const s=db.sales.find(x=>x.id===id);
-  if(!s)return;
-  const customerName=s.customer||db.customers.find(c=>c.id===s.customerId)?.name||"Customer";
-  const ok=confirm("Delete this sale permanently?\n\nCustomer: "+customerName+"\nProduct: "+(s.product||"-")+"\nTotal: "+money(s.total||0)+"\n\nThis also removes all payment entries attached to this sale. The customer itself will NOT be deleted.");
-  if(!ok)return;
-  if(cloudReady&&firebaseAuth?.currentUser){
-    try{
-      const base=await cloudUserBase();
-      await base.collection("sales").doc(String(id)).delete().catch(e=>{if(e?.code!=="not-found")throw e;});
-    }catch(e){
-      console.error(e);
-      toast("⚠️ Sale was NOT deleted. Firebase permission/error — your data is safe.");
-      return;
-    }
-  }
-  db.sales=db.sales.filter(x=>x.id!==id);
-  localStorage.setItem(KEY,JSON.stringify(db));
-  renderAll();
-  if(cloudReady&&firebaseAuth?.currentUser){
-    const success=await syncCloudData(true);
-    toast(success?"✅ Sale and payment history deleted from Cloud":"⚠️ Sale deleted, but Cloud verification failed — check Firebase permissions");
-  }else{
-    toast("Sale and its payment history deleted");
-  }
-}
-async function deletePayment(saleId,index){
-  const s=db.sales.find(x=>x.id===saleId);
-  if(!s||!Array.isArray(s.payments)||!s.payments[index])return;
-  const p=s.payments[index];
-  const ok=confirm("Delete this payment permanently?\n\nAmount: "+money(p.amount||0)+"\nDate: "+(p.date||"-")+"\nMode: "+(p.mode||"-"));
-  if(!ok)return;
-  const updated=JSON.parse(JSON.stringify(s));
-  updated.payments.splice(index,1);
-  const total=Number(updated.total||0);
-  updated.paid=Math.min(total,updated.payments.reduce((sum,x)=>sum+Number(x.amount||0),0));
-  updated.pending=Math.max(0,total-updated.paid);
-  updated.paymentStatus=salePaymentStatus(updated);
-  updated.mode=updated.payments[0]?.mode||"Pending";
-  if(cloudReady&&firebaseAuth?.currentUser){
-    try{
-      const base=await cloudUserBase();
-      await base.collection("sales").doc(String(saleId)).set(updated,{merge:true});
-    }catch(e){
-      console.error(e);
-      toast("⚠️ Payment was NOT deleted. Firebase permission/error — your data is safe.");
-      return;
-    }
-  }
-  Object.assign(s,updated);
-  localStorage.setItem(KEY,JSON.stringify(db));
-  renderAll();
-  renderReceivePayment(saleId);
-  if(cloudReady&&firebaseAuth?.currentUser){
-    const success=await syncCloudData(true);
-    toast(success?"✅ Payment deleted and balance updated in Cloud":"⚠️ Payment deleted, but Cloud verification failed — check Firebase permissions");
-  }else{
-    toast("Payment deleted and balance updated");
-  }
-}
-function del(type,id){if(!confirm("Delete this record?"))return;db[type]=db[type].filter(x=>x.id!==id);persist();toast("Deleted")}
-function exportData(){const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([JSON.stringify(db,null,2)],{type:"application/json"}));a.download="purixa-crm-backup.json";a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}
-function importData(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const imported=JSON.parse(r.result);db=Object.assign(emptyDB(),imported);db.sales=(db.sales||[]).map(s=>{s.total=Number(s.total??s.amount??0);s.paid=Number(s.paid||0);if(!Array.isArray(s.payments))s.payments=s.paid>0?[{id:(s.id||Date.now())+1,date:s.date||today,amount:s.paid,mode:s.mode||"Cash",note:"Initial payment"}]:[];return s});db.services=db.services.map(s=>normalizeService(s,db));db.amcs=(db.amcs||[]).map(a=>{if(!a.customerId){const c=db.customers.find(c=>String(c.name).toLowerCase()===String(a.customer||"").toLowerCase());if(c)a.customerId=c.id}a.visitsTotal=Number(a.visitsTotal??a.visits??0);if(!Array.isArray(a.visitHistory))a.visitHistory=[];if(!a.nextService)a.nextService=addMonths(a.start||today,3);return a});syncCustomerAMCFields(db);persist();toast("Backup imported")}catch{toast("Invalid backup")}};r.readAsText(f);e.target.value=""}
-async function firebaseDiagnostic(){
-  const lines=[];
-  const fail=(label,e)=>{const code=e?.code||"unknown";const msg=e?.message||String(e);lines.push("❌ "+label+" | "+code+" | "+msg);console.error("Firebase diagnostic",label,e);};
-  try{
-    if(!firestore || !firebaseAuth?.currentUser){
-      alert("Firebase Diagnostic\n\n❌ Not logged in / Firestore not ready.");
-      return;
-    }
-    const uid=firebaseAuth.currentUser.uid;
-    const ref=firestore.collection("users").doc(uid).collection("crm").doc("_firebase_diagnostic");
-    const payload={test:true,createdAt:firebase.firestore.FieldValue.serverTimestamp(),uid};
-    try{await ref.set(payload,{merge:true});lines.push("✅ CREATE/SET allowed");}catch(e){fail("CREATE/SET",e);}
-    try{const snap=await ref.get();lines.push(snap.exists?"✅ READ allowed":"⚠️ READ returned no document");}catch(e){fail("READ",e);}
-    try{await ref.set({updated:true,uid},{merge:true});lines.push("✅ UPDATE allowed");}catch(e){fail("UPDATE",e);}
-    try{await ref.delete();lines.push("✅ DELETE allowed");}catch(e){fail("DELETE",e);}
-    const out="Firebase Diagnostic\n\nUID: "+uid+"\nPath: users/"+uid+"/crm/_firebase_diagnostic\n\n"+lines.join("\n");
-    alert(out);
-    toast(lines.some(x=>x.startsWith("❌"))?"⚠️ Firebase diagnostic found an error — see details":"✅ Firebase read/write/delete test passed");
-  }catch(e){
-    fail("DIAGNOSTIC",e);
-    alert("Firebase Diagnostic\n\n"+(e?.code||"unknown")+"\n"+(e?.message||String(e)));
-  }
+function renderAll(){
+  const fns=[renderDashboard,renderTodaysWork,renderLeads,renderCustomers,renderQuotations,renderSales,renderServices,renderAMC,renderTech,renderInventory,renderExpenses,renderReports,renderReminders];
+  fns.forEach(fn=>{try{fn()}catch(e){console.error("CRM render error in "+(fn.name||"module"),e)}});
 }
 
-async function safeStartFresh(){
-  if(!confirm("⚠️ START FRESH?\n\nThis will permanently delete ALL CRM records for the currently logged-in Firebase account and this browser: Leads, Customers, Sales, Services, AMC and Technicians.\n\nYour CRM files, logo, signature, invoice design, Firebase configuration and PWA settings will NOT be deleted.\n\nBefore continuing, make sure all current records are only test/demo data.\n\nContinue?")) return;
-  try{
-    exportData();
-    if(!confirm("A backup file has been started for download.\n\nIf you have any REAL customer/business data in this CRM, press Cancel and keep the backup.\n\nIf the data is only FAKE/TEST data, press OK to permanently delete it from Firebase and this browser.")) return;
-    if(firestore && firebaseAuth?.currentUser){
-      const base=await cloudUserBase();
-      const keys=["leads","customers","quotations","sales","services","amcs","technicians","inventory","inventoryMovements","expenses"];
-
-      // Delete documents one-by-one instead of Firestore batch.commit().
-      // Firebase Diagnostic confirmed direct DELETE permission, so this avoids
-      // batch-specific failures while keeping the local reset transactional.
-      for(const key of keys){
-        const col=base.collection(key);
-        while(true){
-          const snap=await col.limit(100).get();
-          if(snap.empty) break;
-          for(const doc of snap.docs){
-            try{
-              await doc.ref.delete();
-            }catch(e){
-              const msg="Firebase direct delete failed in collection: "+key+"\n\nDocument: "+doc.id+"\nCode: "+(e?.code||"unknown")+"\nMessage: "+(e?.message||String(e))+"\n\nNo local reset was completed.";
-              console.error(msg,e); alert(msg); throw e;
-            }
-          }
-        }
-      }
-
-      try{
-        const legacy=firestore.collection("users").doc(firebaseAuth.currentUser.uid).collection("crm").doc("main");
-        const legacySnap=await legacy.get();
-        if(legacySnap.exists) await legacy.delete();
-      }catch(e){
-        const msg="Firebase delete failed for legacy document: users/"+firebaseAuth.currentUser.uid+"/crm/main\n\nCode: "+(e?.code||"unknown")+"\nMessage: "+(e?.message||String(e))+"\n\nNo local reset was completed.";
-        console.error(msg,e); alert(msg); throw e;
-      }
-    }else{
-      alert("Firebase is not connected/logged in. No local reset was completed.");
-      return;
-    }
-    db=emptyDB();
-    localStorage.setItem(KEY,JSON.stringify(db));
-    renderAll();
-    fillSaleCustomerList();
-    toast("✅ CRM started fresh — test data removed from Firebase and this browser");
-    alert("✅ START FRESH COMPLETE\n\nAll CRM test records were deleted from Firebase and this browser.\n\nCRM is now ready for fresh data.");
-  }catch(e){
-    console.error("Safe Start Fresh failed",e);
-    const code = e?.code || e?.name || "unknown";
-    const message = e?.message || String(e);
-    alert("❌ SAFE START FRESH FAILED\\n\\nCode: "+code+"\\n\\nMessage: "+message+"\\n\\nNo local reset was completed.");
-    toast("⚠️ Reset failed. No local reset was completed.");
-  }
-}
-
-
-// PWA install + service worker
-let deferredInstallPrompt = null;
-window.addEventListener("beforeinstallprompt", (event) => {
-  event.preventDefault();
-  deferredInstallPrompt = event;
-  const btn = document.getElementById("pwaInstallBtn");
-  if (btn) btn.classList.add("show");
-});
-window.addEventListener("appinstalled", () => {
-  deferredInstallPrompt = null;
-  const btn = document.getElementById("pwaInstallBtn");
-  if (btn) btn.classList.remove("show");
-  toast("✅ Purixa CRM installed as an app");
-});
-async function installPWA(){
-  if(!deferredInstallPrompt){
-    toast("ℹ️ If Install is not shown, use Chrome menu → Install Purixa CRM / Add to Home Screen.");
-    return;
-  }
-  deferredInstallPrompt.prompt();
-  try{ await deferredInstallPrompt.userChoice; }catch{}
-  deferredInstallPrompt = null;
-  const btn = document.getElementById("pwaInstallBtn");
-  if (btn) btn.classList.remove("show");
-}
-if("serviceWorker" in navigator){
-  window.addEventListener("load", () => {
-    navigator.serviceWorker.register("./sw.js", {scope:"./"})
-      .then(() => console.log("Purixa CRM service worker registered"))
-      .catch(err => console.warn("PWA service worker registration failed", err));
-  });
-}
-
-function openMobileMenu(){
-  document.getElementById("mobileDrawer")?.classList.add("open");
-  document.getElementById("mobileDrawerBackdrop")?.classList.add("show");
-}
-function closeMobileMenu(){
-  document.getElementById("mobileDrawer")?.classList.remove("open");
-  document.getElementById("mobileDrawerBackdrop")?.classList.remove("show");
-}
-
-function mobileBottomNav(){
-  if(document.getElementById("mobileBottomNav")) return;
-  const nav=document.createElement("div");
-  nav.id="mobileBottomNav"; nav.className="mobile-bottom-nav";
-  nav.innerHTML=`<button data-page="dashboard"><span>🏠</span>Home</button><button data-page="customers"><span>👥</span>Customers</button><button data-page="sales"><span>💰</span>Sales</button><button data-page="service"><span>🔧</span>Service</button><button data-page="reminders"><span>🔔</span>Reminders</button>`;
-  document.body.appendChild(nav);
-  nav.querySelectorAll("button[data-page]").forEach(b=>b.addEventListener("click",()=>{
-    const page=b.dataset.page;
-    document.querySelector(`.nav button[data-page="${page}"]`)?.click();
-    closeMobileMenu();
-  }));
-}
-mobileBottomNav();
-
-updateTopAction("dashboard");
-renderAll();
-fillSaleCustomerList();
-try{if(!localStorage.getItem(FIREBASE_KEY))localStorage.setItem(FIREBASE_KEY,JSON.stringify(BUILT_IN_FIREBASE_CONFIG))}catch{}
-if(initFirebase() && !firebaseAuth.currentUser) showLoginOverlay();
-loadReviewLink();
-setInterval(renderReminders,60000);
-</script>
-
-<script id="purixa-professional-icons-v2238">
-(function(){
- const icons={
-  dashboard:'<path d="M3 12.5 12 4l9 8.5"/><path d="M5.5 10.5V20h13v-9.5"/><path d="M9.5 20v-5h5v5"/>',
-  leads:'<circle cx="12" cy="7" r="3"/><path d="M5 20a7 7 0 0 1 14 0"/><path d="m18 4 2 2-2 2"/>',
-  customers:'<circle cx="9" cy="8" r="3"/><path d="M3.5 20a5.5 5.5 0 0 1 11 0"/><path d="M16 5.5a3 3 0 0 1 0 5.8"/><path d="M17 14a5 5 0 0 1 4 5"/>',
-  quotations:'<path d="M6 3h9l3 3v15H6z"/><path d="M15 3v4h4"/><path d="M9 12h6M9 16h6"/>',
-  sales:'<path d="M4 5h16v14H4z"/><path d="M7 9h10M7 13h5"/><circle cx="16.5" cy="16" r="1.2"/>',
-  service:'<path d="m14.7 6.3 3-3 3 3-3 3"/><path d="M16 8 9 15"/><path d="M7 17a3 3 0 1 0 4 4l2-2"/><path d="M5 5l4 4"/>',
-  inventory:'<path d="M4 7 12 3l8 4-8 4z"/><path d="M4 7v10l8 4 8-4V7"/><path d="M12 11v10"/>',
-  expenses:'<path d="M5 4h14v16H5z"/><path d="M8 8h8M8 12h5M8 16h6"/>',
-  amc:'<path d="M18 8V4h-4"/><path d="M6 16v4h4"/><path d="M18 4a8 8 0 0 0-12 5"/><path d="M6 20a8 8 0 0 0 12-5"/>',
-  technicians:'<circle cx="12" cy="7" r="3"/><path d="M5 21a7 7 0 0 1 14 0"/><path d="m17 12 2 2 3-3"/>',
-  reports:'<path d="M5 20V10M12 20V4M19 20v-7"/><path d="M3 20h18"/>',
-  reminders:'<path d="M18 9a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/><path d="M10 22h4"/>',
-  settings:'<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1-2 2-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.5V20h-2.8v-.1a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.9.3l-.1.1-2-2 .1-.1A1.7 1.7 0 0 0 7.4 15a1.7 1.7 0 0 0-1.5-1H5v-2.8h.1a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.9l-.1-.1 2-2 .1.1a1.7 1.7 0 0 0 1.9.3 1.7 1.7 0 0 0 1-1.5V4H14v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.9-.3l.1-.1 2 2-.1.1a1.7 1.7 0 0 0-.3 1.9 1.7 1.7 0 0 0 1.5 1h.1V14h-.1a1.7 1.7 0 0 0-1.5 1z"/>'
- };
- function addIcons(){
-  document.querySelectorAll('.nav button[data-page]').forEach(b=>{
-   if(b.querySelector('.menu-icon')) return;
-   const key=b.dataset.page, path=icons[key]; if(!path) return;
-   const label=b.textContent.replace(/🔔/g,'').trim();
-   b.textContent='';
-   const sp=document.createElement('span');sp.className='menu-icon';sp.setAttribute('aria-hidden','true');sp.innerHTML='<svg viewBox="0 0 24 24">'+path+'</svg>';
-   const tx=document.createElement('span');tx.className='menu-label';tx.textContent=label;
-   b.append(sp,tx);
-  });
-  const nav=document.getElementById('mobileBottomNav');
-  if(nav){nav.querySelectorAll('button[data-page]').forEach(b=>{
-   if(b.querySelector('.menu-icon')) return;
-   const key=b.dataset.page,path=icons[key]; if(!path)return;
-   const text=b.textContent.trim();b.textContent='';
-   const sp=document.createElement('span');sp.className='menu-icon';sp.innerHTML='<svg viewBox="0 0 24 24">'+path+'</svg>';
-   const tx=document.createElement('span');tx.className='menu-label';tx.textContent=text;b.append(sp,tx);
-  });
-  }
- }
- if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',addIcons);else addIcons();
- const mo=new MutationObserver(()=>addIcons());mo.observe(document.body,{childList:true,subtree:true});
-})();
-</script>
-</body>
-</html>
