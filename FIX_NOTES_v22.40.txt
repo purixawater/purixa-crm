@@ -1,0 +1,4 @@
+Purixa CRM v22.40 — Exact Reference Design
+
+Visual-only final layer applied to v22.39. Existing CRM/Firebase/business logic preserved.
+Reference targets: Dashboard, Customers, Sales & Payments, Service, Reports screenshots supplied by user.
