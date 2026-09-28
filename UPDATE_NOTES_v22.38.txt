@@ -1,2 +1,0 @@
-Purixa CRM v22.38 — Full Professional UI/UX refresh.
-All menus, navigation icons, mobile navigation, buttons, cards, tables, forms, modals and dashboard styling redesigned. Business logic, Firebase data model and existing features preserved.
