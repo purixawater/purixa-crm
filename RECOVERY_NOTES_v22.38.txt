@@ -1,0 +1,18 @@
+PURIXA CRM v22.38 RECOVERY FIX
+
+Problem found:
+v22.36 data exists under users/{UID}/crm/main/data and also normalized records may exist under users/{UID}/crm/_root.
+
+This recovery build:
+- Reads both legacy main/data and normalized _root collections.
+- Merges records without deleting existing Firebase records.
+- Never overwrites Firebase with an empty local database.
+- Keeps the v22.38 professional UI/icon fixes.
+- Preserves the existing Firebase project and user UID structure.
+
+TEST:
+1. Login with the same Firebase account used in v22.36.
+2. Dashboard should load old customers/sales/services/AMC.
+3. If cloud has no records, the app will NOT overwrite Firebase.
+
+DO NOT delete Firebase collections while testing.
