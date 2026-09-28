@@ -1,3 +1,0 @@
-Purixa CRM v22.44 — Aurora Glass
-
-Visual-only redesign based on the actual Purixa CRM v22.43 structure. Firebase, data models, invoice logic, navigation, and existing JavaScript functions are preserved. Service-worker cache was bumped to v22.44 to prevent stale UI caching.
