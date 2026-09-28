@@ -1,0 +1,3 @@
+Purixa CRM v22.42 — Modern Glass Dashboard
+Visual-only UI update based on the actual CRM v22.41 structure.
+Existing Firebase, data, invoice and JavaScript functions are preserved.
