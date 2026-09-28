@@ -1,0 +1,3 @@
+Purixa CRM v22.43
+Clean package: actual CRM files only.
+Version: 22.43
