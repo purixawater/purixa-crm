@@ -1,0 +1,10 @@
+Purixa CRM Cloud v23.1 — Dashboard Repair
+
+Fixed two issues seen in v23:
+1. Dashboard content could render in a narrow area with a large blank area on the right. Added a robust full-width layout rule for desktop/tablet/mobile.
+2. Today's Work / Today-Overdue / Due & Upcoming dynamic sections could remain empty because renderTodaysWork() was not called by renderDashboard(). The call is restored.
+
+Preserved:
+- Existing v22.38 CRM data logic and Firebase integration
+- Customers, Leads, Quotations, Sales & Payments, Service, Inventory, Expenses, AMC, Technicians, Reports, Reminders, Settings
+- Existing invoice/AMC/service logic, signatures, PWA files, logo and icons
