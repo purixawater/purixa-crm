@@ -299,19 +299,19 @@ table{border:1px solid #e1e8f0;border-radius:13px;overflow:hidden}thead th{backg
 <aside class="sidebar">
   <div class="brand"><img class="brand-logo" src="purixa-logo.png" alt="Purixa Water Solution"><span>PURIXA CRM CLOUD</span><small>Water Solution Business CRM</small></div>
   <nav class="nav">
-    <button class="active" data-page="dashboard">Dashboard</button>
-    <button data-page="leads">Leads</button>
-    <button data-page="customers">Customers</button>
-    <button data-page="quotations">Quotations</button>
-    <button data-page="sales">Sales & Payments</button>
-    <button data-page="service">Service</button>
-    <button data-page="inventory">Inventory</button>
-    <button data-page="expenses">Expenses</button>
-    <button data-page="amc">AMC</button>
-    <button data-page="technicians">Technicians</button>
-    <button data-page="reports">Reports</button>
-    <button data-page="reminders">Reminders 🔔</button>
-    <button data-page="settings">Settings</button>
+    <button class="active" data-page="dashboard"><span class="nav-icon">⌂</span><span>Dashboard</span></button>
+    <button data-page="leads"><span class="nav-icon">▽</span><span>Leads</span></button>
+    <button data-page="customers"><span class="nav-icon">♟</span><span>Customers</span></button>
+    <button data-page="quotations"><span class="nav-icon">▤</span><span>Quotations</span></button>
+    <button data-page="sales"><span class="nav-icon">₹</span><span>Sales & Payments</span></button>
+    <button data-page="service"><span class="nav-icon">⌕</span><span>Service</span></button>
+    <button data-page="inventory"><span class="nav-icon">◆</span><span>Inventory</span></button>
+    <button data-page="expenses"><span class="nav-icon">▣</span><span>Expenses</span></button>
+    <button data-page="amc"><span class="nav-icon">▦</span><span>AMC</span></button>
+    <button data-page="technicians"><span class="nav-icon">♙</span><span>Technicians</span></button>
+    <button data-page="reports"><span class="nav-icon">▥</span><span>Reports</span></button>
+    <button data-page="reminders"><span class="nav-icon">♧</span><span>Reminders</span></button>
+    <button data-page="settings"><span class="nav-icon">⚙</span><span>Settings</span></button>
   </nav>
 </aside>
 
@@ -322,80 +322,81 @@ table{border:1px solid #e1e8f0;border-radius:13px;overflow:hidden}thead th{backg
     <button class="drawer-close" onclick="closeMobileMenu()">✕</button>
   </div>
   <nav class="nav">
-    <button data-page="dashboard">Dashboard</button>
-    <button data-page="leads">Leads</button>
-    <button data-page="customers">Customers</button>
-    <button data-page="quotations">Quotations</button>
-    <button data-page="sales">Sales & Payments</button>
-    <button data-page="service">Service</button>
-    <button data-page="inventory">Inventory</button>
-    <button data-page="expenses">Expenses</button>
-    <button data-page="amc">AMC</button>
-    <button data-page="technicians">Technicians</button>
-    <button data-page="reports">Reports</button>
-    <button data-page="reminders">Reminders 🔔</button>
-    <button data-page="settings">Settings</button>
+    <button data-page="dashboard"><span class="nav-icon">⌂</span><span>Dashboard</span></button>
+    <button data-page="leads"><span class="nav-icon">▽</span><span>Leads</span></button>
+    <button data-page="customers"><span class="nav-icon">♟</span><span>Customers</span></button>
+    <button data-page="quotations"><span class="nav-icon">▤</span><span>Quotations</span></button>
+    <button data-page="sales"><span class="nav-icon">₹</span><span>Sales & Payments</span></button>
+    <button data-page="service"><span class="nav-icon">⌕</span><span>Service</span></button>
+    <button data-page="inventory"><span class="nav-icon">◆</span><span>Inventory</span></button>
+    <button data-page="expenses"><span class="nav-icon">▣</span><span>Expenses</span></button>
+    <button data-page="amc"><span class="nav-icon">▦</span><span>AMC</span></button>
+    <button data-page="technicians"><span class="nav-icon">♙</span><span>Technicians</span></button>
+    <button data-page="reports"><span class="nav-icon">▥</span><span>Reports</span></button>
+    <button data-page="reminders"><span class="nav-icon">♧</span><span>Reminders</span></button>
+    <button data-page="settings"><span class="nav-icon">⚙</span><span>Settings</span></button>
   </nav>
 </aside>
 
 <main class="main">
-  <div class="top">
-    <div style="display:flex;align-items:center;gap:8px"><button class="mobile-menu-btn" onclick="openMobileMenu()" aria-label="Open menu">☰</button><div><h1 id="pageTitle">Dashboard</h1><p>Purixa Water Solution — Business Management</p></div></div>
-    <div style="display:flex;align-items:center;gap:8px"><span id="cloudStatus" class="cloud-status">💾 Local</span><button id="topActionBtn" class="btn primary" onclick="openModal('leadModal')">＋ New Lead</button></div>
+  <div class="topbar-modern">
+    <div class="top-left">
+      <button class="mobile-menu-btn modern-menu" onclick="openMobileMenu()" aria-label="Open menu">☰</button>
+      <div class="global-search"><span>⌕</span><input id="globalSearch" placeholder="Search customers, leads, invoices, services..." aria-label="Global search"></div>
+    </div>
+    <div class="top-actions">
+      <span id="cloudStatus" class="cloud-status modern-cloud">☁ <b>Cloud Connected</b></span>
+      <button id="topActionBtn" class="top-new-btn" onclick="openModal('leadModal')"><b>＋</b> New Lead</button>
+      <button class="top-icon-btn" onclick="goToPage('reminders')" aria-label="Notifications">♧<span class="notif-dot">3</span></button>
+      <div class="avatar-modern">AB</div>
+      <div class="user-name">Arvind <span>⌄</span></div>
+    </div>
+  </div>
+  <div class="page-heading-row">
+    <div><h1 id="pageTitle">Dashboard</h1><p>Purixa Water Solution — Business Management</p></div>
+    <div class="date-chip"><span>▣</span><div><b id="dashboardDate">Sun, 28 Sep 2026</b><small id="dashboardTime">10:24 AM</small></div></div>
   </div>
 
-  <section id="dashboard" class="page active">
-    <div class="cards">
-      <div class="card"><div class="label">Total Leads</div><div class="metric" id="mLeads">0</div></div>
-      <div class="card"><div class="label">Customers</div><div class="metric" id="mCustomers">0</div></div>
-      <div class="card"><div class="label">Sales</div><div class="metric" id="mSales">₹0</div></div>
-      <div class="card"><div class="label">Pending Payment</div><div class="metric" id="mPending">₹0</div></div>
-      <div class="card"><div class="label">Open Services</div><div class="metric" id="mService">0</div></div>
-      <div class="card"><div class="label">AMC Expiring</div><div class="metric" id="mAMC">0</div></div>
-      <div class="card"><div class="label">Follow-ups Today</div><div class="metric" id="mFollow">0</div></div>
-      <div class="card"><div class="label">Technicians</div><div class="metric" id="mTech">0</div></div><div class="card"><div class="label">Due Follow-ups</div><div class="metric" id="mDue">0</div></div><div class="card"><div class="label">AMC Next 30 Days</div><div class="metric" id="mAMC30">0</div></div><div class="card"><div class="label">Referral Customers</div><div class="metric" id="mReferral">0</div></div>
-    </div>
-    <div class="panel" style="background:#eef6ff;border-color:#cfe3ff">
-      <h3>Purixa Customer Lifecycle</h3>
-      <p style="margin:0;color:#52677d">🎯 Lead → 👥 Customer → 💰 Sale → 🛠️ Installation → 🔧 Service → 🔄 AMC → 🔔 Renewal</p>
-    </div>
+  <section id="dashboard" class="page active dashboard-modern">
+  <div class="metric-grid">
+    <div class="metric-card tone-blue" onclick="goToPage('leads')"><div class="metric-icon">♟</div><div class="metric-copy"><span>Total Leads</span><b id="mLeads">0</b></div><div class="metric-arrow">›</div></div>
+    <div class="metric-card tone-green" onclick="goToPage('customers')"><div class="metric-icon">♟</div><div class="metric-copy"><span>Customers</span><b id="mCustomers">0</b></div><div class="metric-arrow">›</div></div>
+    <div class="metric-card tone-purple" onclick="goToPage('sales')"><div class="metric-icon">₹</div><div class="metric-copy"><span>Sales</span><b id="mSales">₹0</b></div><div class="metric-arrow">›</div></div>
+    <div class="metric-card tone-orange" onclick="goToPage('sales')"><div class="metric-icon">▣</div><div class="metric-copy"><span>Pending Payment</span><b id="mPending">₹0</b></div><div class="metric-arrow">›</div></div>
+    <div class="metric-card tone-pink" onclick="goToPage('service')"><div class="metric-icon">⌕</div><div class="metric-copy"><span>Open Services</span><b id="mService">0</b></div><div class="metric-arrow">›</div></div>
+    <div class="metric-card tone-cyan" onclick="goToPage('amc')"><div class="metric-icon">▦</div><div class="metric-copy"><span>AMC Expiring</span><b id="mAMC">0</b></div><div class="metric-arrow">›</div></div>
+    <div class="metric-card tone-magenta" onclick="goToPage('reminders')"><div class="metric-icon">♧</div><div class="metric-copy"><span>Follow-ups Today</span><b id="mFollow">0</b></div><div class="metric-arrow">›</div></div>
+    <div class="metric-card tone-indigo" onclick="goToPage('technicians')"><div class="metric-icon">♙</div><div class="metric-copy"><span>Technicians</span><b id="mTech">0</b></div><div class="metric-arrow">›</div></div>
+  </div>
 
-    <div class="panel" style="background:#fffdf5;border-color:#f2df9b;margin-bottom:15px">
-      <div class="toolbar" style="justify-content:space-between;align-items:center;margin-bottom:8px">
-        <div><h3 style="margin:0">📋 Today's Work</h3><div class="mini">તમારા આજના service, AMC, follow-up અને payment કામ એક જગ્યાએ.</div></div>
-        <button class="btn primary" onclick="goToPage('reminders')">🔔 All Reminders</button>
-      </div>
-      <div class="cards" id="todaysWorkCards"></div>
-      <div id="todaysWorkList"></div>
+  <div class="lifecycle-card">
+    <div class="section-head"><div class="section-symbol">✓</div><div><h2>Purixa Customer Lifecycle</h2><p>Complete journey from Lead to Renewal</p></div></div>
+    <div class="lifecycle-modern">
+      <div class="life-node node-purple"><div class="life-circle">▽</div><b>Lead</b><strong id="lifeLead">0</strong></div><div class="life-arrow">→</div>
+      <div class="life-node node-green"><div class="life-circle">♟</div><b>Customer</b><strong id="lifeCustomer">0</strong></div><div class="life-arrow">→</div>
+      <div class="life-node node-orange"><div class="life-circle">▣</div><b>Sale</b><strong id="lifeSale">₹0</strong></div><div class="life-arrow">→</div>
+      <div class="life-node node-blue"><div class="life-circle">⌕</div><b>Installation</b><strong id="lifeInstallation">0</strong></div><div class="life-arrow">→</div>
+      <div class="life-node node-pink"><div class="life-circle">⚙</div><b>Service</b><strong id="lifeService">0</strong></div><div class="life-arrow">→</div>
+      <div class="life-node node-violet"><div class="life-circle">▦</div><b>AMC</b><strong id="lifeAMC">0</strong></div><div class="life-arrow">→</div>
+      <div class="life-node node-teal"><div class="life-circle">↻</div><b>Renewal</b><strong id="lifeRenewal">0</strong></div>
     </div>
+  </div>
 
-    <div class="grid2">
-      <div class="panel">
-        <h3>⚡ Quick Actions</h3>
-        <div class="toolbar" style="margin:0">
-          <button class="btn primary" onclick="openModal('leadModal')">＋ New Lead</button>
-          <button class="btn primary" onclick="openModal('customerModal')">＋ Customer</button>
-          <button class="btn primary" onclick="openModal('saleModal')">＋ New Sale</button><button class="btn primary" onclick="openQuotationModal()">🧾 Quotation</button>
-          <button class="btn primary" onclick="openServiceModal()">🔧 New Service</button>
-          <button class="btn primary" onclick="openAMCModal()">🔄 New AMC</button>
-          <button class="btn green" onclick="goToPage('reminders')">🔔 Reminders</button>
-        </div>
-      </div>
+  <div class="work-card">
+    <div class="section-head"><div class="section-symbol orange">✓</div><div><h2>Today's Work</h2><p>Service, AMC, follow-ups and payment due at a glance</p></div><button class="work-reminders-btn" onclick="goToPage('reminders')">♧ &nbsp;All Reminders</button></div>
+    <div class="work-metrics" id="todaysWorkCards"></div>
+  </div>
 
-      <div class="panel">
-        <div class="toolbar" style="justify-content:space-between;align-items:center;margin-bottom:8px">
-          <h3 style="margin:0">📅 Due & Upcoming</h3>
-          <button class="btn" onclick="goToPage('reminders')">View All</button>
-        </div>
-        <div id="dashboardDueUpcoming"></div>
-      </div>
-    </div>
+  <div class="dashboard-lower">
+    <div class="lower-panel today-panel"><div class="lower-title"><div><span class="title-icon red">◷</span><div><h2>Today / Overdue Work</h2></div></div><button class="link-btn" onclick="goToPage('reminders')">View All</button></div><div id="todaysWorkList"></div></div>
+    <div class="lower-panel upcoming-panel"><div class="lower-title"><div><span class="title-icon orange">▣</span><div><h2>Due & Upcoming</h2></div></div><button class="link-btn" onclick="goToPage('reminders')">View All</button></div><div id="dashboardDueUpcoming"></div></div>
+  </div>
 
-    <div class="grid2">
-      <div class="panel"><h3>Today's Follow-ups</h3><div id="todayFollow"></div></div>
-      <div class="panel"><h3>Recent Service Requests</h3><div id="recentService"></div></div>
-    </div>
-  </section>
+  <div class="dashboard-extra-grid">
+    <div class="lower-panel"><div class="lower-title"><div><span class="title-icon purple">♧</span><h2>Today's Follow-ups</h2></div></div><div id="todayFollow"></div></div>
+    <div class="lower-panel"><div class="lower-title"><div><span class="title-icon blue">⌕</span><h2>Recent Service Requests</h2></div></div><div id="recentService"></div></div>
+  </div>
+</section>
 
   <section id="leads" class="page">
     <div class="panel">
@@ -1474,17 +1475,22 @@ function renderTodaysWork(){
     <div class="card"><div class="label">🔴 Overdue</div><div class="metric">${overdue.length}</div></div>
     <div class="card"><div class="label">📅 Due Today</div><div class="metric">${dueToday.length}</div></div>
     <div class="card"><div class="label">🔧 Service Due</div><div class="metric">${serviceDue.length}</div></div>
-    <div class="card"><div class="label">🔄 AMC</div><div class="metric">${amcDue.length}</div></div>
-    <div class="card"><div class="label">📞 Follow-up</div><div class="metric">${followups.length}</div></div>
-    <div class="card"><div class="label">💰 Payment Due</div><div class="metric">${paymentDue.length}</div></div>`;
-  const work=[...reminders].filter(x=>x.days<=0).slice(0,10);
-  const payRows=paymentDue.slice(0,5).map(s=>`<div class="lead" style="margin:6px 0"><div style="display:flex;justify-content:space-between;gap:8px"><div><b>${esc(s.customer||"Customer")}</b><div class="mini">Payment pending · ${esc(s.date||"")}</div></div><b>${money(s.pending)}</b></div><div class="toolbar" style="margin:6px 0 0"><button class="btn" onclick="viewInvoice(${s.id})">🧾 Invoice</button><button class="btn" onclick="openReceivePayment(${s.id})">💰 Receive Payment</button></div></div>`).join("");
-  const reminderRows=work.map((x,i)=>`<div class="lead" style="margin:6px 0"><div style="display:flex;justify-content:space-between;gap:8px"><div><b>${esc(x.customer||"Customer")}</b><div class="mini">${esc(x.type)} · ${esc(x.date)}</div></div><span class="badge ${reminderClass(x.days)}">${x.days<0?Math.abs(x.days)+" days overdue":"Due today"}</span></div><div class="toolbar" style="margin:6px 0 0"><button class="btn" onclick="reminderCall(${i})">📞 Call</button><button class="btn" onclick="reminderWhatsApp(${i})">💬 WhatsApp</button>${x.type==="Service"&&x.customerId?`<button class="btn primary" onclick="reminderRecordServiceByCustomer(${x.customerId})">🔧 Record Service</button>`:""}</div></div>`).join("");
-  list.innerHTML=(reminderRows||payRows)?`<div class="grid2"><div><h4 style="margin:8px 0">Today / Overdue Work</h4>${reminderRows||'<div class="empty">No service or follow-up work due today.</div>'}</div><div><h4 style="margin:8px 0">Payment Due</h4>${payRows||'<div class="empty">No pending payments.</div>'}</div></div>`:'<div class="empty">✅ No urgent work for today.</div>';
+    <div class="card"><div class="label">🛠️ AMC Due</div><div class="metric">${amcDue.length}</div></div>
+    <div class="card"><div class="label">🔔 Follow-up</div><div class="metric">${followups.length}</div></div>
+    <div class="card"><div class="label">💳 Payment Due</div><div class="metric">${paymentDue.length}</div></div>`;
+  const work=[...reminders].filter(x=>x.days<=0).slice(0,8);
+  list.innerHTML=work.length?work.map((x,i)=>`<div class="today-row">
+    <div><b>${esc(x.customer||"Customer")}</b><div class="mini">${esc(x.type)} · <span class="due-badge ${x.days<0?'overdue':'today'}">${x.days<0?Math.abs(x.days)+" days overdue":"Due today"}</span></div></div>
+    <button class="row-action" onclick="reminderCall(${i})">☎ Call</button>
+    <button class="row-action" onclick="reminderWhatsApp(${i})">● WhatsApp</button>
+    ${x.type==="Service"&&x.customerId?`<button class="row-action primary" onclick="reminderRecordServiceByCustomer(${x.customerId})">Record Service</button>`:`<button class="row-action" onclick="goToPage('reminders')">View</button>`}
+  </div>`).join(""):`<div class="empty">✅ No service or follow-up work due today.</div>`;
 }
 function reminderRecordServiceByCustomer(id){goToPage("service");setTimeout(()=>openServiceModal(id),100)}
 
-function renderDashboard(){mLeads.textContent=db.leads.length;mCustomers.textContent=db.customers.length;mSales.textContent=money(db.sales.reduce((a,x)=>a+Number(x.total||0),0));mPending.textContent=money(db.sales.reduce((a,x)=>a+Number(x.pending||0),0));mService.textContent=db.services.filter(x=>!["Completed","Cancelled"].includes(x.status)).length;const amcExpiring=getAMCExpiryRecords().filter(x=>{const d=daysFromToday(x.end);return d!==null&&d>=0&&d<=30});mAMC.textContent=amcExpiring.length;mFollow.textContent=db.leads.filter(x=>x.follow===today&&x.status!=="Lost").length;mTech.textContent=db.technicians.length;mDue.textContent=db.services.filter(x=>x.follow&&x.follow<=today&&x.status!=="Completed").length+db.customers.filter(x=>x.nextService&&x.nextService<=today).length;mAMC30.textContent=amcExpiring.length;const f=db.leads.filter(x=>x.follow===today).slice(0,8);todayFollow.innerHTML=f.length?f.map(x=>`<div class="lead"><b>${esc(x.name)}</b><div class="mini">${esc(x.product)} · ${statusBadge(x.status)}</div><div class="toolbar" style="margin:7px 0 0"><button class="btn" onclick="leadCall(${x.id})">📞 Call</button><button class="btn" onclick="leadWhatsApp(${x.id})">💬 WhatsApp</button></div></div>`).join(""):"<div class='empty'>No follow-ups today</div>";const s=db.services.slice(0,6);recentService.innerHTML=s.length?s.map(x=>`<div class="lead"><b>${esc(x.customer||"Customer")}</b><div class="mini">${esc(x.problem||"General Service")} · ${statusBadge(x.status)}</div></div>`).join(""):"<div class='empty'>No service requests</div>";renderDashboardDueUpcoming()}
+function updateDashboardClock(){const d=new Date();const dateEl=document.getElementById("dashboardDate"),timeEl=document.getElementById("dashboardTime");if(dateEl)dateEl.textContent=d.toLocaleDateString("en-US",{weekday:"short",day:"2-digit",month:"short",year:"numeric"});if(timeEl)timeEl.textContent=d.toLocaleTimeString("en-US",{hour:"2-digit",minute:"2-digit"});}
+setInterval(updateDashboardClock,30000);setTimeout(updateDashboardClock,0);
+function renderDashboard(){mLeads.textContent=db.leads.length;mCustomers.textContent=db.customers.length;mSales.textContent=money(db.sales.reduce((a,x)=>a+Number(x.total||0),0));mPending.textContent=money(db.sales.reduce((a,x)=>a+Number(x.pending||0),0));mService.textContent=db.services.filter(x=>!["Completed","Cancelled"].includes(x.status)).length;const amcExpiring=getAMCExpiryRecords().filter(x=>{const d=daysFromToday(x.end);return d!==null&&d>=0&&d<=30});mAMC.textContent=amcExpiring.length;mFollow.textContent=db.leads.filter(x=>x.follow===today&&x.status!=="Lost").length;mTech.textContent=db.technicians.length;mDue.textContent=db.services.filter(x=>x.follow&&x.follow<=today&&x.status!=="Completed").length+db.customers.filter(x=>x.nextService&&x.nextService<=today).length;mAMC30.textContent=amcExpiring.length;const f=db.leads.filter(x=>x.follow===today).slice(0,8);todayFollow.innerHTML=f.length?f.map(x=>`<div class="lead"><b>${esc(x.name)}</b><div class="mini">${esc(x.product)} · ${statusBadge(x.status)}</div><div class="toolbar" style="margin:7px 0 0"><button class="btn" onclick="leadCall(${x.id})">📞 Call</button><button class="btn" onclick="leadWhatsApp(${x.id})">💬 WhatsApp</button></div></div>`).join(""):"<div class='empty'>No follow-ups today</div>";const s=db.services.slice(0,6);recentService.innerHTML=s.length?s.map(x=>`<div class="lead"><b>${esc(x.customer||"Customer")}</b><div class="mini">${esc(x.problem||"General Service")} · ${statusBadge(x.status)}</div></div>`).join(""):"<div class='empty'>No service requests</div>";document.getElementById("lifeLead")&&(lifeLead.textContent=db.leads.length);document.getElementById("lifeCustomer")&&(lifeCustomer.textContent=db.customers.length);document.getElementById("lifeSale")&&(lifeSale.textContent=money(db.sales.reduce((a,x)=>a+Number(x.total||0),0)));document.getElementById("lifeInstallation")&&(lifeInstallation.textContent=db.services.filter(x=>String(x.type||x.problem||"").toLowerCase().includes("install")).length);document.getElementById("lifeService")&&(lifeService.textContent=db.services.length);document.getElementById("lifeAMC")&&(lifeAMC.textContent=db.amcs.length);document.getElementById("lifeRenewal")&&(lifeRenewal.textContent=amcExpiring.length);renderDashboardDueUpcoming()}
 function leadCall(id){const x=db.leads.find(x=>x.id===id);if(x)callNo(x.mobile)}
 function leadWhatsApp(id){const x=db.leads.find(x=>x.id===id);if(x)wa(x.mobile,"Hello "+x.name+", this is Purixa Water Solution. How can we help you?")}
 async function deleteLead(id){
@@ -1645,7 +1651,27 @@ function printInvoiceForPDF(){
       #printInvoiceWrap .invoice{display:block!important;visibility:visible!important}
       .invoice .bill-table tr.item-spacer{height:105mm!important}
     }
-  </style>
+  
+/* ===== PURIXA MODERN CRM UI — reference dashboard theme ===== */
+:root{--navy:#071b38;--navy2:#0c2850;--ink:#071a3a;--muted2:#66748c;--surface:#f7fbff;--line2:#d8e4f2;--shadow2:0 12px 30px rgba(9,35,72,.12)}
+body{font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Arial,sans-serif;background:linear-gradient(135deg,#071b36 0,#0b2347 38%,#eff6ff 38%,#f4f8fd 100%);color:var(--ink)}
+.sidebar{width:260px;background:linear-gradient(180deg,#071a35 0%,#0a2448 55%,#06162e 100%);padding:16px 13px;border-right:1px solid rgba(255,255,255,.08);box-shadow:10px 0 35px rgba(1,12,30,.18)}
+.brand{padding:0 7px 20px;text-align:center}.brand-logo{width:216px;height:80px;border-radius:14px;padding:5px;margin:0 auto 10px;box-shadow:0 8px 22px rgba(0,0,0,.15)}.brand span{display:block;font-size:16px;letter-spacing:.8px;color:#eaf4ff}.brand small{font-size:11px;color:#a9c0dc;opacity:1;margin-top:5px}
+.nav{display:flex;flex-direction:column;gap:4px}.nav button{height:52px;width:100%;border:1px solid transparent;border-radius:12px;background:transparent;color:#d9e8fb;display:flex;align-items:center;gap:15px;padding:0 15px;font-weight:650;font-size:15px;position:relative;transition:.18s ease;box-shadow:none}.nav button:hover{background:rgba(58,126,221,.16);transform:translateX(2px)}.nav button.active{background:linear-gradient(100deg,#1688ff,#1557e8);color:#fff;box-shadow:0 10px 24px rgba(18,108,237,.34)}.nav button.active:after{content:"";position:absolute;right:7px;width:5px;height:24px;border-radius:8px;background:#fff}.nav-icon{width:26px;height:26px;display:grid;place-items:center;font-size:22px;font-weight:800;color:#79c9ff;line-height:1}.nav button:nth-child(2) .nav-icon{color:#bb70ff}.nav button:nth-child(3) .nav-icon{color:#ff7f91}.nav button:nth-child(4) .nav-icon{color:#d08bff}.nav button:nth-child(5) .nav-icon{color:#ff7892}.nav button:nth-child(6) .nav-icon{color:#75b5ff}.nav button:nth-child(7) .nav-icon{color:#42e0d6}.nav button:nth-child(8) .nav-icon{color:#72baff}.nav button:nth-child(9) .nav-icon{color:#ff7ba2}.nav button:nth-child(10) .nav-icon{color:#f3a5ff}.nav button:nth-child(11) .nav-icon{color:#b18cff}.nav button:nth-child(12) .nav-icon{color:#ff8ea4}.nav button:nth-child(13) .nav-icon{color:#9bb8ff}.nav button.active .nav-icon{color:#fff}
+.main{margin-left:260px;width:calc(100% - 260px);padding:0 18px 28px;max-width:none}.topbar-modern{height:76px;display:flex;align-items:center;justify-content:space-between;gap:16px}.top-left,.top-actions{display:flex;align-items:center;gap:12px}.modern-menu{display:none}.global-search{width:min(460px,42vw);height:44px;border:1px solid rgba(144,186,238,.38);background:rgba(18,50,94,.78);border-radius:25px;display:flex;align-items:center;gap:10px;padding:0 16px;color:#e8f2ff;box-shadow:inset 0 1px 0 rgba(255,255,255,.08)}.global-search span{font-size:26px}.global-search input{border:0;outline:0;background:transparent;color:#fff;width:100%;font-size:14px}.global-search input::placeholder{color:#d2dced}.modern-cloud{height:44px;border:1px solid rgba(45,153,232,.3);background:rgba(8,39,76,.72);padding:0 16px;border-radius:12px;color:#f0f7ff;display:flex;align-items:center;gap:8px}.top-new-btn{height:44px;border:0;border-radius:12px;background:linear-gradient(135deg,#1b8dff,#145ce9);color:#fff;padding:0 18px;font-size:15px;box-shadow:0 9px 22px rgba(17,102,236,.25)}.top-new-btn b{font-size:22px;vertical-align:-2px}.top-icon-btn{position:relative;width:44px;height:44px;border:0;background:transparent;color:#fff;font-size:25px}.notif-dot{position:absolute;right:0;top:0;background:#ff3944;color:#fff;width:21px;height:21px;border-radius:50%;font-size:11px;display:grid;place-items:center;font-weight:800;border:2px solid #0b2347}.avatar-modern{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,#a6c9ff,#5b8de8);color:#fff;font-weight:800;font-size:15px}.user-name{color:#fff;font-weight:700;white-space:nowrap}.user-name span{font-size:18px;color:#9db3d2;margin-left:4px}.page-heading-row{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;margin:0 2px 10px}.page-heading-row h1{font-size:36px;line-height:1;margin:0;color:#f8fbff;letter-spacing:-1px}.page-heading-row p{margin:7px 0 0;color:#e0eafa;font-size:16px;font-weight:600}.date-chip{min-width:200px;background:rgba(18,46,87,.75);border:1px solid rgba(142,181,228,.25);border-radius:12px;padding:10px 15px;display:flex;align-items:center;gap:12px;color:#fff}.date-chip>span{font-size:25px}.date-chip small{display:block;color:#fff;margin-top:3px;font-size:13px}.date-chip b{font-size:13px}
+.dashboard-modern{background:linear-gradient(180deg,rgba(17,53,101,.76),rgba(10,35,69,.84));border:1px solid rgba(131,171,223,.16);border-radius:18px;padding:20px;box-shadow:0 18px 45px rgba(1,15,34,.2)}.metric-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:16px}.metric-card{min-height:88px;border-radius:14px;padding:13px 12px;display:flex;align-items:center;gap:12px;position:relative;cursor:pointer;border:1px solid rgba(255,255,255,.65);box-shadow:0 9px 22px rgba(11,40,75,.09);transition:.16s}.metric-card:hover{transform:translateY(-2px);box-shadow:0 13px 28px rgba(5,30,65,.18)}.metric-icon{width:48px;height:48px;border-radius:11px;display:grid;place-items:center;color:#fff;font-size:25px;font-weight:900;box-shadow:0 7px 15px rgba(0,0,0,.12)}.metric-copy{min-width:0}.metric-copy span{display:block;font-size:13px;color:#17243c;font-weight:700}.metric-copy b{display:block;font-size:22px;color:#07152f;margin-top:5px;white-space:nowrap}.metric-arrow{margin-left:auto;width:38px;height:38px;border-radius:50%;display:grid;place-items:center;font-size:30px;color:#0c55d6;background:rgba(255,255,255,.42)}
+.tone-blue{background:linear-gradient(135deg,#e4f4ff,#f1f8ff)}.tone-blue .metric-icon{background:linear-gradient(135deg,#18a6ff,#0878e9)}.tone-green{background:linear-gradient(135deg,#d8faec,#ecfff6)}.tone-green .metric-icon{background:linear-gradient(135deg,#10bf74,#0aa65e)}.tone-purple{background:linear-gradient(135deg,#f0e4ff,#fbf4ff)}.tone-purple .metric-icon{background:linear-gradient(135deg,#8e32eb,#6515ce)}.tone-orange{background:linear-gradient(135deg,#fff0d4,#fff8e9)}.tone-orange .metric-icon{background:linear-gradient(135deg,#ff9d19,#f17600)}.tone-pink{background:linear-gradient(135deg,#ffe2e9,#fff0f4)}.tone-pink .metric-icon{background:linear-gradient(135deg,#ff3866,#ef0d47)}.tone-cyan{background:linear-gradient(135deg,#def5ff,#eefaff)}.tone-cyan .metric-icon{background:linear-gradient(135deg,#13b5ed,#0793da)}.tone-magenta{background:linear-gradient(135deg,#ffe0f0,#fff0f7)}.tone-magenta .metric-icon{background:linear-gradient(135deg,#f42f93,#dd167b)}.tone-indigo{background:linear-gradient(135deg,#e2e9ff,#f1f4ff)}.tone-indigo .metric-icon{background:linear-gradient(135deg,#2f74ef,#1a52d4)}
+.lifecycle-card,.work-card,.lower-panel{background:linear-gradient(135deg,#fbfdff,#edf6ff);border:1px solid rgba(191,214,239,.85);border-radius:15px;box-shadow:0 8px 25px rgba(5,28,62,.12)}.lifecycle-card{padding:12px 14px 14px;margin-bottom:14px}.section-head{display:flex;align-items:center;gap:11px}.section-symbol{width:38px;height:38px;border-radius:10px;display:grid;place-items:center;background:linear-gradient(135deg,#ffbf23,#f39400);color:#fff;font-weight:900;font-size:22px;box-shadow:0 5px 12px rgba(243,148,0,.25)}.section-symbol.orange{background:linear-gradient(135deg,#ffb52c,#f08300)}.section-head h2{margin:0;font-size:21px;color:#0c1940}.section-head p{margin:2px 0 0;color:#475979;font-size:13px}.lifecycle-modern{display:grid;grid-template-columns:1fr 28px 1fr 28px 1fr 28px 1fr 28px 1fr 28px 1fr 28px 1fr;align-items:center;gap:2px;margin-top:8px}.life-node{text-align:center}.life-circle{width:62px;height:62px;border-radius:50%;margin:0 auto 4px;display:grid;place-items:center;font-size:27px;font-weight:900;color:#fff;box-shadow:inset 0 2px 0 rgba(255,255,255,.5),0 8px 15px rgba(0,0,0,.1)}.life-node b{display:block;font-size:13px;color:#101d3b}.life-node strong{display:block;font-size:18px;margin-top:2px}.node-purple .life-circle{background:linear-gradient(135deg,#8b4dff,#6427e8)}.node-purple strong{color:#4b20d2}.node-green .life-circle{background:linear-gradient(135deg,#43e5b4,#0caf75)}.node-green strong{color:#0c9b68}.node-orange .life-circle{background:linear-gradient(135deg,#ffad54,#ed7b1d)}.node-orange strong{color:#e16b08}.node-blue .life-circle{background:linear-gradient(135deg,#5aabff,#0d68e6)}.node-blue strong{color:#0b60d5}.node-pink .life-circle{background:linear-gradient(135deg,#ff79b9,#ed2d8b)}.node-pink strong{color:#df187e}.node-violet .life-circle{background:linear-gradient(135deg,#c57bff,#7d21df)}.node-violet strong{color:#7b16d9}.node-teal .life-circle{background:linear-gradient(135deg,#62e7c2,#12ad82)}.node-teal strong{color:#08956e}.life-arrow{font-size:25px;color:#1474e8;text-align:center;font-weight:800}
+.work-card{padding:12px 14px;margin-bottom:14px}.work-card .section-head{position:relative}.work-reminders-btn{margin-left:auto;background:linear-gradient(135deg,#1e8bff,#1363e8);color:#fff;border:0;border-radius:11px;padding:11px 17px;font-weight:800;box-shadow:0 7px 16px rgba(13,99,232,.22)}.work-metrics{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px;margin-top:10px}.work-metrics .card{min-height:74px;border-radius:11px;padding:10px 12px;display:flex;flex-direction:column;justify-content:center;border:1px solid #c8ddf2;box-shadow:none}.work-metrics .label{font-size:12px;font-weight:700;color:#26364e}.work-metrics .metric{font-size:20px;margin-top:4px;color:#071a3a}.work-metrics .card:nth-child(1){background:#fff0f2;border-color:#ffc2cd}.work-metrics .card:nth-child(2){background:#edf6ff}.work-metrics .card:nth-child(3){background:#e8fff4}.work-metrics .card:nth-child(4){background:#f4ecff}.work-metrics .card:nth-child(5){background:#fff3e8}.work-metrics .card:nth-child(6){background:#eaf7ff}
+.dashboard-lower{display:grid;grid-template-columns:1.05fr .95fr;gap:14px}.dashboard-extra-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}.lower-panel{padding:12px 14px;min-height:220px}.lower-title{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}.lower-title>div:first-child{display:flex;align-items:center;gap:10px}.lower-title h2{font-size:18px;margin:0;color:#0c1940}.title-icon{width:36px;height:36px;border-radius:10px;display:grid;place-items:center;color:#fff;font-weight:900;font-size:20px}.title-icon.red{background:linear-gradient(135deg,#ff5d65,#ed2e3c)}.title-icon.orange{background:linear-gradient(135deg,#ffb62d,#ef7d00)}.title-icon.purple{background:linear-gradient(135deg,#a45cff,#7224df)}.title-icon.blue{background:linear-gradient(135deg,#40a9ff,#1267e6)}.link-btn{border:0;background:transparent;color:#0068f1;font-weight:800;font-size:13px}.today-panel #todaysWorkList,.upcoming-panel #dashboardDueUpcoming{max-height:190px;overflow:auto}.today-row,.upcoming-row{display:grid;grid-template-columns:minmax(140px,1fr) auto auto auto;gap:10px;align-items:center;padding:7px 8px;border:1px solid #d9e8f5;border-radius:10px;background:rgba(255,255,255,.58);margin:5px 0}.today-row b,.upcoming-row b{font-size:13px}.today-row .mini,.upcoming-row .mini{font-size:11px}.row-action{border:1px solid #b9dff0;background:#f8fdff;color:#06304d;border-radius:8px;padding:7px 10px;font-size:11px;font-weight:800}.row-action.primary{background:#1683f3;color:#fff;border-color:#1683f3}.due-badge{font-size:11px;font-weight:800}.due-badge.overdue{color:#f0192d}.due-badge.today{color:#0b72dd}.due-badge.future{color:#078b62}
+/* Make every CRM page share the reference visual language, while preserving existing functionality. */
+.page:not(.dashboard-modern){color:#10213d}.page:not(.dashboard-modern) .panel{background:linear-gradient(135deg,#fbfdff,#eef6ff);border:1px solid #d7e5f2;border-radius:15px;box-shadow:0 8px 24px rgba(8,35,70,.10);padding:16px}.page:not(.dashboard-modern) .card{border-radius:12px;border:1px solid #d5e3f1;box-shadow:0 7px 18px rgba(8,35,70,.08)}.page:not(.dashboard-modern) .btn{border-radius:10px;border:1px solid #c8dceb;background:#f5fbff;color:#1264c8}.page:not(.dashboard-modern) .btn.primary{background:linear-gradient(135deg,#1688ff,#145ce9);color:#fff;border-color:#1688ff}.page:not(.dashboard-modern) .btn.green{background:linear-gradient(135deg,#19bd76,#0d9f60);color:#fff}.page:not(.dashboard-modern) .btn.red{background:#fff0f2;color:#df2037;border-color:#ffc8d0}.page:not(.dashboard-modern) .search,.page:not(.dashboard-modern) .field input,.page:not(.dashboard-modern) .field select,.page:not(.dashboard-modern) .field textarea{border:1px solid #cbddeb;border-radius:10px;background:#fff;box-shadow:inset 0 1px 2px rgba(10,40,80,.03)}.page:not(.dashboard-modern) table{border-radius:12px;overflow:hidden}.page:not(.dashboard-modern) th{background:#eaf3fb;color:#27415f;font-weight:800}.page:not(.dashboard-modern) td{background:rgba(255,255,255,.72);border-color:#e0eaf3}.page:not(.dashboard-modern) .stage,.page:not(.dashboard-modern) .lead{border:1px solid #d7e5f2;border-radius:10px;background:#fff;box-shadow:0 4px 12px rgba(7,31,60,.05)}
+.cloud-status{font-size:13px}.mobile-menu-btn{background:transparent;color:#d9e8fb;border:0;font-size:27px}
+@media(max-width:1100px){.metric-grid{grid-template-columns:repeat(2,1fr)}.work-metrics{grid-template-columns:repeat(3,1fr)}.lifecycle-modern{grid-template-columns:repeat(7,1fr);gap:8px}.life-arrow{display:none}.top-actions .user-name{display:none}.global-search{width:38vw}}
+@media(max-width:800px){body{background:#f2f7fc}.sidebar{display:none}.main{margin-left:0;width:100%;padding:0 10px 80px}.topbar-modern{height:64px}.modern-menu{display:block}.global-search{width:min(52vw,360px);height:40px}.modern-cloud{display:none}.top-new-btn{font-size:0;width:42px;padding:0}.top-new-btn b{font-size:23px}.top-icon-btn{width:38px}.page-heading-row{align-items:center}.page-heading-row h1{font-size:28px}.page-heading-row p{font-size:12px}.date-chip{min-width:150px;padding:8px 10px}.dashboard-modern{padding:10px;border-radius:14px}.metric-grid{grid-template-columns:repeat(2,1fr);gap:8px}.metric-card{min-height:78px;padding:10px}.metric-icon{width:42px;height:42px}.metric-copy b{font-size:18px}.lifecycle-modern{grid-template-columns:repeat(4,1fr);gap:8px}.life-circle{width:50px;height:50px;font-size:22px}.dashboard-lower,.dashboard-extra-grid{grid-template-columns:1fr}.work-metrics{grid-template-columns:repeat(2,1fr)}.work-reminders-btn{font-size:0;width:42px;height:42px;padding:0}.work-reminders-btn:first-letter{font-size:20px}.today-row,.upcoming-row{grid-template-columns:1fr auto}.today-row .row-action:nth-last-child(-n+2),.upcoming-row .row-action:nth-last-child(-n+2){display:none}.user-name{display:none}}
+@media(max-width:520px){.global-search{width:44vw}.page-heading-row{display:block}.date-chip{margin-top:8px;width:max-content}.metric-card{gap:8px}.metric-icon{width:38px;height:38px;font-size:20px}.metric-copy span{font-size:11px}.metric-copy b{font-size:16px}.metric-arrow{width:30px;height:30px;font-size:23px}.lifecycle-modern{grid-template-columns:repeat(2,1fr)}.section-head h2{font-size:17px}}
+
+</style>
 
 </head><body><div id="printInvoiceWrap">${invoice.outerHTML}</div>
   <script>window.addEventListener('load',function(){setTimeout(function(){window.focus();window.print();},500)});<\/script>

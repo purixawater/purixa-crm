@@ -1,0 +1,14 @@
+PURIXA CRM — Modern Reference UI v22.43
+
+Base: user-provided Purixa CRM ZIP.
+
+UI updates:
+- Dashboard redesigned to match the supplied reference: dark navy shell, left sidebar, top search bar, cloud status, New Lead, notification/avatar area, 8 metric cards, lifecycle strip, Today's Work and Due & Upcoming panels.
+- Same modern visual system applied across Customers, Leads, Quotations, Sales & Payments, Service, Inventory, Expenses, AMC, Technicians, Reports, Reminders and Settings.
+- Existing CRM JavaScript/data/Firebase/localStorage logic was preserved; this is a UI-focused update.
+- Responsive mobile layout included.
+- Dashboard date/time is generated from the device clock.
+
+Important:
+- Firebase/cloud data and existing records are not intentionally deleted or reset by this UI update.
+- Before replacing a live GitHub version, keep a backup of the current working ZIP/repository.
