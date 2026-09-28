@@ -1,0 +1,1 @@
+Approved colorful clean-glass theme applied across Dashboard and all CRM pages. Existing business logic, Firebase/data code, invoice structure and page IDs are preserved. Presentation/CSS only update.
