@@ -1,15 +1,10 @@
-Purixa CRM v22.40 Premium UI
+PURIXA CRM v22.40 — GLASSMORPHISM UI
 
-Base: v22.39 Modern UI
+This revision is a visual/UI layer applied to the v22.38 CRM.
+- Existing JavaScript/Firebase/business logic was not intentionally changed.
+- Existing CRM menus, dashboard sections, data IDs and invoice markup are retained.
+- Glassmorphism background, sidebar, top bar, cards, panels, forms and modals added.
+- Dashboard metric cards are more compact: 6 columns on wide desktop, 4 on medium, 2 on mobile.
+- Mobile navigation remains available.
 
-Visual upgrades only; existing CRM/Firebase/business logic retained.
-- Premium SaaS-style sidebar and navigation icons
-- Glass/sticky top bar
-- Premium KPI cards and panels
-- Modern buttons, inputs and tables
-- Mobile responsive refinements
-- Subtle page/card animations
-- Optional dark mode toggle in top bar
-- Purixa branding retained
-
-No database/schema changes were made.
+Backup/base: Purixa CRM v22.38 supplied by the user.
