@@ -1,9 +1,0 @@
-Purixa CRM Cloud v22.39 — Modern UI update
-- Modern dark gradient sidebar
-- Icons added to all navigation items
-- Modern sticky glass top bar
-- Redesigned KPI cards with accent hierarchy
-- Modern panels, buttons, forms, tables and hover/focus states
-- Responsive/mobile improvements
-- Existing Firebase, CRM modules, invoices, AMC and business logic intentionally preserved
-- Base: Purixa CRM Cloud v22.38
