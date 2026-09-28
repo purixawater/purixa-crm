@@ -301,6 +301,23 @@ html,body{width:100%;min-width:0;overflow-x:hidden;box-sizing:border-box}
 @media(max-width:900px){.main{width:calc(100% - 76px)!important;margin-left:76px!important}}
 @media(max-width:600px){.main{width:100%!important;margin-left:0!important}}
 </style>
+
+<style>
+/* ===== v23.2 definitive desktop layout repair ===== */
+@media (min-width:901px){
+  html,body{width:100%!important;min-width:0!important;overflow-x:hidden!important;}
+  .app{display:grid!important;grid-template-columns:260px minmax(0,1fr)!important;width:100%!important;min-width:0!important;}
+  .sidebar{grid-column:1!important;position:sticky!important;left:auto!important;top:0!important;bottom:auto!important;width:260px!important;height:100vh!important;min-width:260px!important;overflow-y:auto!important;}
+  .main{grid-column:2!important;grid-row:1!important;width:auto!important;min-width:0!important;max-width:none!important;margin-left:0!important;padding:0 12px 22px!important;}
+  .modern-top{width:100%!important;min-width:0!important;}
+  .dashboard-heading,.stat-grid,.dashboard-panel,.bottom-grid{max-width:none!important;}
+}
+@media (max-width:900px){
+  .app{display:block!important;width:100%!important;}
+  .sidebar{position:fixed!important;}
+  .main{min-width:0!important;max-width:none!important;}
+}
+</style>
 </head>
 <body>
 <div id="authOverlay">
@@ -1143,9 +1160,9 @@ function quotationPrint(id){
   const q=db.quotations.find(x=>Number(x.id)===Number(id));if(!q)return;const w=window.open("","_blank","width=900,height=700");if(!w){toast("Allow pop-ups to print quotation");return}
   w.document.write(`<!doctype html><html><head><title>Quotation ${esc(q.number)}</title><style>body{font-family:Arial,sans-serif;padding:35px;color:#1f2937}h1{margin:0 0 5px}table{width:100%;border-collapse:collapse;margin-top:25px}th,td{border:1px solid #ddd;padding:10px;text-align:left}th{background:#f3f6fa}.total{text-align:right;font-size:20px;font-weight:bold;margin-top:18px}.muted{color:#64748b}.terms{margin-top:30px;white-space:pre-line}</style>
 
-</head><body><h1>Purixa Water Solution</h1><div class="muted">Quotation No: ${esc(q.number)} · Date: ${esc(q.date)} · Valid Until: ${esc(q.validUntil)}</div><hr><h3>Customer</h3><div>${esc(q.customer)}<br>${esc(q.mobile||"")}<br>${esc(q.address||"")}</div><table><thead><tr><th>Product</th><th>Qty</th><th>Price</th><th>Total</th></tr></thead><tbody><tr><td>${esc(q.product)}</td><td>${q.qty}</td><td>₹${Number(q.price||0).toLocaleString("en-IN")}</td><td>₹${Number(q.total||0).toLocaleString("en-IN")}</td></tr></tbody></table><div class="total">Grand Total: ₹${Number(q.total||0).toLocaleString("en-IN")}</div><div class="terms"><b>Notes</b>\n${esc(q.notes||"Quotation is subject to availability and final confirmation.")}</div><br><br><div>Authorised Signature</div><script>window.onload=()=>window.print()<\/script>
+</head><body><h1>Purixa Water Solution</h1><div class="muted">Quotation No: ${esc(q.number)} · Date: ${esc(q.date)} · Valid Until: ${esc(q.validUntil)}</div><hr><h3>Customer</h3><div>${esc(q.customer)}<br>${esc(q.mobile||"")}<br>${esc(q.address||"")}</div><table><thead><tr><th>Product</th><th>Qty</th><th>Price</th><th>Total</th></tr></thead><tbody><tr><td>${esc(q.product)}</td><td>${q.qty}</td><td>₹${Number(q.price||0).toLocaleString("en-IN")}</td><td>₹${Number(q.total||0).toLocaleString("en-IN")}</td></tr></tbody></table><div class="total">Grand Total: ₹${Number(q.total||0).toLocaleString("en-IN")}</div><div class="terms"><b>Notes</b>\n${esc(q.notes||"Quotation is subject to availability and final confirmation.")}</div><br><br><div>Authorised Signature</div>\x3Cscript>window.onload=()=>window.print()<\x3C/script>
 
-<script>setInterval(updateDashboardClock,60000);</script>
+\x3Cscript>setInterval(updateDashboardClock,60000);\x3C/script>
 </body></html>`);w.document.close();}
 function convertQuotationToSale(id){
   const q=db.quotations.find(x=>Number(x.id)===Number(id));if(!q)return;if(q.convertedSaleId){toast("Quotation already converted to Sale");return}
@@ -1358,7 +1375,7 @@ function saveAMC(e){e.preventDefault();const cid=Number(amcCustomer.value)||null
 function openAMCInvoice(amcId){const a=db.amcs.find(x=>x.id===amcId);if(!a){toast("AMC not found");return}const c=db.customers.find(x=>x.id===a.customerId)||{};currentAMCInvoiceMobile=c.mobile||a.mobile||"";let inv=String(a.invoiceNo||"").replace(/^PWS-AMC-/i,"");if(!/^\d+$/.test(inv)||Number(inv)<1||Number(inv)>999999){inv=nextBillNumber();a.invoiceNo=inv}const total=Number(a.amount||0),paid=Number(a.paid??total),pending=Math.max(0,Number(a.pending??(total-paid))),mode=String(a.paymentMode||"Cash");const checks=["Cash","Cheque","UPI","Online Transfer","POS","Finance","EMI"].map(x=>`<span>${mode===x?"☑":"☐"} ${x}</span>`).join("");document.getElementById("amcInvoicePreview").innerHTML=`<div class="pws-head"><div class="pws-logo"><img src="purixa-logo.png" alt="Purixa Water Solution"></div><div class="pws-title"><h2>PURIXA WATER SOLUTION</h2><div>Nr. Harihar Chowk, Sadar Bazar, Sadar,<br>Rajkot, Gujarat 360001<br>☎ 9998267304 / 7016715463</div></div><div class="pws-inv"><b>AMC INVOICE</b><div>Bill No. : <strong>${esc(inv)}</strong><br>Date : <u>${esc(formatInvoiceDate(a.invoiceDate||today))}</u></div></div></div><div class="bill-info"><div class="row name-row"><b>Customer Name :</b><span>${esc(c.name||a.customer||"-")}</span></div><div class="row mobile-row"><b>Address :</b><span>${esc(c.address||"-")}</span><b>Mobile No. :</b><span>${esc(c.mobile||a.mobile||"-")}</span></div></div><div class="pay"><b>Mode of Payment:</b><div class="checks">${checks}</div></div><table class="bill-table"><thead><tr><th>Sr. No.</th><th>Item Description</th><th>Qty.</th><th>Price</th><th>Amount Rs.</th></tr></thead><tbody><tr><td style="text-align:center">1</td><td>AMC – Annual Maintenance Contract<br><small><b>AMC Period :</b> <span class="amc-period-date">${esc(formatInvoiceDate(a.start||"-"))}</span> <span class="amc-period-to">to</span> <span class="amc-period-date">${esc(formatInvoiceDate(a.end||"-"))}</span></small></td><td>1</td><td>${total.toLocaleString("en-IN",{minimumFractionDigits:2,maximumFractionDigits:2})}</td><td>${total.toLocaleString("en-IN",{minimumFractionDigits:2,maximumFractionDigits:2})}</td></tr><tr class="item-spacer"><td></td><td></td><td></td><td></td><td></td></tr></tbody></table><div class="summary"><div class="summary-left"><div class="words"><b>Rupees :</b> ${esc(numberWords(total))} Only</div><div class="warranty"><b>Warranty & Service Details :</b> AMC period mein service + all parts FREE • Unlimited service visits</div><div class="gst"><b>GSTIN :</b> __________________</div><div class="terms"><b>નિયમો અને શરતો :</b><br>(1) AMC સમયગાળા દરમિયાન સર્વિસ અને જરૂરી પાર્ટ્સ મફત રહેશે.<br>(2) AMC દરમિયાન સર્વિસ વિઝિટની કોઈ મર્યાદા રહેશે નહીં.<br>(3) AMC સમયગાળો પૂરો થયા બાદ નવીનીકરણ જરૂરી રહેશે.<br>(4) સર્વિસ માટે ગ્રાહકે યોગ્ય સહકાર આપવાનો રહેશે.<br>(5) રાજકોટ જ્યુરિસ્ડિક્શનને આધીન.</div></div><div class="totalbox"><div><b>Total Rs.</b><b>${total.toLocaleString("en-IN",{minimumFractionDigits:2,maximumFractionDigits:2})}</b></div><div><span>Dues (if any)</span><b>${pending.toLocaleString("en-IN",{minimumFractionDigits:2,maximumFractionDigits:2})}</b></div></div></div><div class="footer"><div class="sig"><div class="sig-line">Customer's Signature</div></div><div class="sig"><div class="for">For, PURIXA WATER SOLUTION</div><img class="sig-img" src="authorized-signature-clean.png" alt="Authorised Signatory"><div class="sig-label">Authorised Signatory</div></div></div>`;persist();openModal("amcInvoiceModal")}
 function printAMCInvoicePDF(){const invoice=document.getElementById("amcInvoicePreview");if(!invoice){toast("AMC Invoice not found");return}const w=window.open("","_blank","width=900,height=1200");if(!w){toast("Popup blocked. Please allow popups for this site.");return}const styles=[...document.querySelectorAll("style")].map(x=>x.outerHTML).join("\n");const links=[...document.querySelectorAll('link[rel="stylesheet"]')].map(x=>x.outerHTML).join("\n");const filename="Purixa_AMC_Invoice_"+(document.querySelector("#amcInvoicePreview .pws-inv strong")?.textContent||"Invoice").trim().replace(/[^a-zA-Z0-9_-]/g,"");w.document.open();w.document.write(`<!doctype html><html><head><meta charset="utf-8"><title>${filename}</title>${links}${styles}<style>html,body{margin:0!important;padding:0!important;background:#fff!important}body{width:210mm!important;min-height:297mm!important}#printInvoiceWrap{width:190mm!important;margin:0 auto!important;padding:0!important;background:#fff!important}#printInvoiceWrap .invoice{width:190mm!important;max-width:190mm!important;margin:0!important;overflow:visible!important}@page{size:A4 portrait;margin:10mm}@media print{html,body{width:210mm!important;background:#fff!important}body>#printInvoiceWrap{display:block!important;visibility:visible!important;width:190mm!important}#printInvoiceWrap{width:190mm!important}#printInvoiceWrap .invoice{display:block!important;visibility:visible!important}.invoice .bill-table tr.item-spacer{height:105mm!important}}</style>
 
-</head><body><div id="printInvoiceWrap">${invoice.outerHTML}</div><script>window.addEventListener('load',function(){setTimeout(function(){window.focus();window.print();},500)});<\/script>
+</head><body><div id="printInvoiceWrap">${invoice.outerHTML}</div>\x3Cscript>window.addEventListener('load',function(){setTimeout(function(){window.focus();window.print();},500)});\x3C/script>
 
 </body></html>`);w.document.close();toast("AMC Invoice PDF ke liye Save as PDF select karein.")}
 function downloadAMCInvoicePDF(){printAMCInvoicePDF()}
@@ -1674,7 +1691,7 @@ function printInvoiceForPDF(){
   </style>
 
 </head><body><div id="printInvoiceWrap">${invoice.outerHTML}</div>
-  <script>window.addEventListener('load',function(){setTimeout(function(){window.focus();window.print();},500)});<\/script>
+  \x3Cscript>window.addEventListener('load',function(){setTimeout(function(){window.focus();window.print();},500)});\x3C/script>
 
 </body></html>`);
   w.document.close();
