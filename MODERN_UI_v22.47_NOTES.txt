@@ -1,0 +1,6 @@
+Purixa CRM v22.47 — Reference-inspired Neon Glass UI
+
+Base: user-provided Purixa CRM ZIP.
+UI-only visual redesign: dark navy/neon glass cards, compact KPI grid, modern lifecycle panel, compact Today's Work and responsive styling.
+Business logic, Firebase code, customer data structures and invoice functions were not intentionally changed.
+Service worker cache bumped to v22.47.
