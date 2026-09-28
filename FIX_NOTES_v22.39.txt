@@ -1,0 +1,16 @@
+Purixa CRM Cloud v22.39 — Exact Reference Design Update
+
+Design update only; existing CRM/Firebase data logic, invoices, customer linking, sales, services, AMC, reports and backup features are retained.
+
+Updated:
+- Dashboard redesigned to match the supplied reference screenshot: top search/header, welcome/date block, 8 statistic cards, action row, Today's Work, Quick Actions, Today/Overdue Work and Upcoming tables.
+- Common visual language applied across Customers, Sales & Payments, Service, Reports and other pages: navy sidebar, blue active navigation, white rounded panels, consistent spacing, buttons, tables and typography.
+- Existing professional SVG navigation icons retained.
+- Global search bar added to the header; Enter routes to the relevant page search where available.
+- Dashboard metrics retain live data from the existing CRM and Firebase/local persistence.
+- Mobile responsive behavior retained.
+
+Validation:
+- HTML parsed successfully.
+- All inline JavaScript blocks pass Node syntax check.
+- No duplicate HTML ids detected.
