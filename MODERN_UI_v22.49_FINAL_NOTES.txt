@@ -1,0 +1,1 @@
+Purixa CRM v22.49 FINAL — Neon Glass dashboard rebuild. Based on the user-provided CRM ZIP. Existing Firebase/data/business logic and page IDs/functions preserved; dashboard presentation and CSS rebuilt to match the approved reference direction.
