@@ -1,4 +1,0 @@
-Purixa CRM v22.46 — Neon Glass
-Visual redesign based on the user-approved futuristic dark glass reference.
-The existing CRM HTML/JavaScript/data structure is preserved; this release adds a strong visual CSS layer.
-Service-worker cache version updated to v22.46-neon-glass.
