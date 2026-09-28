@@ -1,7 +1,0 @@
-Purixa CRM v22.37
-- Professional modern UI refresh
-- Modern sidebar, cards, buttons, panels, tables and forms
-- Improved desktop and mobile visual styling
-- Purixa branding preserved
-- Existing CRM functionality and Firebase logic retained
-- No business data deletion/change intended
