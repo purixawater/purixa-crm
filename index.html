@@ -268,6 +268,63 @@ table{border:1px solid #e1e8f0;border-radius:13px;overflow:hidden}thead th{backg
 }
 @media(min-width:701px){.mobile-drawer .menu-icon{display:inline-flex}}
 </style>
+
+<style id="purixa-glassmorphism-ui-v2239">
+/* Purixa CRM v22.38 — Glassmorphism UI selected by user */
+:root{
+  --glass-bg:rgba(255,255,255,.64);--glass-bg-strong:rgba(255,255,255,.78);
+  --glass-line:rgba(255,255,255,.72);--glass-shadow:0 18px 45px rgba(31,65,114,.12);
+  --glass-blue:#1677ff;--glass-cyan:#16c7e8;--glass-text:#14253d;--glass-muted:#66778f;
+}
+body{
+  font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif!important;
+  background:radial-gradient(circle at 12% 5%,rgba(22,119,255,.16),transparent 30%),radial-gradient(circle at 92% 18%,rgba(22,199,232,.13),transparent 27%),linear-gradient(135deg,#eef5ff 0%,#f8fbff 52%,#eef8fb 100%)!important;
+  color:var(--glass-text)!important;
+}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;background:linear-gradient(120deg,transparent 0 30%,rgba(255,255,255,.3) 48%,transparent 66%);opacity:.8}
+.sidebar{
+  width:248px!important;padding:16px 12px!important;background:linear-gradient(180deg,rgba(8,35,70,.92),rgba(10,62,105,.86))!important;
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-right:1px solid rgba(255,255,255,.15)!important;
+  box-shadow:12px 0 40px rgba(7,34,69,.18)!important;
+}
+.brand{padding:4px 7px 17px!important;border-bottom:1px solid rgba(255,255,255,.14)!important}
+.brand-logo{background:rgba(255,255,255,.9)!important;border-radius:16px!important;box-shadow:0 12px 30px rgba(0,0,0,.18)!important}
+.nav{gap:4px!important}
+.nav button{border:1px solid transparent!important;border-radius:13px!important;min-height:42px;padding:9px 12px!important;color:#d9e8f7!important;font-weight:750!important;transition:.2s ease!important}
+.nav button:hover{background:rgba(255,255,255,.09)!important;color:#fff!important;transform:translateX(3px)!important}
+.nav button.active{background:linear-gradient(135deg,rgba(32,129,255,.96),rgba(10,91,201,.9))!important;box-shadow:0 9px 25px rgba(15,102,220,.32)!important;border-color:rgba(255,255,255,.16)!important}
+.main{margin-left:248px!important;width:calc(100% - 248px)!important;padding:22px!important;max-width:none!important}
+.top,.panel,.card{
+  background:var(--glass-bg)!important;border:1px solid var(--glass-line)!important;box-shadow:var(--glass-shadow)!important;
+  backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+}
+.top{min-height:72px;padding:12px 16px!important;border-radius:20px!important}
+.top h1{font-size:25px!important;font-weight:850!important;letter-spacing:-.5px!important}.top p{color:var(--glass-muted)!important}
+.cards{gap:12px!important}
+.card{border-radius:17px!important;padding:14px!important;overflow:hidden;position:relative;transition:transform .2s ease,box-shadow .2s ease!important}
+.card:after{content:"";position:absolute;width:90px;height:90px;right:-38px;top:-38px;border-radius:50%;background:linear-gradient(135deg,rgba(22,119,255,.13),rgba(22,199,232,.03));pointer-events:none}
+.card:hover{transform:translateY(-3px)!important;box-shadow:0 22px 48px rgba(31,65,114,.17)!important}
+.card .label{color:#6b7d95!important;font-size:11px!important;text-transform:uppercase;letter-spacing:.45px;font-weight:850!important}.metric{color:#102a4a!important;font-size:26px!important}
+.panel{border-radius:18px!important;padding:15px!important}.panel h3{color:#173250!important;font-weight:850!important}
+.btn{border:1px solid rgba(211,224,239,.9)!important;border-radius:12px!important;background:rgba(255,255,255,.7)!important;box-shadow:0 5px 14px rgba(31,65,114,.06)!important}
+.btn.primary{background:linear-gradient(135deg,#1879ff,#0c5cc7)!important;color:#fff!important;border-color:rgba(255,255,255,.22)!important;box-shadow:0 9px 22px rgba(22,119,255,.24)!important}
+.btn.green{background:linear-gradient(135deg,#12b978,#078b5a)!important;color:#fff!important}.btn.red{background:rgba(255,238,238,.9)!important}
+.search,.field input,.field select,.field textarea{background:rgba(255,255,255,.72)!important;border:1px solid rgba(208,222,238,.9)!important;border-radius:12px!important}
+.search:focus,.field input:focus,.field select:focus,.field textarea:focus{outline:none!important;border-color:#6da9ff!important;box-shadow:0 0 0 4px rgba(22,119,255,.10)!important}
+table{border-collapse:separate!important;border-spacing:0!important;border:1px solid rgba(218,228,239,.9)!important;border-radius:14px!important;overflow:hidden}th{background:rgba(243,248,253,.78)!important;color:#5d7088!important}td{background:rgba(255,255,255,.45)!important}tbody tr:hover td{background:rgba(235,245,255,.72)!important}
+.badge{border-radius:999px!important;font-weight:800!important}.modal{background:rgba(8,28,52,.42)!important;backdrop-filter:blur(7px)}.modal-box{background:rgba(255,255,255,.88)!important;border:1px solid rgba(255,255,255,.85)!important;border-radius:22px!important;box-shadow:0 30px 90px rgba(7,29,57,.3)!important;backdrop-filter:blur(20px)}
+.pipeline .stage,.lead{background:rgba(255,255,255,.58)!important;border-color:rgba(218,228,239,.8)!important;border-radius:14px!important}
+@media(max-width:900px){.sidebar{width:72px!important}.main{margin-left:72px!important;width:calc(100% - 72px)!important}.cards{grid-template-columns:repeat(2,1fr)!important}}
+@media(max-width:700px){
+ body{background:radial-gradient(circle at 20% 0%,rgba(22,119,255,.13),transparent 35%),linear-gradient(135deg,#eef6ff,#f7fbff)!important}
+ .sidebar{display:none!important}.main{margin-left:0!important;width:100%!important;padding:10px 10px 88px!important}
+ .top{border-radius:16px!important;padding:10px 11px!important}.top h1{font-size:19px!important}.top p{font-size:10.5px!important}
+ .card,.panel{border-radius:14px!important;box-shadow:0 8px 25px rgba(31,65,114,.09)!important}.cards{gap:8px!important}.card{padding:11px!important}.metric{font-size:21px!important}
+ .mobile-bottom-nav{background:rgba(255,255,255,.76)!important;backdrop-filter:blur(20px)!important;-webkit-backdrop-filter:blur(20px)!important;border:1px solid rgba(255,255,255,.9)!important;box-shadow:0 14px 35px rgba(31,65,114,.18)!important;border-radius:20px!important}
+ .mobile-drawer{background:linear-gradient(180deg,rgba(8,35,70,.98),rgba(10,62,105,.96))!important}
+}
+
+</style>
 </head>
 <body>
 <div id="authOverlay">
@@ -1647,69 +1704,6 @@ function printInvoiceForPDF(){
     }
   </style>
 
-<style id="purixa-dark-compact-v2243">
-/* Purixa CRM — Dark Modern Compact UI. Visual-only layer; no JS/data changes. */
-:root{
-  --blue:#2f8cff;--dark:#e8f0fb;--bg:#07111f;--card:#0d1b2b;--muted:#8fa4bb;--line:#1b3148;
-  --green:#20c77a;--red:#ff5d6c;--orange:#ffad3d;--purple:#8d6bff;
-}
-html,body{background:#07111f!important;color:#e8f0fb!important}
-body{font-family:Inter,Arial,sans-serif!important}
-.app{background:#07111f!important}
-.sidebar{width:220px!important;background:linear-gradient(180deg,#06101d 0%,#0a1a2c 100%)!important;border-right:1px solid #17304a!important;padding:12px 10px!important}
-.brand{padding:7px 9px 13px!important}
-.brand-logo{width:168px!important;height:56px!important;border-radius:9px!important;background:#fff!important;margin-bottom:7px!important}
-.brand small{font-size:10px!important;color:#9fb4c9!important}
-.nav button{color:#aebfd2!important;padding:8px 10px!important;border-radius:8px!important;margin:1px 0!important;font-size:13px!important;min-height:35px!important;transition:.15s!important}
-.nav button:hover{background:#102943!important;color:#fff!important}
-.nav button.active{background:linear-gradient(135deg,#1678f2,#1554bd)!important;color:#fff!important;box-shadow:0 5px 16px rgba(22,120,242,.22)!important}
-.main{margin-left:220px!important;width:calc(100% - 220px)!important;padding:14px!important}
-.top{margin-bottom:12px!important}
-.top h1{font-size:22px!important;color:#f4f8ff!important}
-.top p{color:#7f95ad!important;font-size:12px!important;margin-top:3px!important}
-.cloud-status{background:#102b24!important;color:#46dc98!important;border:1px solid #1d5d48!important;padding:4px 8px!important}
-.btn{padding:7px 10px!important;border-radius:7px!important;background:#10243a!important;color:#b9cce0!important;border:1px solid #1d3852!important;font-size:12px!important}
-.btn.primary{background:linear-gradient(135deg,#1678f2,#1557c6)!important;color:#fff!important;border-color:#2587ff!important}
-.btn.green{background:#087a4b!important;color:#fff!important;border-color:#0b9b62!important}
-.btn.red{background:#54202a!important;color:#ff8d98!important;border-color:#79313e!important}
-.cards{grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:8px!important;margin-bottom:10px!important}
-.card{background:linear-gradient(145deg,#0e1f32,#0b1828)!important;border:1px solid #1b344d!important;border-radius:9px!important;padding:10px 11px!important;box-shadow:0 5px 14px rgba(0,0,0,.18)!important;min-height:76px!important;position:relative;overflow:hidden}
-.card:before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(#2387ff,#7a5cff);opacity:.9}
-.card .label{color:#8fa5bc!important;font-size:11px!important}
-.metric{font-size:21px!important;margin-top:4px!important;color:#f5f8ff!important}
-.grid2{gap:10px!important}
-.panel{background:linear-gradient(145deg,#0d1c2d,#0b1726)!important;border:1px solid #1a324a!important;border-radius:9px!important;padding:11px!important;margin-bottom:10px!important;box-shadow:0 5px 16px rgba(0,0,0,.15)!important}
-.panel h3{color:#e9f2fc!important;font-size:14px!important;margin:0 0 9px!important}
-.toolbar{gap:6px!important;margin-bottom:8px!important}
-.search,.field input,.field select,.field textarea{background:#091728!important;color:#e6eef8!important;border:1px solid #203b55!important;border-radius:7px!important;padding:8px!important}
-.search::placeholder,.field input::placeholder,.field textarea::placeholder{color:#60758b!important}
-.field label{color:#8ea3b8!important;font-size:11px!important;margin-bottom:4px!important}
-.table-wrap{border:1px solid #1b334a!important;border-radius:7px!important;overflow:auto!important}
-table{min-width:650px!important}
-th,td{padding:7px 8px!important;border-bottom:1px solid #1b3146!important;color:#dbe7f3!important;font-size:12px!important}
-th{background:#0a1828!important;color:#8fb0cf!important}
-tbody tr:hover{background:#10263b!important}
-.badge{padding:3px 6px!important;border-radius:12px!important;background:#142e55!important;color:#8dc0ff!important}
-.badge.green{background:#0d3b2b!important;color:#58e6a0!important}.badge.orange{background:#473216!important;color:#ffc768!important}.badge.red{background:#4a2029!important;color:#ff8995!important}
-.pipeline{gap:7px!important}.stage{background:#0b1929!important;border:1px solid #1a334b!important;border-radius:8px!important;padding:8px!important;min-width:150px!important}.stage h4{font-size:12px!important;margin-bottom:7px!important}.lead{background:#0e1f31!important;border:1px solid #1b344c!important;padding:8px!important;border-radius:7px!important;margin:5px 0!important;color:#dbe7f2!important}
-.form-grid{gap:9px!important}.actions{gap:6px!important;margin-top:10px!important}
-.modal{background:rgba(1,7,14,.78)!important;backdrop-filter:blur(3px)!important}.modal-box{background:#0b1828!important;color:#e6eef8!important;border:1px solid #203b55!important;border-radius:11px!important;padding:13px!important;box-shadow:0 20px 60px rgba(0,0,0,.5)!important}
-.modal-head{margin-bottom:10px!important}.close{background:#16283b!important;color:#d7e4f1!important;width:30px!important;height:30px!important}
-.lifecycle{gap:5px!important;margin:8px 0 12px!important}.life-step{padding:7px 4px!important;border-radius:7px!important;background:#0e1f31!important;color:#8197ad!important;border-color:#1b344c!important}.life-step.done{background:#0d392b!important;color:#58dfa0!important;border-color:#175b43!important}.life-step.current{background:#102f58!important;color:#7fb8ff!important;border-color:#1d5fa6!important}
-.profile-grid{gap:7px!important;margin-bottom:10px!important}.profile-card{background:#0d1c2d!important;border-color:#1b344b!important;border-radius:8px!important;padding:9px!important}.profile-card b{font-size:16px!important}.timeline{border-left-color:#1d4e7e!important}.timeline-item:before{background:#2387ff!important}
-.empty{padding:18px!important;color:#70869c!important}
-.toast{background:#10263b!important;border:1px solid #244766!important;color:#fff!important}
-/* Keep customer-facing invoice/print document white and unchanged. */
-.invoice,.invoice *{color:inherit}
-.invoice{background:#fff!important;color:#111!important;border-color:#173d91!important}
-#invoiceModal .modal-box{background:#0b1828!important}
-#invoiceModal .invoice{background:#fff!important;color:#111!important}
-#invoiceModal .modal-head{color:#e6eef8!important}
-@media(max-width:1100px){.cards{grid-template-columns:repeat(3,minmax(0,1fr))!important}}
-@media(max-width:900px){.sidebar{width:68px!important}.brand{font-size:0!important}.brand-logo{width:46px!important;height:46px!important;margin:0 auto 7px!important}.brand small{display:none!important}.nav button{font-size:0!important;text-align:center!important;padding:8px 5px!important;min-height:38px!important}.nav button:before{font-size:18px!important}.main{margin-left:68px!important;width:calc(100% - 68px)!important}.cards{grid-template-columns:repeat(2,minmax(0,1fr))!important}.panel{padding:9px!important}}
-@media(max-width:560px){.main{padding:9px!important}.cards{gap:6px!important}.card{padding:8px!important;min-height:68px!important}.metric{font-size:19px!important}.panel{padding:8px!important}.btn{padding:7px 8px!important}.top h1{font-size:19px!important}}
-</style>
-
 </head><body><div id="printInvoiceWrap">${invoice.outerHTML}</div>
   <script>window.addEventListener('load',function(){setTimeout(function(){window.focus();window.print();},500)});<\/script>
 
@@ -1997,4 +1991,3 @@ setInterval(renderReminders,60000);
 </script>
 </body>
 </html>
-
