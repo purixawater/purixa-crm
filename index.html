@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#0b6efd">
-<title>Purixa CRM Cloud — v22.43 Modern Actual</title>
+<title>Purixa CRM Cloud — v22.44 Aurora Glass</title>
 <style>
 *{box-sizing:border-box}
 :root{--blue:#0b6efd;--dark:#17324d;--bg:#f4f7fb;--card:#fff;--muted:#6b7c93;--line:#e4eaf1;--green:#16a34a;--red:#dc2626;--orange:#f59e0b}
@@ -517,12 +517,59 @@ body{background:radial-gradient(circle at 8% 0%,#d9eaff 0,transparent 28%),radia
 @media(max-width:900px){.sidebar{width:72px!important}.main{margin-left:72px!important;width:calc(100% - 72px)!important;padding:12px!important}#dashboard>.cards{grid-template-columns:repeat(3,minmax(0,1fr))!important}}
 @media(max-width:700px){.main{margin-left:0!important;width:100%!important;padding:9px 9px 86px!important}#dashboard>.cards{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:7px!important}#dashboard>.cards .card{min-height:72px!important;padding:10px 10px 10px 13px!important}.metric{font-size:20px!important}#dashboard .grid2:first-of-type .panel:first-child .toolbar{grid-template-columns:repeat(2,minmax(0,1fr))!important}.lifecycle{overflow-x:auto!important}.life-step{min-width:112px!important}}
 </style>
+
+<style id="purixa-aurora-glass-v2244">
+/* v22.44 — Aurora Glass visual layer. DOM, Firebase, data and business logic preserved. */
+:root{
+ --a-bg:#071426;--a-bg2:#0b1e38;--a-panel:rgba(17,35,62,.70);--a-panel2:rgba(22,45,78,.62);
+ --a-line:rgba(137,194,255,.18);--a-text:#eaf5ff;--a-muted:#9db4ce;--a-blue:#42a5ff;--a-cyan:#25d7ff;
+ --a-violet:#9b7bff;--a-green:#35e0a1;--a-orange:#ffad5a;--a-pink:#ff72bd;
+ --a-shadow:0 18px 55px rgba(0,0,0,.28)
+}
+html{background:#071426!important}
+body{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif!important;color:var(--a-text)!important;background:
+ radial-gradient(700px 500px at 8% 5%,rgba(41,130,255,.30),transparent 65%),
+ radial-gradient(600px 500px at 92% 8%,rgba(139,79,255,.25),transparent 65%),
+ radial-gradient(700px 500px at 60% 100%,rgba(0,213,255,.16),transparent 65%),
+ linear-gradient(135deg,#061224,#0a1930 48%,#08182c)!important;min-height:100vh}
+body:after{content:"";position:fixed;inset:0;pointer-events:none;background:linear-gradient(120deg,rgba(255,255,255,.04),transparent 30%,rgba(67,167,255,.035) 65%,transparent);z-index:-1}
+.sidebar{width:224px!important;background:linear-gradient(180deg,rgba(3,14,29,.94),rgba(7,28,52,.88))!important;border-right:1px solid rgba(108,188,255,.15)!important;box-shadow:20px 0 70px rgba(0,0,0,.30)!important;padding:14px 10px!important;backdrop-filter:blur(22px)!important}
+.brand{padding:4px 7px 17px!important}.brand-logo{width:146px!important;height:54px!important;border-radius:14px!important;background:rgba(255,255,255,.94)!important;box-shadow:0 12px 30px rgba(0,0,0,.28)!important}.brand small{color:#88a9cb!important}
+.nav button{min-height:42px!important;margin:3px 0!important;border-radius:13px!important;color:#a9c2dc!important;font-weight:750!important;padding:9px 11px!important;border:1px solid transparent!important;transition:.18s ease!important}.nav button:hover{transform:translateX(4px)!important;background:rgba(66,165,255,.08)!important;border-color:rgba(66,165,255,.13)!important}.nav button.active{background:linear-gradient(135deg,rgba(37,132,255,.95),rgba(123,76,255,.90))!important;color:#fff!important;border-color:rgba(255,255,255,.16)!important;box-shadow:0 10px 30px rgba(48,117,255,.28)!important}
+.main{margin-left:224px!important;width:calc(100% - 224px)!important;padding:16px 18px 34px!important}
+.top{min-height:68px!important;padding:10px 14px!important;border-radius:20px!important;background:rgba(13,34,60,.58)!important;border:1px solid rgba(144,204,255,.16)!important;box-shadow:var(--a-shadow)!important;backdrop-filter:blur(24px)!important;-webkit-backdrop-filter:blur(24px)!important;color:var(--a-text)!important}.top h1{font-size:25px!important;color:#f4f9ff!important;font-weight:900!important}.top p{color:var(--a-muted)!important}.top .btn.primary{background:linear-gradient(135deg,#238fff,#7b55ff)!important;color:#fff!important;box-shadow:0 10px 24px rgba(52,123,255,.26)!important}
+/* Dashboard KPI bento grid */
+#dashboard>.cards{grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:10px!important;margin-bottom:14px!important}
+#dashboard>.cards .card{min-height:86px!important;padding:13px 13px 12px 16px!important;border-radius:18px!important;background:linear-gradient(145deg,rgba(22,48,82,.78),rgba(11,28,50,.72))!important;border:1px solid rgba(130,195,255,.16)!important;box-shadow:0 14px 38px rgba(0,0,0,.24),inset 0 1px 0 rgba(255,255,255,.05)!important;backdrop-filter:blur(20px)!important;-webkit-backdrop-filter:blur(20px)!important;position:relative!important;overflow:hidden!important;color:var(--a-text)!important}
+#dashboard>.cards .card:before{content:"";position:absolute;left:0;top:12px;bottom:12px;width:4px;border-radius:0 6px 6px 0;background:linear-gradient(180deg,#42a5ff,#8c65ff)!important}
+#dashboard>.cards .card:after{content:"";position:absolute;width:80px;height:80px;right:-35px;top:-40px;border-radius:50%;background:radial-gradient(circle,rgba(79,178,255,.20),transparent 68%);pointer-events:none!important}
+#dashboard>.cards .card:nth-child(1):before{background:linear-gradient(180deg,#42a5ff,#2878ff)!important}#dashboard>.cards .card:nth-child(2):before{background:linear-gradient(180deg,#35e0a1,#16b981)!important}#dashboard>.cards .card:nth-child(3):before{background:linear-gradient(180deg,#ffbf6a,#ff7b4a)!important}#dashboard>.cards .card:nth-child(4):before{background:linear-gradient(180deg,#ff79b9,#9b7bff)!important}#dashboard>.cards .card:nth-child(5):before{background:linear-gradient(180deg,#25d7ff,#42a5ff)!important}#dashboard>.cards .card:nth-child(6):before{background:linear-gradient(180deg,#9b7bff,#6e55ff)!important}#dashboard>.cards .card:nth-child(7):before{background:linear-gradient(180deg,#ff72bd,#ff4d73)!important}#dashboard>.cards .card:nth-child(8):before{background:linear-gradient(180deg,#9db4ce,#5f7c9c)!important}#dashboard>.cards .card:nth-child(9):before{background:linear-gradient(180deg,#ffad5a,#ff7043)!important}#dashboard>.cards .card:nth-child(10):before{background:linear-gradient(180deg,#9b7bff,#42a5ff)!important}#dashboard>.cards .card:nth-child(11):before{background:linear-gradient(180deg,#35e0a1,#25d7ff)!important}
+#dashboard>.cards .label{font-size:9px!important;letter-spacing:.8px!important;font-weight:800!important;color:#91aac5!important;text-transform:uppercase!important}.metric{font-size:24px!important;line-height:1.05!important;margin-top:6px!important;color:#f3f8ff!important;font-weight:950!important;letter-spacing:-.5px!important}
+/* Glass panels */
+#dashboard>.panel,#dashboard .grid2>.panel,.page>.panel{background:linear-gradient(145deg,rgba(19,42,72,.72),rgba(9,25,45,.66))!important;border:1px solid rgba(137,194,255,.15)!important;border-radius:20px!important;box-shadow:var(--a-shadow),inset 0 1px 0 rgba(255,255,255,.04)!important;backdrop-filter:blur(24px)!important;-webkit-backdrop-filter:blur(24px)!important;color:var(--a-text)!important}
+#dashboard>.panel h3,.page>.panel h3,#dashboard .grid2>.panel h3{color:#eff7ff!important;font-weight:900!important}.mini{color:#8ea8c3!important}
+#dashboard>.panel[style*="eef6ff"],#dashboard>.panel[style*="fffdf5"]{background:linear-gradient(145deg,rgba(24,57,94,.74),rgba(11,29,51,.68))!important;border-color:rgba(88,176,255,.18)!important}
+/* Lifecycle */
+.lifecycle{display:flex!important;align-items:center!important;gap:0!important;overflow:auto!important;padding:5px 2px 8px!important}.life-step{flex:1 0 108px!important;min-height:52px!important;border-radius:14px!important;background:rgba(28,58,94,.66)!important;border:1px solid rgba(126,189,242,.16)!important;color:#a8bfd6!important;box-shadow:0 7px 22px rgba(0,0,0,.14)!important;padding:9px 8px!important;font-size:10px!important;position:relative!important}.life-step:not(:last-child){margin-right:22px!important}.life-step:not(:last-child):after{content:"→"!important;position:absolute!important;right:-19px!important;top:50%!important;transform:translateY(-50%)!important;color:#55aef5!important;font-size:15px!important;font-weight:900!important}.life-step.done{background:linear-gradient(135deg,rgba(16,185,129,.18),rgba(24,61,69,.65))!important;border-color:rgba(53,224,161,.28)!important;color:#65e7b7!important}.life-step.current{background:linear-gradient(135deg,rgba(66,165,255,.20),rgba(65,52,122,.55))!important;border-color:rgba(100,171,255,.32)!important;color:#8ecbff!important}
+/* Today's work */
+#todaysWorkCards{grid-template-columns:repeat(6,minmax(0,1fr))!important;gap:8px!important;margin:9px 0 12px!important}#todaysWorkCards .card{min-height:70px!important;padding:10px!important;border-radius:15px!important;background:rgba(26,54,88,.60)!important;border:1px solid rgba(136,194,244,.14)!important;box-shadow:0 8px 24px rgba(0,0,0,.18)!important;color:#edf6ff!important}.#todaysWorkCards .label{color:#8fa8c0!important}
+#todaysWorkList .lead,.lead{background:rgba(21,47,79,.60)!important;border:1px solid rgba(132,191,240,.14)!important;border-radius:14px!important;color:#eaf4ff!important;box-shadow:0 7px 20px rgba(0,0,0,.14)!important}
+/* Quick action tiles */
+#dashboard .grid2:first-of-type>.panel:first-child .toolbar{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:8px!important}#dashboard .grid2:first-of-type>.panel:first-child .toolbar .btn{min-height:50px!important;padding:7px 5px!important;border-radius:14px!important;font-size:10.5px!important;font-weight:900!important;border:1px solid rgba(255,255,255,.10)!important;box-shadow:0 8px 20px rgba(0,0,0,.18)!important;color:#fff!important}
+#dashboard .grid2:first-of-type>.panel:first-child .toolbar .btn:nth-child(1){background:linear-gradient(135deg,#147dff,#2563eb)!important}#dashboard .grid2:first-of-type>.panel:first-child .toolbar .btn:nth-child(2){background:linear-gradient(135deg,#13c98b,#078f67)!important}#dashboard .grid2:first-of-type>.panel:first-child .toolbar .btn:nth-child(3){background:linear-gradient(135deg,#ffad5a,#f97316)!important}#dashboard .grid2:first-of-type>.panel:first-child .toolbar .btn:nth-child(4){background:linear-gradient(135deg,#a47bff,#7148e8)!important}#dashboard .grid2:first-of-type>.panel:first-child .toolbar .btn:nth-child(5){background:linear-gradient(135deg,#25d7ff,#0e9ed0)!important}#dashboard .grid2:first-of-type>.panel:first-child .toolbar .btn:nth-child(6){background:linear-gradient(135deg,#ff72bd,#d53b8c)!important}#dashboard .grid2:first-of-type>.panel:first-child .toolbar .btn:nth-child(7){background:linear-gradient(135deg,#16cfa0,#087a68)!important}
+/* Forms, tables, pipelines */
+.panel table,table{border-color:rgba(137,194,255,.16)!important}.table-wrap{border-radius:14px!important}thead th{background:rgba(31,66,104,.70)!important;color:#a9c0d8!important;border-bottom-color:rgba(137,194,255,.14)!important}tbody td{background:rgba(10,29,50,.42)!important;color:#dbeaf7!important;border-bottom-color:rgba(137,194,255,.10)!important}tbody tr:hover td{background:rgba(40,104,160,.22)!important}.field input,.field select,.field textarea,.search{background:rgba(9,28,49,.62)!important;color:#eaf5ff!important;border-color:rgba(126,189,242,.20)!important}.field label{color:#91aac4!important}.btn{border-radius:12px!important}.btn.primary{background:linear-gradient(135deg,#248fff,#714cff)!important;color:#fff!important}.pipeline .stage,.service-card,.profile-card{background:rgba(19,48,80,.62)!important;border-color:rgba(137,194,255,.14)!important;color:#eaf5ff!important}.modal-box{background:rgba(8,25,44,.96)!important;color:#eaf5ff!important;border:1px solid rgba(137,194,255,.18)!important;backdrop-filter:blur(24px)!important}.modal-box h3,.modal-box h2{color:#f4f8ff!important}.close{background:rgba(255,255,255,.08)!important;color:#fff!important}
+/* Responsive */
+@media(max-width:1200px) and (min-width:901px){#dashboard>.cards{grid-template-columns:repeat(4,minmax(0,1fr))!important}#todaysWorkCards{grid-template-columns:repeat(3,minmax(0,1fr))!important}}
+@media(max-width:900px){.sidebar{width:72px!important}.main{margin-left:72px!important;width:calc(100% - 72px)!important;padding:12px!important}#dashboard>.cards{grid-template-columns:repeat(3,minmax(0,1fr))!important}#todaysWorkCards{grid-template-columns:repeat(3,minmax(0,1fr))!important}}
+@media(max-width:700px){.main{margin-left:0!important;width:100%!important;padding:9px 9px 86px!important}#dashboard>.cards{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:7px!important}#dashboard>.cards .card{min-height:72px!important}.metric{font-size:20px!important}#dashboard .grid2:first-of-type>.panel:first-child .toolbar{grid-template-columns:repeat(2,minmax(0,1fr))!important}.lifecycle{overflow-x:auto!important}}
+</style>
 </head>
 <body>
 <div id="authOverlay">
   <div class="auth-box">
     <img class="auth-logo" src="purixa-logo.png" alt="Purixa Water Solution">
-    <h2>☁️ Purixa CRM Cloud v22.41</h2>
+    <h2>☁️ Purixa CRM Cloud v22.44</h2>
     <p class="mini" id="authModeText">Cloud login is enabled after Firebase setup.</p>
     <div id="firebaseSetupBox">
       <label class="mini">Firebase Config JSON</label>
