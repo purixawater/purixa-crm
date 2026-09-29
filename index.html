@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#ffffff">
-<title>Purixa CRM Cloud — v22.42 PWA</title>
+<title>Purixa CRM Cloud — v22.43 PWA</title>
 <style>
 *{box-sizing:border-box}
 :root{--blue:#0b6efd;--dark:#17324d;--bg:#f4f7fb;--card:#fff;--muted:#6b7c93;--line:#e4eaf1;--green:#16a34a;--red:#dc2626;--orange:#f59e0b}
@@ -363,6 +363,29 @@ body{background:linear-gradient(135deg,#f1f6fb 0%,#f8fbfe 48%,#f1f5fa 100%)!impo
 @media(max-width:900px){.main{margin-left:72px!important;width:calc(100% - 72px)!important;padding:0 10px 82px!important}.sidebar{width:72px!important}.brand-logo{width:48px!important;height:48px!important}.brand>span{display:none!important}.sidebar:after{display:none!important}.nav button{font-size:0!important;justify-content:center!important}.nav button:before{font-size:19px!important}.top{margin:0 -10px!important;padding:9px 12px!important}}
 @media(max-width:700px){#reports>.cards{grid-template-columns:1fr 1fr!important}.page>.panel{padding:12px!important}.dashboard-head{padding:18px 3px 14px!important}.dashboard-head h1{font-size:24px!important}.dashboard-head p{font-size:14px!important}}
 </style>
+
+<style id="purixa-reference-final-v2243">
+/* v22.43 — full-page reference design. Visual layer only; data/Firebase logic preserved. */
+:root{--ref-navy:#071b33;--ref-navy2:#0b2947;--ref-blue:#1468ed;--ref-blue2:#0b74ff;--ref-bg:#f4f8fc;--ref-text:#15263d;--ref-muted:#718096;--ref-line:#e0e8f1}
+body{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif!important;background:linear-gradient(135deg,#f3f7fb,#fbfdff)!important;color:var(--ref-text)!important}
+.sidebar{background:linear-gradient(180deg,#06182d 0%,#09233e 55%,#0c2c4b 100%)!important;width:245px!important;padding:12px 10px 18px!important;box-shadow:8px 0 28px rgba(6,25,46,.14)!important}
+.brand{padding:4px 2px 16px!important;text-align:center!important;border-bottom:1px solid rgba(255,255,255,.09)!important}.brand-logo{width:205px!important;height:76px!important;background:transparent!important;border:0!important;border-radius:0!important;box-shadow:none!important;padding:0!important;object-fit:contain!important;object-position:center!important;margin:0 auto 2px!important}.brand>span{font-size:15px!important;letter-spacing:1.5px!important;font-weight:800!important;color:#fff!important}.brand small{display:none!important}
+.nav button{height:45px!important;margin:2px 0!important;padding:10px 13px!important;border-radius:11px!important;color:#eaf2fb!important;font-size:14px!important;font-weight:650!important}.nav button:hover{background:rgba(255,255,255,.07)!important}.nav button.active{background:linear-gradient(90deg,#0878fb,#1766e7)!important;box-shadow:0 7px 18px rgba(0,96,226,.26)!important}
+.main{margin-left:245px!important;width:calc(100% - 245px)!important;padding:0 16px 28px!important}.top{height:70px!important;margin:0 -16px 0!important;padding:11px 26px!important;background:rgba(255,255,255,.96)!important;border-bottom:1px solid #e3eaf2!important;box-shadow:0 2px 12px rgba(15,35,65,.045)!important}.global-search{height:46px!important;border-radius:15px!important;background:#f8fbff!important;border-color:#d8e3f0!important}.top-new{height:46px!important;border-radius:12px!important;background:#1168e9!important}.cloud-status{background:#effbf4!important;color:#07934e!important;border:0!important}.avatar{background:#1768e8!important}
+.page{padding:0 2px 22px!important}.page>.panel{border-radius:16px!important;border:1px solid #dfe7f0!important;background:rgba(255,255,255,.98)!important;box-shadow:0 8px 26px rgba(12,38,67,.055)!important;padding:18px!important;margin-top:18px!important}
+.ref-page-head{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:2px 2px 16px;margin-bottom:2px;border-bottom:1px solid #edf2f7}.ref-page-head h2{margin:0;color:#122943;font-size:22px;letter-spacing:-.25px}.ref-page-head p{margin:4px 0 0;color:#748399;font-size:13px}.ref-page-head .btn{white-space:nowrap}
+.page>.panel>.toolbar{margin:14px 0!important;align-items:center}.page .search{height:44px!important;border-radius:12px!important;background:#f9fbfe!important;border:1px solid #dce6f0!important;padding:0 13px!important}.page .btn{min-height:38px!important;border-radius:10px!important;font-size:13px!important;box-shadow:none!important}.page .btn.primary{background:#1269ea!important;color:#fff!important}.page .btn.green{background:#16a65a!important;color:#fff!important}.page .btn.red{background:#fff1f1!important;color:#d94d4d!important;border:1px solid #ffd7d7!important}
+.table-wrap{border:1px solid #e2eaf2!important;border-radius:13px!important;overflow:auto!important;box-shadow:0 2px 8px rgba(15,35,65,.025)!important}.page table{width:100%!important;border-collapse:separate!important;border-spacing:0!important;min-width:850px!important}.page th{height:45px!important;padding:11px 12px!important;background:#f5f8fc!important;color:#52677f!important;font-size:11px!important;text-transform:uppercase!important;letter-spacing:.45px!important;border-bottom:1px solid #dfe8f1!important}.page td{padding:13px 12px!important;background:#fff!important;color:#263c57!important;font-size:12.5px!important;border-bottom:1px solid #e8eef5!important;vertical-align:middle!important}.page tbody tr:last-child td{border-bottom:0!important}.page tbody tr:hover td{background:#f8fbff!important}.page td .btn{margin:2px 3px 2px 0!important}
+#leads .pipeline{display:grid!important;grid-template-columns:repeat(4,minmax(190px,1fr))!important;gap:12px!important;overflow:auto!important;padding:2px!important}.pipeline .stage{background:#f8fbfe!important;border:1px solid #e0e8f1!important;border-radius:14px!important;padding:12px!important;min-height:125px!important;box-shadow:0 4px 12px rgba(15,35,65,.035)!important}.pipeline .stage h4{font-size:13px!important;color:#18314d!important;margin-bottom:10px!important}.pipeline .lead{border:1px solid #e2e9f1!important;border-radius:11px!important;background:#fff!important;box-shadow:0 3px 9px rgba(15,35,65,.04)!important;padding:10px!important}.pipeline .lead .toolbar{margin-top:8px!important}
+#customers table{min-width:950px!important}#customers td:first-child b{font-size:13px!important;color:#172d48!important}#customers td:first-child .mini{max-width:260px!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}
+#sales table{min-width:950px!important}#sales td:nth-child(4),#sales td:nth-child(5),#sales td:nth-child(6){font-weight:750!important;color:#172d48!important}
+#serviceList{display:flex!important;flex-direction:column!important;gap:11px!important}.service-card{margin:0!important;border:1px solid #e0e8f1!important;border-radius:14px!important;padding:15px 16px!important;background:#fff!important;box-shadow:0 5px 16px rgba(12,38,67,.045)!important}.service-card .row{align-items:center!important}.service-card .row b{font-size:14px!important;color:#162d49!important}.service-card .toolbar{margin:10px 0 0!important;gap:7px!important}
+#reports>.panel:first-child{margin-bottom:14px!important}.page#reports>.cards{grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:14px!important}.page#reports>.cards .card{min-height:108px!important;padding:17px!important;border-radius:15px!important;background:#fff!important;border:1px solid #e0e8f1!important;box-shadow:0 6px 18px rgba(12,38,67,.045)!important;position:relative;overflow:hidden}.page#reports>.cards .card:before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:#1768e8}.page#reports>.cards .card:nth-child(2):before{background:#16a65a}.page#reports>.cards .card:nth-child(3):before{background:#7b45df}.page#reports>.cards .card:nth-child(4):before{background:#f2a000}.page#reports>.cards .card:nth-child(5):before{background:#e94e5a}.page#reports>.cards .card:nth-child(6):before{background:#0c91c9}.page#reports>.cards .card:nth-child(7):before{background:#0aa56b}.page#reports>.cards .metric{font-size:25px!important}.page#reports>.panel:last-child{margin-top:14px!important}.page#reports>.panel:last-child h3{font-size:18px!important}
+#quotations .table-wrap,#inventory .table-wrap,#expenses .table-wrap,#amc .table-wrap,#technicians .table-wrap{border:1px solid #e2eaf2!important;border-radius:13px!important;overflow:auto!important}
+@media(max-width:1100px){.page#reports>.cards{grid-template-columns:repeat(2,minmax(0,1fr))!important}#leads .pipeline{grid-template-columns:repeat(2,minmax(190px,1fr))!important}}
+@media(max-width:900px){.sidebar{width:72px!important}.main{margin-left:72px!important;width:calc(100% - 72px)!important;padding:0 10px 82px!important}.brand-logo{width:48px!important;height:48px!important}.brand>span{display:none!important}.nav button{font-size:0!important;text-align:center!important}.nav button:before{font-size:19px!important}.top{margin:0 -10px!important;padding:9px 12px!important}.ref-page-head h2{font-size:19px!important}}
+@media(max-width:700px){.page#reports>.cards{grid-template-columns:1fr 1fr!important}.ref-page-head{align-items:flex-start;flex-direction:column}.ref-page-head .btn{width:100%}.page>.panel{padding:12px!important}}
+</style>
 </head>
 <body>
 <div id="authOverlay">
@@ -503,14 +526,16 @@ body{background:linear-gradient(135deg,#f1f6fb 0%,#f8fbfe 48%,#f1f5fa 100%)!impo
 
   <section id="leads" class="page">
     <div class="panel">
-      <div class="toolbar"><input class="search" id="leadSearch" placeholder="Search leads..." oninput="renderLeads()"><button class="btn primary" onclick="openModal('leadModal')">＋ Add Lead</button></div>
+      <div class="ref-page-head"><div><h2>Leads</h2><p>Track your sales pipeline and follow-ups</p></div><button class="btn primary" onclick="openModal('leadModal')">＋ New Lead</button></div>
+      <div class="toolbar"><input class="search" id="leadSearch" placeholder="Search leads..." oninput="renderLeads()"></div>
       <div class="pipeline" id="pipeline"></div>
     </div>
   </section>
 
   <section id="customers" class="page">
     <div class="panel">
-      <div class="toolbar"><input class="search" id="customerSearch" placeholder="Search customer..." oninput="renderCustomers()"><button class="btn primary" onclick="openModal('customerModal')">＋ Add Customer</button></div>
+      <div class="ref-page-head"><div><h2>Customers</h2><p>Manage customers, purchases and service schedules</p></div><button class="btn primary" onclick="openModal('customerModal')">＋ Add Customer</button></div>
+      <div class="toolbar"><input class="search" id="customerSearch" placeholder="Search customers..." oninput="renderCustomers()"></div>
       <div class="table-wrap"><table><thead><tr><th>Name</th><th>Mobile</th><th>Product</th><th>Purchase</th><th>AMC</th><th>Next Service</th><th>Actions</th></tr></thead><tbody id="customerTable"></tbody></table></div>
     </div>
   </section>
@@ -528,14 +553,15 @@ body{background:linear-gradient(135deg,#f1f6fb 0%,#f8fbfe 48%,#f1f5fa 100%)!impo
 
   <section id="sales" class="page">
     <div class="panel">
-      <div class="toolbar"><button class="btn primary" onclick="openModal('saleModal')">＋ New Sale</button></div>
+      <div class="ref-page-head"><div><h2>Sales & Payments</h2><p>Sales invoices, payments and pending balances</p></div><button class="btn primary" onclick="openModal('saleModal')">＋ New Sale</button></div>
+      <div class="toolbar"><input class="search" placeholder="Search sales..." oninput="filterRefTable('salesTable',this.value)"></div>
       <div class="table-wrap"><table><thead><tr><th>Date</th><th>Customer</th><th>Product</th><th>Total</th><th>Paid</th><th>Pending</th><th>Status</th><th>Actions</th></tr></thead><tbody id="salesTable"></tbody></table></div>
     </div>
   </section>
 
   <section id="service" class="page">
     <div class="panel">
-      <div class="toolbar" style="justify-content:space-between;align-items:center"><div><h3 style="margin:0">Service Management</h3><div class="mini">Service requests, technician assignment and service history</div></div><button class="btn primary" onclick="openServiceModal()">＋ New Service</button></div>
+      <div class="ref-page-head"><div><h2>Service Management</h2><p>Service requests, technician assignment and service history</p></div><button class="btn primary" onclick="openServiceModal()">＋ New Service</button></div>
       <div class="toolbar"><input class="search" id="serviceSearch" placeholder="Search customer or service..." oninput="renderServices()"></div>
       <div id="serviceList"></div>
     </div>
@@ -584,6 +610,7 @@ body{background:linear-gradient(135deg,#f1f6fb 0%,#f8fbfe 48%,#f1f5fa 100%)!impo
 
   <section id="reports" class="page">
     <div class="panel">
+      <div class="ref-page-head"><div><h2>Reports & Analytics</h2><p>Business revenue, collections, expenses and profit</p></div></div>
       <div class="toolbar">
         <label class="mini">From <input id="reportFrom" type="date" onchange="renderReports()"></label>
         <label class="mini">To <input id="reportTo" type="date" onchange="renderReports()"></label>
@@ -1820,6 +1847,7 @@ async function shareInvoiceWhatsApp(){
   toast(num ? "PDF Save karein. Print window band karte hi customer ka WhatsApp khulega." : "PDF Save karein. Print window band karte hi WhatsApp khulega.");
 }
 
+function filterRefTable(tbodyId,q){const el=document.getElementById(tbodyId);if(!el)return;const needle=String(q||"").toLowerCase();[...el.querySelectorAll("tr")].forEach(tr=>{tr.style.display=!needle||tr.innerText.toLowerCase().includes(needle)?"":"none"})}
 function renderAll(){renderDashboard();renderTodaysWork();renderLeads();renderCustomers();renderQuotations();renderSales();renderServices();renderAMC();renderTech();renderInventory();renderExpenses();renderReports();renderReminders()}
 async function deleteSale(id){
   const s=db.sales.find(x=>x.id===id);
@@ -1991,7 +2019,7 @@ async function installPWA(){
 }
 if("serviceWorker" in navigator){
   window.addEventListener("load", () => {
-    navigator.serviceWorker.register("./sw.js?v=22.42", {scope:"./"})
+    navigator.serviceWorker.register("./sw.js?v=22.43", {scope:"./"})
       .then(() => console.log("Purixa CRM service worker registered"))
       .catch(err => console.warn("PWA service worker registration failed", err));
   });
