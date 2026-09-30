@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#ffffff">
-<title>Purixa CRM Cloud — v22.51 PWA</title>
+<title>Purixa CRM Cloud — v22.57 PWA</title>
 <style>
 *{box-sizing:border-box}
 :root{--blue:#0b6efd;--dark:#17324d;--bg:#f4f7fb;--card:#fff;--muted:#6b7c93;--line:#e4eaf1;--green:#16a34a;--red:#dc2626;--orange:#f59e0b}
@@ -382,6 +382,20 @@ body{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,
 #serviceList{display:flex!important;flex-direction:column!important;gap:11px!important}.service-card{margin:0!important;border:1px solid #e0e8f1!important;border-radius:14px!important;padding:15px 16px!important;background:#fff!important;box-shadow:0 5px 16px rgba(12,38,67,.045)!important}.service-card .row{align-items:center!important}.service-card .row b{font-size:14px!important;color:#162d49!important}.service-card .toolbar{margin:10px 0 0!important;gap:7px!important}
 #reports>.panel:first-child{margin-bottom:14px!important}.page#reports>.cards{grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:14px!important}.page#reports>.cards .card{min-height:108px!important;padding:17px!important;border-radius:15px!important;background:#fff!important;border:1px solid #e0e8f1!important;box-shadow:0 6px 18px rgba(12,38,67,.045)!important;position:relative;overflow:hidden}.page#reports>.cards .card:before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:#1768e8}.page#reports>.cards .card:nth-child(2):before{background:#16a65a}.page#reports>.cards .card:nth-child(3):before{background:#7b45df}.page#reports>.cards .card:nth-child(4):before{background:#f2a000}.page#reports>.cards .card:nth-child(5):before{background:#e94e5a}.page#reports>.cards .card:nth-child(6):before{background:#0c91c9}.page#reports>.cards .card:nth-child(7):before{background:#0aa56b}.page#reports>.cards .metric{font-size:25px!important}.page#reports>.panel:last-child{margin-top:14px!important}.page#reports>.panel:last-child h3{font-size:18px!important}
 #quotations .table-wrap,#inventory .table-wrap,#expenses .table-wrap,#amc .table-wrap,#technicians .table-wrap{border:1px solid #e2eaf2!important;border-radius:13px!important;overflow:auto!important}
+#expenses .expense-summary-grid{margin-top:14px!important}
+#expenses .expense-filter-row{display:grid;grid-template-columns:minmax(260px,1fr) 180px auto;gap:9px;align-items:center;margin:14px 0!important}
+#expenses .expense-filter-row input[type="month"]{height:44px;border-radius:12px;border:1px solid #dce6f0;background:#f9fbfe;padding:0 11px;color:#30465f;font:inherit}
+#expenses .expense-table-shell{margin-top:4px!important}
+#expenses .expense-table-shell .table-wrap{border:0!important;border-radius:0!important;box-shadow:none!important}
+#expenses table{min-width:820px!important}
+#expenses td:nth-child(4){font-weight:800!important;color:#172d48!important}
+#expenses .expense-category-badge,#expenses .expense-payment-badge{display:inline-flex;align-items:center;min-height:28px;padding:4px 9px;border-radius:999px;background:#f1f6fb;border:1px solid #e0e8f1;color:#49617a;font-size:11px;font-weight:700}
+#expenses .expense-payment-badge{background:#effbf4;border-color:#d4f0df;color:#16834d}
+#expenses .expense-actions{display:flex;gap:5px;align-items:center}
+#expenses .expense-actions .btn{width:34px!important;height:34px!important;min-height:34px!important;padding:0!important;display:inline-flex!important;align-items:center;justify-content:center;border-radius:9px!important}
+#expenses .ref-summary-card{min-height:78px!important}
+@media(max-width:900px){#expenses .expense-filter-row{grid-template-columns:1fr 1fr}#expenses .expense-filter-row .btn{height:44px}#expenses .expense-filter-row .search{grid-column:1/-1}}
+@media(max-width:600px){#expenses .expense-filter-row{grid-template-columns:1fr}#expenses .expense-filter-row .search{grid-column:auto}#expenses .ref-summary-grid{grid-template-columns:1fr 1fr!important}}
 @media(max-width:1100px){.page#reports>.cards{grid-template-columns:repeat(2,minmax(0,1fr))!important}#leads .pipeline{grid-template-columns:repeat(2,minmax(190px,1fr))!important}}
 @media(max-width:900px){.sidebar{width:72px!important}.main{margin-left:72px!important;width:calc(100% - 72px)!important;padding:0 10px 82px!important}.brand-logo{width:48px!important;height:48px!important}.brand>span{display:none!important}.nav button{font-size:0!important;text-align:center!important}.nav button:before{font-size:19px!important}.top{margin:0 -10px!important;padding:9px 12px!important}.ref-page-head h2{font-size:19px!important}}
 @media(max-width:700px){.page#reports>.cards{grid-template-columns:1fr 1fr!important}.ref-page-head{align-items:flex-start;flex-direction:column}.ref-page-head .btn{width:100%}.page>.panel{padding:12px!important}}
@@ -735,7 +749,7 @@ body{background:var(--r-bg)!important;color:#15263d!important}
 <div id="authOverlay">
   <div class="auth-box">
     <img class="auth-logo" src="purixa-logo.png" alt="Purixa Water Solution">
-    <h2>☁️ Purixa CRM Cloud v22.56</h2>
+    <h2>☁️ Purixa CRM Cloud v22.57</h2>
     <p class="mini" id="authModeText">Cloud login is enabled after Firebase setup.</p>
     <div id="firebaseSetupBox">
       <label class="mini">Firebase Config JSON</label>
@@ -923,13 +937,20 @@ body{background:var(--r-bg)!important;color:#15263d!important}
 
   <section id="expenses" class="page">
     <div class="panel">
-      <div class="toolbar" style="justify-content:space-between;align-items:center">
-        <div><h3 style="margin:0">💸 Expenses & Profit</h3><div class="mini">Daily/monthly expenses and estimated business profit</div></div>
+      <div class="ref-page-head">
+        <div><h2>Expenses & Profit</h2><p>Track business expenses, monthly costs and estimated profit</p></div>
         <button class="btn primary" onclick="openExpenseModal()">＋ Add Expense</button>
       </div>
-      <div class="cards" id="expenseSummary"></div>
-      <div class="toolbar"><input class="search" id="expenseSearch" placeholder="Search expense..." oninput="renderExpenses()"><input id="expenseMonthFilter" type="month" onchange="renderExpenses()"><button class="btn" onclick="document.getElementById('expenseMonthFilter').value='';renderExpenses()">All</button></div>
-      <div class="table-wrap"><table><thead><tr><th>Date</th><th>Category</th><th>Description</th><th>Amount</th><th>Payment</th><th>Actions</th></tr></thead><tbody id="expenseTable"></tbody></table></div>
+      <div class="ref-summary-grid expense-summary-grid" id="expenseSummary"></div>
+      <div class="expense-filter-row">
+        <input class="search" id="expenseSearch" placeholder="Search category, description or notes..." oninput="renderExpenses()">
+        <input id="expenseMonthFilter" type="month" aria-label="Filter by month" onchange="renderExpenses()">
+        <button class="btn" onclick="document.getElementById('expenseMonthFilter').value='';document.getElementById('expenseSearch').value='';renderExpenses()">All</button>
+      </div>
+      <div class="ref-table-shell expense-table-shell">
+        <div class="ref-table-title"><h3>Expense Transactions</h3><span>Business costs and payment records</span></div>
+        <div class="table-wrap"><table><thead><tr><th>Date</th><th>Category</th><th>Description</th><th>Amount</th><th>Payment</th><th>Actions</th></tr></thead><tbody id="expenseTable"></tbody></table></div>
+      </div>
     </div>
   </section>
 
@@ -1555,7 +1576,7 @@ async function syncCloudData(silent=false){
   if(!firestore||!firebaseAuth.currentUser||cloudSyncing)return false;
   cloudSyncing=true;
   try{
-    await firestore.collection("users").doc(firebaseAuth.currentUser.uid).collection("crm").doc("main").set({data:db,updatedAt:firebase.firestore.FieldValue.serverTimestamp(),version:"v22.56"},{merge:true});
+    await firestore.collection("users").doc(firebaseAuth.currentUser.uid).collection("crm").doc("main").set({data:db,updatedAt:firebase.firestore.FieldValue.serverTimestamp(),version:"v22.57"},{merge:true});
     await syncNormalizedCollections();
     if(!silent)toast("☁️ Cloud synced");
     return true;
@@ -2180,7 +2201,7 @@ function openExpenseModal(id=null){editingExpenseId=id;document.getElementById("
 function saveExpense(e){e.preventDefault();const data={date:expenseDate.value||today,category:expenseCategory.value,description:expenseDescription.value.trim(),amount:Math.max(0,Number(expenseAmount.value||0)),mode:expenseMode.value,notes:expenseNotes.value.trim()};if(!data.description||!data.amount){toast("Enter description and amount");return}if(editingExpenseId){const x=db.expenses.find(x=>x.id===editingExpenseId);if(x)Object.assign(x,data)}else db.expenses.unshift({id:Date.now(),...data});persist();closeModal("expenseModal");toast("Expense saved");editingExpenseId=null}
 function deleteExpense(id){if(!confirm("Delete this expense?"))return;db.expenses=db.expenses.filter(x=>x.id!==id);persist();toast("Expense deleted")}
 function expenseStats(filter=""){const expenses=db.expenses.filter(x=>!filter||String(x.date||"").startsWith(filter));const expenseTotal=expenses.reduce((a,x)=>a+Number(x.amount||0),0);const sales=db.sales.filter(x=>!filter||String(x.date||"").startsWith(filter));const services=db.services.filter(x=>(!filter||String(x.date||"").startsWith(filter))&&x.status==="Completed");const amcs=db.amcs.filter(x=>!filter||String(x.start||"").startsWith(filter));const revenue=sales.reduce((a,x)=>a+Number(x.total||0),0)+services.reduce((a,x)=>a+Number(x.amount??x.charge??0),0)+amcs.reduce((a,x)=>a+Number(x.amount||0),0);return {expenses,expenseTotal,revenue,profit:revenue-expenseTotal}}
-function renderExpenses(){const filter=document.getElementById("expenseMonthFilter")?.value||"",q=(document.getElementById("expenseSearch")?.value||"").toLowerCase();const st=expenseStats(filter);const shown=st.expenses.filter(x=>(String(x.category||"")+String(x.description||"")+String(x.notes||"")).toLowerCase().includes(q));expenseSummary.innerHTML=`<div class="card"><div class="label">Revenue</div><div class="metric">${money(st.revenue)}</div></div><div class="card"><div class="label">Expenses</div><div class="metric">${money(st.expenseTotal)}</div></div><div class="card"><div class="label">Estimated Profit</div><div class="metric">${money(st.profit)}</div></div><div class="card"><div class="label">Expense Entries</div><div class="metric">${st.expenses.length}</div></div>`;expenseTable.innerHTML=shown.length?shown.map(x=>`<tr><td>${esc(x.date||"-")}</td><td>${esc(x.category||"Other")}</td><td><b>${esc(x.description||"")}</b><div class="mini">${esc(x.notes||"")}</div></td><td>${money(x.amount||0)}</td><td>${esc(x.mode||"-")}</td><td><button class="btn" onclick="openExpenseModal(${x.id})">✏️ Edit</button> <button class="btn red" onclick="deleteExpense(${x.id})">🗑️</button></td></tr>`).join(""): `<tr><td colspan="6" class="empty">No expenses found.</td></tr>`}
+function renderExpenses(){const filter=document.getElementById("expenseMonthFilter")?.value||"",q=(document.getElementById("expenseSearch")?.value||"").toLowerCase().trim();const st=expenseStats(filter);const shown=st.expenses.filter(x=>(String(x.category||"")+" "+String(x.description||"")+" "+String(x.notes||"")+" "+String(x.mode||"")).toLowerCase().includes(q));expenseSummary.innerHTML=`<div class="ref-summary-card" style="--accent:#1768e8;--tint:#edf5ff"><div class="ref-summary-icon">₹</div><div class="ref-summary-copy"><div class="label">REVENUE</div><div class="value">${money(st.revenue)}</div><div class="sub">Sales, service & AMC</div></div></div><div class="ref-summary-card" style="--accent:#e94e5a;--tint:#fff0f2"><div class="ref-summary-icon">−</div><div class="ref-summary-copy"><div class="label">EXPENSES</div><div class="value">${money(st.expenseTotal)}</div><div class="sub">Recorded business costs</div></div></div><div class="ref-summary-card" style="--accent:#16a65a;--tint:#ecfbf2"><div class="ref-summary-icon">✓</div><div class="ref-summary-copy"><div class="label">ESTIMATED PROFIT</div><div class="value">${money(st.profit)}</div><div class="sub">Revenue minus expenses</div></div></div><div class="ref-summary-card" style="--accent:#7b45df;--tint:#f4efff"><div class="ref-summary-icon">▤</div><div class="ref-summary-copy"><div class="label">EXPENSE ENTRIES</div><div class="value">${st.expenses.length}</div><div class="sub">${filter?`For ${filter}`:'All recorded entries'}</div></div></div>`;expenseTable.innerHTML=shown.length?shown.map(x=>`<tr><td><b>${esc(x.date||"-")}</b></td><td><span class="expense-category-badge">${esc(x.category||"Other")}</span></td><td><b>${esc(x.description||"")}</b><div class="mini">${esc(x.notes||"")}</div></td><td><b>${money(x.amount||0)}</b></td><td><span class="expense-payment-badge">${esc(x.mode||"-")}</span></td><td><div class="expense-actions"><button class="btn" title="Edit expense" aria-label="Edit expense" onclick="openExpenseModal(${x.id})">✏️</button><button class="btn red" title="Delete expense" aria-label="Delete expense" onclick="deleteExpense(${x.id})">🗑</button></div></td></tr>`).join(""): `<tr><td colspan="6" class="empty">No expenses found.</td></tr>`}
 
 function reportInRange(date,from,to){const d=String(date||"");return (!from||d>=from)&&(!to||d<=to)}
 function servicePartsCost(s){if(!s||!Array.isArray(s.parts))return 0;return s.parts.reduce((sum,p)=>{const inv=db.inventory.find(i=>String(i.name||"").trim().toLowerCase()===String(p.name||"").trim().toLowerCase());const unit=Number(p.purchasePrice??p.cost??inv?.purchasePrice??0);return sum+unit*Math.max(0,Number(p.qty||1))},0)}
