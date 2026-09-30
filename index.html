@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#ffffff">
-<title>Purixa CRM Cloud — v22.43 PWA</title>
+<title>Purixa CRM Cloud — v22.44 PWA</title>
 <style>
 *{box-sizing:border-box}
 :root{--blue:#0b6efd;--dark:#17324d;--bg:#f4f7fb;--card:#fff;--muted:#6b7c93;--line:#e4eaf1;--green:#16a34a;--red:#dc2626;--orange:#f59e0b}
@@ -386,12 +386,41 @@ body{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,
 @media(max-width:900px){.sidebar{width:72px!important}.main{margin-left:72px!important;width:calc(100% - 72px)!important;padding:0 10px 82px!important}.brand-logo{width:48px!important;height:48px!important}.brand>span{display:none!important}.nav button{font-size:0!important;text-align:center!important}.nav button:before{font-size:19px!important}.top{margin:0 -10px!important;padding:9px 12px!important}.ref-page-head h2{font-size:19px!important}}
 @media(max-width:700px){.page#reports>.cards{grid-template-columns:1fr 1fr!important}.ref-page-head{align-items:flex-start;flex-direction:column}.ref-page-head .btn{width:100%}.page>.panel{padding:12px!important}}
 </style>
+<style id="purixa-reference-real-v2244">
+/* v22.44 REAL reference redesign: inner pages are intentionally rebuilt visually, not just recolored. */
+.ref-summary-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:14px 0 15px}
+.ref-summary-card{position:relative;display:flex;align-items:center;gap:12px;min-height:82px;padding:12px 14px;border:1px solid #e1e9f2;border-radius:14px;background:#fff;box-shadow:0 7px 20px rgba(13,42,74,.055);overflow:hidden}
+.ref-summary-card:before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--accent,#1768e8)}
+.ref-summary-icon{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:var(--tint,#edf5ff);color:var(--accent,#1768e8);font-size:22px;flex:none}
+.ref-summary-copy{min-width:0}.ref-summary-copy .label{font-size:11px;font-weight:700;color:#6d7f94;text-transform:uppercase;letter-spacing:.35px}.ref-summary-copy .value{font-size:22px;line-height:1.15;font-weight:800;color:#142b46;margin-top:4px}.ref-summary-copy .sub{font-size:10px;color:#8a99aa;margin-top:3px}
+.ref-table-shell{border:1px solid #dfe8f1;border-radius:15px;background:#fff;overflow:hidden;box-shadow:0 6px 18px rgba(13,42,74,.04)}
+.ref-table-shell .table-wrap{border:0!important;border-radius:0!important;box-shadow:none!important}
+.ref-table-title{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid #edf2f7;background:#fff}.ref-table-title h3{margin:0!important;font-size:15px!important}.ref-table-title span{font-size:11px;color:#8391a3}
+#leads .pipeline{grid-template-columns:repeat(4,minmax(210px,1fr))!important;gap:13px!important;padding:0!important}
+#leads .pipeline .stage{min-height:175px!important;background:linear-gradient(180deg,#f8fbff,#f4f8fc)!important;border:1px solid #dfe8f1!important;border-radius:14px!important;padding:13px!important;box-shadow:0 5px 14px rgba(13,42,74,.04)!important}
+#leads .pipeline .stage h4{font-size:13px!important;font-weight:800!important;padding-bottom:9px!important;border-bottom:1px solid #e4ebf2!important}
+#leads .pipeline .lead{padding:11px!important;border-radius:11px!important;border:1px solid #e1e8f0!important;box-shadow:0 3px 10px rgba(13,42,74,.045)!important}
+#leads .pipeline .lead b{font-size:12px;color:#17304d}
+#customers .table-wrap,#sales .table-wrap{background:#fff}
+#customers table,#sales table{min-width:980px!important}
+#customers th:first-child,#sales th:first-child{padding-left:16px!important}
+#customers td:first-child,#sales td:nth-child(2){padding-left:16px!important}
+#customers .btn,#sales .btn{border-radius:9px!important}
+#serviceList{padding:2px!important;background:#f7faff;border:1px solid #e1e9f2;border-radius:14px}
+#serviceList .service-card{border:0!important;border-bottom:1px solid #e6edf4!important;border-radius:0!important;box-shadow:none!important;padding:15px 16px!important}
+#serviceList .service-card:first-child{border-radius:13px 13px 0 0!important}.service-card:last-child{border-bottom:0!important;border-radius:0 0 13px 13px!important}
+#serviceList .service-card:hover{background:#fbfdff!important}
+#reports>.cards{margin-top:14px!important}
+#reports>.cards .card{background:#fff!important}
+@media(max-width:1100px){.ref-summary-grid{grid-template-columns:repeat(2,minmax(0,1fr))}#leads .pipeline{grid-template-columns:repeat(2,minmax(210px,1fr))!important}}
+@media(max-width:700px){.ref-summary-grid{grid-template-columns:1fr 1fr}.ref-summary-card{min-height:74px}.ref-summary-copy .value{font-size:19px}}
+</style>
 </head>
 <body>
 <div id="authOverlay">
   <div class="auth-box">
     <img class="auth-logo" src="purixa-logo.png" alt="Purixa Water Solution">
-    <h2>☁️ Purixa CRM Cloud v22.42</h2>
+    <h2>☁️ Purixa CRM Cloud v22.44</h2>
     <p class="mini" id="authModeText">Cloud login is enabled after Firebase setup.</p>
     <div id="firebaseSetupBox">
       <label class="mini">Firebase Config JSON</label>
@@ -527,7 +556,7 @@ body{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,
   <section id="leads" class="page">
     <div class="panel">
       <div class="ref-page-head"><div><h2>Leads</h2><p>Track your sales pipeline and follow-ups</p></div><button class="btn primary" onclick="openModal('leadModal')">＋ New Lead</button></div>
-      <div class="toolbar"><input class="search" id="leadSearch" placeholder="Search leads..." oninput="renderLeads()"></div>
+      <div class="ref-summary-grid" id="leadRefSummary"></div><div class="toolbar"><input class="search" id="leadSearch" placeholder="Search leads..." oninput="renderLeads()"></div>
       <div class="pipeline" id="pipeline"></div>
     </div>
   </section>
@@ -535,7 +564,7 @@ body{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,
   <section id="customers" class="page">
     <div class="panel">
       <div class="ref-page-head"><div><h2>Customers</h2><p>Manage customers, purchases and service schedules</p></div><button class="btn primary" onclick="openModal('customerModal')">＋ Add Customer</button></div>
-      <div class="toolbar"><input class="search" id="customerSearch" placeholder="Search customers..." oninput="renderCustomers()"></div>
+      <div class="ref-summary-grid" id="customerRefSummary"></div><div class="toolbar"><input class="search" id="customerSearch" placeholder="Search customers..." oninput="renderCustomers()"></div>
       <div class="table-wrap"><table><thead><tr><th>Name</th><th>Mobile</th><th>Product</th><th>Purchase</th><th>AMC</th><th>Next Service</th><th>Actions</th></tr></thead><tbody id="customerTable"></tbody></table></div>
     </div>
   </section>
@@ -554,7 +583,7 @@ body{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,
   <section id="sales" class="page">
     <div class="panel">
       <div class="ref-page-head"><div><h2>Sales & Payments</h2><p>Sales invoices, payments and pending balances</p></div><button class="btn primary" onclick="openModal('saleModal')">＋ New Sale</button></div>
-      <div class="toolbar"><input class="search" placeholder="Search sales..." oninput="filterRefTable('salesTable',this.value)"></div>
+      <div class="ref-summary-grid" id="salesRefSummary"></div><div class="toolbar"><input class="search" placeholder="Search sales..." oninput="filterRefTable('salesTable',this.value)"></div>
       <div class="table-wrap"><table><thead><tr><th>Date</th><th>Customer</th><th>Product</th><th>Total</th><th>Paid</th><th>Pending</th><th>Status</th><th>Actions</th></tr></thead><tbody id="salesTable"></tbody></table></div>
     </div>
   </section>
@@ -562,7 +591,7 @@ body{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,
   <section id="service" class="page">
     <div class="panel">
       <div class="ref-page-head"><div><h2>Service Management</h2><p>Service requests, technician assignment and service history</p></div><button class="btn primary" onclick="openServiceModal()">＋ New Service</button></div>
-      <div class="toolbar"><input class="search" id="serviceSearch" placeholder="Search customer or service..." oninput="renderServices()"></div>
+      <div class="ref-summary-grid" id="serviceRefSummary"></div><div class="toolbar"><input class="search" id="serviceSearch" placeholder="Search customer or service..." oninput="renderServices()"></div>
       <div id="serviceList"></div>
     </div>
   </section>
@@ -2019,7 +2048,7 @@ async function installPWA(){
 }
 if("serviceWorker" in navigator){
   window.addEventListener("load", () => {
-    navigator.serviceWorker.register("./sw.js?v=22.43", {scope:"./"})
+    navigator.serviceWorker.register("./sw.js?v=22.44", {scope:"./"})
       .then(() => console.log("Purixa CRM service worker registered"))
       .catch(err => console.warn("PWA service worker registration failed", err));
   });
@@ -2110,5 +2139,54 @@ setInterval(renderReminders,60000);
 </script>
 
 
+<script id="purixa-reference-real-js-v2244">
+(function(){
+  function setSummary(id, items){
+    const el=document.getElementById(id); if(!el) return;
+    el.innerHTML=items.map(x=>`<div class="ref-summary-card" style="--accent:${x.color};--tint:${x.tint}"><div class="ref-summary-icon">${x.icon}</div><div class="ref-summary-copy"><div class="label">${x.label}</div><div class="value">${x.value}</div><div class="sub">${x.sub||''}</div></div></div>`).join('');
+  }
+  window.updateReferenceSummaries=function(){
+    const d=(typeof db!=="undefined"?db:{}); const leads=d.leads||[], customers=d.customers||[], sales=d.sales||[], services=d.services||[];
+    const todayValue=(typeof today!=="undefined"?today:new Date().toISOString().slice(0,10));
+    const won=leads.filter(x=>x.status==='Won').length, newLeads=leads.filter(x=>x.status==='New').length;
+    const follow=leads.filter(x=>x.follow||x.followUp||x.nextFollowUp).length;
+    setSummary('leadRefSummary',[
+      {label:'Total Leads',value:leads.length,sub:'All pipeline leads',icon:'👥',color:'#1768e8',tint:'#eaf3ff'},
+      {label:'New Leads',value:newLeads,sub:'Ready to contact',icon:'＋',color:'#0aa56b',tint:'#e9fbf2'},
+      {label:'Follow-ups',value:follow,sub:'Scheduled follow-ups',icon:'🔔',color:'#e94e5a',tint:'#fff0f2'},
+      {label:'Won Leads',value:won,sub:'Converted opportunities',icon:'✓',color:'#7b45df',tint:'#f2edff'}
+    ]);
+    const amc=customers.filter(x=>x.amc).length, overdue=customers.filter(x=>x.nextService && String(x.nextService)<todayValue).length;
+    const dueSoon=customers.filter(x=>{if(!x.nextService)return false;const dt=new Date(x.nextService+'T00:00:00'),now=new Date(todayValue+'T00:00:00');const days=(dt-now)/86400000;return days>=0&&days<=30}).length;
+    setSummary('customerRefSummary',[
+      {label:'Customers',value:customers.length,sub:'Total customers',icon:'👥',color:'#1768e8',tint:'#eaf3ff'},
+      {label:'AMC Active',value:amc,sub:'Customers with AMC',icon:'▦',color:'#0aa56b',tint:'#e9fbf2'},
+      {label:'Service Due Soon',value:dueSoon,sub:'Next 30 days',icon:'🔔',color:'#f29a00',tint:'#fff5dc'},
+      {label:'Overdue',value:overdue,sub:'Service date passed',icon:'!',color:'#e94e5a',tint:'#fff0f2'}
+    ]);
+    const total=sales.reduce((a,x)=>a+Number(x.total||0),0), paid=sales.reduce((a,x)=>a+Number(x.paid||0),0), pending=sales.reduce((a,x)=>a+Number(x.pending||0),0);
+    setSummary('salesRefSummary',[
+      {label:'Total Sales',value:money(total),sub:sales.length+' transactions',icon:'▣',color:'#7b45df',tint:'#f2edff'},
+      {label:'Collected',value:money(paid),sub:'Payments received',icon:'₹',color:'#0aa56b',tint:'#e9fbf2'},
+      {label:'Pending',value:money(pending),sub:'Outstanding balance',icon:'₹',color:'#f29a00',tint:'#fff5dc'},
+      {label:'Paid Sales',value:sales.filter(x=>x.paymentStatus==='Paid').length,sub:'Fully paid invoices',icon:'✓',color:'#1768e8',tint:'#eaf3ff'}
+    ]);
+    const open=services.filter(x=>String(x.status||'').toLowerCase()!=='completed').length, completed=services.filter(x=>String(x.status||'').toLowerCase()==='completed').length, todayJobs=services.filter(x=>x.date===todayValue).length, tech=services.filter(x=>x.follow).length;
+    setSummary('serviceRefSummary',[
+      {label:'Open Services',value:open,sub:'Active service jobs',icon:'🔧',color:'#e94e5a',tint:'#fff0f2'},
+      {label:'Completed',value:completed,sub:'Completed services',icon:'✓',color:'#0aa56b',tint:'#e9fbf2'},
+      {label:"Today's Jobs",value:todayJobs,sub:'Scheduled today',icon:'▣',color:'#1768e8',tint:'#eaf3ff'},
+      {label:'Follow-ups',value:tech,sub:'Service follow-ups',icon:'🔔',color:'#7b45df',tint:'#f2edff'}
+    ]);
+  };
+  ['renderLeads','renderCustomers','renderSales','renderServices'].forEach(name=>{
+    const original=window[name]; if(typeof original!=='function') return;
+    window[name]=function(){const r=original.apply(this,arguments);try{window.updateReferenceSummaries()}catch(e){}return r;};
+  });
+  const originalAll=window.renderAll;
+  if(typeof originalAll==='function') window.renderAll=function(){const r=originalAll.apply(this,arguments);try{window.updateReferenceSummaries()}catch(e){}return r;};
+  setTimeout(()=>{try{window.updateReferenceSummaries()}catch(e){}},50);
+})();
+</script>
 </body>
 </html>
