@@ -633,6 +633,41 @@ body{background:var(--r-bg)!important;color:#15263d!important}
   #customers .customer-action-btn{width:28px!important;min-width:28px!important}
 }
 </style>
+
+<style id="purixa-sales-polish-v2250">
+/* v22.50 — Sales & Payments polished to match Dashboard + Customers. Visual layer only. */
+#sales .ref-page-head{padding-bottom:14px!important}
+#sales .ref-summary-grid{margin-top:12px!important;margin-bottom:12px!important}
+#sales .sales-filter-row{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:10px!important;margin:10px 0 12px!important}
+#sales .sales-filter-row .search{flex:1!important;min-width:180px!important}
+#sales .sales-table-shell{border:1px solid #dfe8f1!important;border-radius:13px!important;background:#fff!important;overflow:hidden!important;box-shadow:0 4px 14px rgba(13,42,74,.035)!important}
+#sales .sales-table-head{display:flex!important;align-items:center!important;justify-content:space-between!important;padding:12px 15px!important;border-bottom:1px solid #edf2f7!important}
+#sales .sales-table-head h3{margin:0!important;font-size:15px!important;color:#17304d!important}
+#sales .sales-table-head span{font-size:11px!important;color:#8291a3!important}
+#sales .table-wrap{border:0!important;border-radius:0!important;box-shadow:none!important}
+#sales table{min-width:980px!important}
+#sales th{height:42px!important;padding:9px 11px!important;font-size:10.5px!important}
+#sales td{padding:11px!important;font-size:12px!important}
+#sales td:first-child{font-weight:650!important;color:#52677f!important;white-space:nowrap!important}
+#sales td:nth-child(2) b{font-size:12.5px!important;color:#17304d!important}
+#sales td:nth-child(2) .mini{margin-top:2px!important}
+#sales td:nth-child(4),#sales td:nth-child(5),#sales td:nth-child(6){font-weight:800!important;white-space:nowrap!important}
+#sales td:nth-child(6){color:#d48700!important}
+#sales .sale-action-group{display:flex!important;align-items:center!important;gap:5px!important;white-space:nowrap!important}
+#sales .sale-action-btn{width:34px!important;height:34px!important;min-height:34px!important;padding:0!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;border-radius:9px!important;font-size:14px!important;margin:0!important;border:1px solid #dce6f0!important;background:#f8fbff!important;color:#31506f!important}
+#sales .sale-action-btn.primary{background:#edf5ff!important;border-color:#cfe1fb!important;color:#1768e8!important}
+#sales .sale-action-btn.green{background:#edf9f2!important;border-color:#ccebd8!important;color:#159154!important}
+#sales .sale-action-btn.red{background:#fff2f2!important;border-color:#ffd8d8!important;color:#d84c4c!important}
+#sales .sales-empty{padding:28px!important;color:#8291a3!important;text-align:center!important}
+@media(max-width:700px){
+ #sales .sales-filter-row{align-items:stretch!important}
+ #sales .sales-filter-row .search{width:100%!important}
+ #sales .sales-table-head{padding:11px 12px!important}
+ #sales .sales-table-head h3{font-size:14px!important}
+ #sales .sale-action-btn{width:32px!important;height:32px!important;min-height:32px!important}
+}
+</style>
+
 </head>
 <body>
 <div id="authOverlay">
@@ -802,8 +837,8 @@ body{background:var(--r-bg)!important;color:#15263d!important}
   <section id="sales" class="page">
     <div class="panel">
       <div class="ref-page-head"><div><h2>Sales & Payments</h2><p>Sales invoices, payments and pending balances</p></div><button class="btn primary" onclick="openModal('saleModal')">＋ New Sale</button></div>
-      <div class="ref-summary-grid" id="salesRefSummary"></div><div class="toolbar"><input class="search" placeholder="Search sales..." oninput="filterRefTable('salesTable',this.value)"></div>
-      <div class="table-wrap"><table><thead><tr><th>Date</th><th>Customer</th><th>Product</th><th>Total</th><th>Paid</th><th>Pending</th><th>Status</th><th>Actions</th></tr></thead><tbody id="salesTable"></tbody></table></div>
+      <div class="ref-summary-grid" id="salesRefSummary"></div><div class="sales-filter-row"><input class="search" placeholder="Search invoice, customer or product..." oninput="filterRefTable('salesTable',this.value)"></div>
+      <div class="sales-table-shell"><div class="sales-table-head"><h3>Sales Transactions</h3><span>Invoice & payment history</span></div><div class="table-wrap"><table><thead><tr><th>Date</th><th>Customer</th><th>Product</th><th>Total</th><th>Paid</th><th>Pending</th><th>Status</th><th>Actions</th></tr></thead><tbody id="salesTable"></tbody></table></div></div>
     </div>
   </section>
 
@@ -1939,7 +1974,7 @@ async function deleteLead(id){
 }
 function renderLeads(){const q=(leadSearch?.value||"").toLowerCase(),arr=db.leads.filter(x=>(x.name+x.mobile+x.product+x.source).toLowerCase().includes(q)),stages=["New","Contacted","Interested","Site Visit","Quotation","Negotiation","Won","Lost"];pipeline.innerHTML=stages.map(st=>`<div class="stage"><h4>${st} <span class="mini">(${arr.filter(x=>x.status===st).length})</span></h4>${arr.filter(x=>x.status===st).slice(0,12).map(x=>`<div class="lead"><b>${esc(x.name)}</b><div class="mini">${esc(x.product||"")}</div><div class="mini">${esc(x.mobile)}</div><div class="toolbar" style="margin:6px 0 0"><button class="btn" onclick="leadCall(${x.id})">📞</button><button class="btn" onclick="leadWhatsApp(${x.id})">💬</button>${x.status!=="Won"?`<button class="btn green" onclick="convertLead(${x.id})">→ Customer</button>`:""} <button class="btn red" onclick="deleteLead(${x.id})">🗑️ Delete</button></div></div>`).join("")||`<div class="mini">No leads</div>`}</div>`).join("")}
 function renderCustomers(){const q=(customerSearch?.value||"").toLowerCase(),arr=db.customers.filter(x=>(x.name+x.mobile+x.product+x.address).toLowerCase().includes(q));customerTable.innerHTML=arr.map(x=>{const d=x.nextService?daysFromToday(x.nextService):null;const when=d===null?"Not scheduled":d<0?`${Math.abs(d)} days overdue`:d===0?"Due today":`${d} days left`;const cls=d!==null&&d<0?"red":d===0?"orange":d<=30?"blue":"green";const initials=(x.name||"?").trim().split(/\s+/).slice(0,2).map(v=>v[0]).join("").toUpperCase();return `<tr class="customer-row"><td><div class="customer-main"><span class="customer-avatar">${esc(initials||"?")}</span><div><b>${esc(x.name||"-")}</b><div class="mini customer-address">${esc(x.address||"")}</div>${x.source?`<div class="mini">${esc(x.source)}${x.referredBy?` · ${esc(x.referredBy)}`:""}</div>`:""}</div></div></td><td><b>${esc(x.mobile||"-")}</b><div class="customer-contact-actions"><button class="btn customer-icon-btn" title="Call" aria-label="Call" onclick="customerCallById(${x.id})">📞</button><button class="btn customer-icon-btn" title="WhatsApp" aria-label="WhatsApp" onclick="customerWhatsAppById(${x.id})">💬</button></div></td><td><span class="customer-product">${esc(x.product||"-")}</span></td><td>${esc(x.purchase||"-")}</td><td>${x.amc?`<span class="badge green">${esc(x.amc)}</span>`:`<span class="mini">No AMC</span>`}</td><td><b>${esc(x.nextService||"-")}</b><div class="mini"><span class="badge ${cls}">${esc(when)}</span></div></td><td><div class="customer-actions"><button class="btn primary customer-action-btn" title="View profile" onclick="openCustomerProfile(${x.id})">👤</button><button class="btn customer-action-btn" title="Edit customer" onclick="editCustomer(${x.id})">✏️</button><button class="btn customer-action-btn" title="New service" onclick="openCustomerService(${x.id})">🔧</button><button class="btn red customer-action-btn" title="Delete customer" onclick="del('customers',${x.id})">🗑️</button></div></td></tr>`}).join("")||`<tr><td colspan="7" class="empty">No customers found</td></tr>`}
-function renderSales(){updateSalesBalances();const box=document.getElementById("salesTable");if(!box)return;box.innerHTML=db.sales.length?db.sales.map(s=>{const c=db.customers.find(x=>x.id===s.customerId)||{};return `<tr><td>${esc(s.date||"-")}</td><td><b>${esc(c.name||s.customer||"-")}</b><div class="mini">${esc(c.mobile||s.mobile||"")}</div></td><td>${esc(s.product||"-")}</td><td>${money(s.total)}</td><td>${money(s.paid)}</td><td>${money(s.pending)}</td><td>${statusBadge(s.paymentStatus)}</td><td><button class="btn" onclick="viewInvoice(${s.id})">🧾 Invoice</button>${Number(s.pending||0)>0?` <button class="btn green" onclick="openReceivePayment(${s.id})">💵 Receive</button>`:` <button class="btn" onclick="openReceivePayment(${s.id})">💳 History</button>`} <button class="btn red" onclick="deleteSale(${s.id})">🗑️ Delete</button></td></tr>`}).join(""): `<tr><td colspan="8" class="empty">No sales yet.</td></tr>`}
+function renderSales(){updateSalesBalances();const box=document.getElementById("salesTable");if(!box)return;box.innerHTML=db.sales.length?db.sales.map(s=>{const c=db.customers.find(x=>x.id===s.customerId)||{};const pending=Number(s.pending||0);return `<tr><td>${esc(s.date||"-")}</td><td><b>${esc(c.name||s.customer||"-")}</b><div class="mini">${esc(c.mobile||s.mobile||"")}</div></td><td>${esc(s.product||"-")}</td><td>${money(s.total)}</td><td>${money(s.paid)}</td><td>${money(s.pending)}</td><td>${statusBadge(s.paymentStatus)}</td><td><div class="sale-action-group"><button class="sale-action-btn primary" title="View invoice" aria-label="View invoice" onclick="viewInvoice(${s.id})">🧾</button>${pending>0?`<button class="sale-action-btn green" title="Receive payment" aria-label="Receive payment" onclick="openReceivePayment(${s.id})">₹</button>`:`<button class="sale-action-btn" title="Payment history" aria-label="Payment history" onclick="openReceivePayment(${s.id})">↔</button>`}<button class="sale-action-btn red" title="Delete sale" aria-label="Delete sale" onclick="deleteSale(${s.id})">🗑</button></div></td></tr>`}).join(""): `<tr><td colspan="8" class="sales-empty">No sales yet. Click “＋ New Sale” to create the first invoice.</td></tr>`}
 function renderServices(){const q=(document.getElementById("serviceSearch")?.value||"").toLowerCase();const arr=db.services.filter(s=>(s.customer+s.mobile+s.problem+s.tech+s.status).toLowerCase().includes(q));const box=document.getElementById("serviceList");if(!box)return;box.innerHTML=arr.length?arr.map(s=>{const c=db.customers.find(x=>x.id===s.customerId)||{};const mobile=c.mobile||s.mobile||"";return `<div class="service-card"><div class="row"><div><b>${esc(c.name||s.customer||"-")}</b><div class="mini">${esc(mobile)} • ${esc(s.problem||"Service")}</div></div>${statusBadge(s.status||"Open")}</div><div class="mini">📅 ${esc(s.date||"-")} • 👨‍🔧 ${esc(s.tech||"Unassigned")} • 💰 ${money(s.amount??s.charge??0)}${s.follow?` • 🔔 Follow-up ${esc(s.follow)}`:""}</div><div class="mini" style="margin-top:7px">${esc(s.notes||"")}</div><div class="toolbar" style="margin:8px 0 0"><button class="btn" onclick="viewService(${s.id})">👁 View</button><button class="btn primary" onclick="openServiceInvoice(${s.id})">🧾 Invoice</button><button class="btn" onclick="editService(${s.id})">✏️ Edit</button><button class="btn" onclick="waByService(${s.id})">💬 WhatsApp</button>${s.status==="Completed"?`<button class="btn green" onclick="sendServiceBillAndReviewWhatsApp(${s.id})">📲 Bill + Review</button>`:""}<button class="btn red" onclick="del('services',${s.id})">Delete</button></div></div>`}).join(""):`<div class="empty">No service requests found.</div>`}
 function renderAMC(){
   const box=document.getElementById("amcTable"); if(!box)return;
