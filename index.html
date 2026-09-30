@@ -700,7 +700,7 @@ body{background:var(--r-bg)!important;color:#15263d!important}
 <div id="authOverlay">
   <div class="auth-box">
     <img class="auth-logo" src="purixa-logo.png" alt="Purixa Water Solution">
-    <h2>☁️ Purixa CRM Cloud v22.44</h2>
+    <h2>☁️ Purixa CRM Cloud v22.52</h2>
     <p class="mini" id="authModeText">Cloud login is enabled after Firebase setup.</p>
     <div id="firebaseSetupBox">
       <label class="mini">Firebase Config JSON</label>
@@ -1298,7 +1298,7 @@ function normalizeService(s,d=emptyDB()){
   const mobile= s.mobile || (d.customers||[]).find(c=>c.id===customerId)?.mobile || "";
   const technicianId=Number(s.technicianId)||null;
   const tech= s.tech || (d.technicians||[]).find(x=>x.id===technicianId)?.name || "";
-  return {id:s.id||Date.now()+Math.random(),customerId,customer,mobile,problem:s.problem||s.type||"General Service",tech,technicianId,status:s.status||"Open",amount:Number(s.amount??s.charge??0),charge:Number(s.charge??s.amount??0),date:s.date||today,follow:s.follow||"",notes:s.notes||""};
+  return Object.assign({},s,{id:s.id||Date.now()+Math.random(),customerId,customer,mobile,problem:s.problem||s.type||"General Service",tech,technicianId,status:s.status||"Open",amount:Number(s.amount??s.charge??0),charge:Number(s.charge??s.amount??0),totalAmount:Number(s.totalAmount??((Number(s.amount??s.charge??0))+Number(s.partsTotal||0))),parts:Array.isArray(s.parts)?s.parts:[],partsTotal:Number(s.partsTotal||0),paid:Number(s.paid||0),paymentMode:s.paymentMode||s.mode||"",paymentStatus:s.paymentStatus||"",inventoryDeducted:!!s.inventoryDeducted,serviceInvoiceNo:s.serviceInvoiceNo||"",address:s.address||"",date:s.date||today,follow:s.follow||"",notes:s.notes||""});
 }
 
 // Repair/link Customer Master from every transaction. This is intentionally idempotent:
@@ -1485,7 +1485,7 @@ async function syncCloudData(silent=false){
   if(!firestore||!firebaseAuth.currentUser||cloudSyncing)return false;
   cloudSyncing=true;
   try{
-    await firestore.collection("users").doc(firebaseAuth.currentUser.uid).collection("crm").doc("main").set({data:db,updatedAt:firebase.firestore.FieldValue.serverTimestamp(),version:"v22.38"},{merge:true});
+    await firestore.collection("users").doc(firebaseAuth.currentUser.uid).collection("crm").doc("main").set({data:db,updatedAt:firebase.firestore.FieldValue.serverTimestamp(),version:"v22.52"},{merge:true});
     await syncNormalizedCollections();
     if(!silent)toast("☁️ Cloud synced");
     return true;

@@ -1,0 +1,10 @@
+Purixa CRM v22.52 — Service Data Preservation Fix
+
+Fixed after v22.51 audit:
+- normalizeService previously rebuilt service records and could drop parts, partsTotal, totalAmount, paid/payment fields, invoice number, address, and inventory deduction state after cloud recovery.
+- Service records now preserve these fields while still normalizing customer/technician/status/date fields.
+- Cloud main document version marker updated to v22.52.
+- Cloud setup heading updated to v22.52.
+- Service-worker cache updated to force the new build.
+
+No customer/sale/AMC business logic was removed.
