@@ -700,7 +700,7 @@ body{background:var(--r-bg)!important;color:#15263d!important}
 <div id="authOverlay">
   <div class="auth-box">
     <img class="auth-logo" src="purixa-logo.png" alt="Purixa Water Solution">
-    <h2>☁️ Purixa CRM Cloud v22.52</h2>
+    <h2>☁️ Purixa CRM Cloud v22.54</h2>
     <p class="mini" id="authModeText">Cloud login is enabled after Firebase setup.</p>
     <div id="firebaseSetupBox">
       <label class="mini">Firebase Config JSON</label>
@@ -1422,19 +1422,46 @@ function normalizeLoadedDB(raw){
 function mergeCRMData(primary, fallback){
   const result=emptyDB();
   const keys=["leads","customers","quotations","sales","services","amcs","technicians","inventory","inventoryMovements","expenses"];
+  const arrayUnion=(a,b,keyFn)=>{
+    const map=new Map();
+    [...(b||[]),...(a||[])].forEach(item=>{
+      const k=keyFn(item);
+      if(!k)return;
+      const prev=map.get(k);
+      if(!prev){map.set(k,item);return}
+      const pa=Date.parse(item?.updatedAt||item?.modifiedAt||item?.updated||"")||0;
+      const pb=Date.parse(prev?.updatedAt||prev?.modifiedAt||prev?.updated||"")||0;
+      const newer=pa>pb?item:(pb>pa?prev:item);
+      const older=newer===item?prev:item;
+      const merged=Object.assign({},older,newer);
+      // Preserve important nested history/line-item arrays from either copy.
+      for(const field of ["payments","visitHistory","parts"]){
+        if(Array.isArray(older?.[field])||Array.isArray(newer?.[field])){
+          const seen=new Map();
+          [...(older?.[field]||[]),...(newer?.[field]||[])].forEach(x=>{
+            const id=String(x?.id??JSON.stringify(x));
+            seen.set(id,x);
+          });
+          merged[field]=Array.from(seen.values());
+        }
+      }
+      map.set(k,merged);
+    });
+    return Array.from(map.values());
+  };
   for(const key of keys){
     const a=Array.isArray(primary?.[key])?primary[key]:[];
     const b=Array.isArray(fallback?.[key])?fallback[key]:[];
-    const map=new Map();
-    [...b,...a].forEach(item=>{
-      const id=String(item?.id ?? "");
-      const mobile=String(item?.mobile ?? "").replace(/\D/g,"");
-      const name=String(item?.name ?? item?.customer ?? "").trim().toLowerCase();
-      const k=id ? `id:${id}` : (mobile ? `mobile:${mobile}` : `name:${name}`);
-      map.set(k,item);
+    result[key]=arrayUnion(a,b,item=>{
+      const id=String(item?.id??"");
+      if(id)return `id:${id}`;
+      const mobile=String(item?.mobile??"").replace(/\D/g,"");
+      if(mobile)return `mobile:${mobile}`;
+      const name=String(item?.name??item?.customer??"").trim().toLowerCase();
+      return name?`name:${name}`:"";
     });
-    result[key]=Array.from(map.values());
   }
+  result.invoiceCounter=Math.max(701,Number(primary?.invoiceCounter||0),Number(fallback?.invoiceCounter||0));
   return normalizeLoadedDB(result);
 }
 
@@ -1485,7 +1512,7 @@ async function syncCloudData(silent=false){
   if(!firestore||!firebaseAuth.currentUser||cloudSyncing)return false;
   cloudSyncing=true;
   try{
-    await firestore.collection("users").doc(firebaseAuth.currentUser.uid).collection("crm").doc("main").set({data:db,updatedAt:firebase.firestore.FieldValue.serverTimestamp(),version:"v22.52"},{merge:true});
+    await firestore.collection("users").doc(firebaseAuth.currentUser.uid).collection("crm").doc("main").set({data:db,updatedAt:firebase.firestore.FieldValue.serverTimestamp(),version:"v22.54"},{merge:true});
     await syncNormalizedCollections();
     if(!silent)toast("☁️ Cloud synced");
     return true;
@@ -2002,6 +2029,22 @@ async function deleteLead(id){
 function renderLeads(){const q=(leadSearch?.value||"").toLowerCase(),arr=db.leads.filter(x=>(x.name+x.mobile+x.product+x.source).toLowerCase().includes(q)),stages=["New","Contacted","Interested","Site Visit","Quotation","Negotiation","Won","Lost"];pipeline.innerHTML=stages.map(st=>`<div class="stage"><h4>${st} <span class="mini">(${arr.filter(x=>x.status===st).length})</span></h4>${arr.filter(x=>x.status===st).slice(0,12).map(x=>`<div class="lead"><b>${esc(x.name)}</b><div class="mini">${esc(x.product||"")}</div><div class="mini">${esc(x.mobile)}</div><div class="toolbar" style="margin:6px 0 0"><button class="btn" onclick="leadCall(${x.id})">📞</button><button class="btn" onclick="leadWhatsApp(${x.id})">💬</button>${x.status!=="Won"?`<button class="btn green" onclick="convertLead(${x.id})">→ Customer</button>`:""} <button class="btn red" onclick="deleteLead(${x.id})">🗑️ Delete</button></div></div>`).join("")||`<div class="mini">No leads</div>`}</div>`).join("")}
 function renderCustomers(){const q=(customerSearch?.value||"").toLowerCase(),arr=db.customers.filter(x=>(x.name+x.mobile+x.product+x.address).toLowerCase().includes(q));customerTable.innerHTML=arr.map(x=>{const d=x.nextService?daysFromToday(x.nextService):null;const when=d===null?"Not scheduled":d<0?`${Math.abs(d)} days overdue`:d===0?"Due today":`${d} days left`;const cls=d!==null&&d<0?"red":d===0?"orange":d<=30?"blue":"green";const initials=(x.name||"?").trim().split(/\s+/).slice(0,2).map(v=>v[0]).join("").toUpperCase();return `<tr class="customer-row"><td><div class="customer-main"><span class="customer-avatar">${esc(initials||"?")}</span><div><b>${esc(x.name||"-")}</b><div class="mini customer-address">${esc(x.address||"")}</div>${x.source?`<div class="mini">${esc(x.source)}${x.referredBy?` · ${esc(x.referredBy)}`:""}</div>`:""}</div></div></td><td><b>${esc(x.mobile||"-")}</b><div class="customer-contact-actions"><button class="btn customer-icon-btn" title="Call" aria-label="Call" onclick="customerCallById(${x.id})">📞</button><button class="btn customer-icon-btn" title="WhatsApp" aria-label="WhatsApp" onclick="customerWhatsAppById(${x.id})">💬</button></div></td><td><span class="customer-product">${esc(x.product||"-")}</span></td><td>${esc(x.purchase||"-")}</td><td>${x.amc?`<span class="badge green">${esc(x.amc)}</span>`:`<span class="mini">No AMC</span>`}</td><td><b>${esc(x.nextService||"-")}</b><div class="mini"><span class="badge ${cls}">${esc(when)}</span></div></td><td><div class="customer-actions"><button class="btn primary customer-action-btn" title="View profile" onclick="openCustomerProfile(${x.id})">👤</button><button class="btn customer-action-btn" title="Edit customer" onclick="editCustomer(${x.id})">✏️</button><button class="btn customer-action-btn" title="New service" onclick="openCustomerService(${x.id})">🔧</button><button class="btn red customer-action-btn" title="Delete customer" onclick="del('customers',${x.id})">🗑️</button></div></td></tr>`}).join("")||`<tr><td colspan="7" class="empty">No customers found</td></tr>`}
 function renderSales(){updateSalesBalances();const box=document.getElementById("salesTable");if(!box)return;box.innerHTML=db.sales.length?db.sales.map(s=>{const c=db.customers.find(x=>x.id===s.customerId)||{};const pending=Number(s.pending||0);return `<tr><td>${esc(s.date||"-")}</td><td><b>${esc(c.name||s.customer||"-")}</b><div class="mini">${esc(c.mobile||s.mobile||"")}</div></td><td>${esc(s.product||"-")}</td><td>${money(s.total)}</td><td>${money(s.paid)}</td><td>${money(s.pending)}</td><td>${statusBadge(s.paymentStatus)}</td><td><div class="sale-action-group"><button class="sale-action-btn primary" title="View invoice" aria-label="View invoice" onclick="viewInvoice(${s.id})">🧾</button>${pending>0?`<button class="sale-action-btn green" title="Receive payment" aria-label="Receive payment" onclick="openReceivePayment(${s.id})">₹</button>`:`<button class="sale-action-btn" title="Payment history" aria-label="Payment history" onclick="openReceivePayment(${s.id})">↔</button>`}<button class="sale-action-btn red" title="Delete sale" aria-label="Delete sale" onclick="deleteSale(${s.id})">🗑</button></div></td></tr>`}).join(""): `<tr><td colspan="8" class="sales-empty">No sales yet. Click “＋ New Sale” to create the first invoice.</td></tr>`}
+function renderAMC(){
+  const box=document.getElementById("amcTable"); if(!box)return;
+  if(!db.amcs.length){box.innerHTML='<tr><td colspan="8" class="empty">No AMC records yet. Click “Add AMC” to create one.</td></tr>';return}
+  box.innerHTML=db.amcs.map(x=>{
+    const d=daysFromToday(x.end);
+    const expired=x.end&&d<0, soon=x.end&&d>=0&&d<=30;
+    const label=expired?"Expired":soon?"Expiring Soon":"Active";
+    const total=Number(x.visitsTotal??x.visits??0);
+    const used=(x.visitHistory||[]).filter(v=>v.status!=="Cancelled").length;
+    const left=total===0?null:Math.max(0,total-used);
+    const endInfo=x.end?(d<0?Math.abs(d)+" days overdue":d+" days left"):"";
+    const nextInfo=x.nextService?(daysFromToday(x.nextService)>=0?daysFromToday(x.nextService)+" days left":"Due"):"";
+    return '<tr><td><b>'+esc(x.customer||"-")+'</b><div class="mini">'+esc(x.mobile||"")+'</div></td><td>'+esc(x.start||"-")+'</td><td>'+esc(x.end||"-")+'<div class="mini">'+endInfo+'</div></td><td>'+money(x.amount)+'</td><td><span class="amc-visits">'+(total===0?'Unlimited':used+'/'+total)+'</span> <span class="mini">'+(total===0?'visits': '('+left+' left)')+'</span><br><button class="btn" onclick="openAMCVisit('+x.id+')">＋ Visit</button> <button class="btn" onclick="showAMCHistory('+x.id+')">▣ History</button></td><td>'+esc(x.nextService||"-")+'<div class="mini">'+nextInfo+'</div></td><td>'+statusBadge(label)+'</td><td><button class="btn primary" onclick="openAMCInvoice('+x.id+')">🧾 Invoice</button> <button class="btn" onclick="openAMCRenewal('+x.id+')">🔄 Renew</button> <button class="btn" onclick="editAMC('+x.id+')">✏️ Edit</button> <button class="btn red" onclick="del(\'amcs\','+x.id+')">Delete</button></td></tr>';
+  }).join("");
+}
+let editingInventoryId=null, stockMovementPartId=null;
 function renderServices(){
   const q=(document.getElementById("serviceSearch")?.value||"").toLowerCase().trim();
   const arr=db.services.filter(s=>(String(s.customer||"")+String(s.mobile||"")+String(s.problem||"")+String(s.tech||"")+String(s.status||"")).toLowerCase().includes(q));
@@ -2045,7 +2088,6 @@ function renderServices(){
     </div>`;
   }).join(""):`<div class="empty">No service requests found.</div>`;
 }
-let editingInventoryId=null, stockMovementPartId=null;
 function openInventoryModal(id=null){editingInventoryId=id;document.getElementById("inventoryModalTitle").textContent=id?"✏️ Edit Spare Part":"📦 Add Spare Part";const p=id?db.inventory.find(x=>x.id===id):null;invName.value=p?.name||"";invSku.value=p?.sku||"";invStock.value=Number(p?.stock||0);invLow.value=Number(p?.lowStock||2);invPurchase.value=Number(p?.purchasePrice||0);invSale.value=Number(p?.salePrice||0);invNotes.value=p?.notes||"";openModal("inventoryModal")}
 function saveInventory(e){e.preventDefault();const name=invName.value.trim();if(!name)return;const data={name,sku:invSku.value.trim(),stock:Math.max(0,Number(invStock.value||0)),lowStock:Math.max(0,Number(invLow.value||0)),purchasePrice:Math.max(0,Number(invPurchase.value||0)),salePrice:Math.max(0,Number(invSale.value||0)),notes:invNotes.value.trim()};if(editingInventoryId){const p=db.inventory.find(x=>x.id===editingInventoryId);if(p)Object.assign(p,data)}else{db.inventory.unshift({id:Date.now(),...data})}persist();closeModal("inventoryModal");toast("Spare part saved")}
 function openStockMovement(id){const p=db.inventory.find(x=>x.id===id);if(!p)return;stockMovementPartId=id;stockPartInfo.innerHTML=`<b>${esc(p.name)}</b><div class="mini">Current stock: ${Number(p.stock||0)} ${Number(p.stock||0)<=Number(p.lowStock||0)?' · ⚠️ Low stock':''}</div>`;stockType.value="in";stockQty.value="1";stockDate.value=today;stockNote.value="";openModal("stockModal")}
