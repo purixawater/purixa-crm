@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#ffffff">
-<title>Purixa CRM Cloud — v22.49 PWA</title>
+<title>Purixa CRM Cloud — v22.51 PWA</title>
 <style>
 *{box-sizing:border-box}
 :root{--blue:#0b6efd;--dark:#17324d;--bg:#f4f7fb;--card:#fff;--muted:#6b7c93;--line:#e4eaf1;--green:#16a34a;--red:#dc2626;--orange:#f59e0b}
@@ -668,6 +668,33 @@ body{background:var(--r-bg)!important;color:#15263d!important}
 }
 </style>
 
+<style id="purixa-service-polish-v2251">
+/* v22.51 — Service management polish. Data/workflow unchanged. */
+#service .ref-page-head{align-items:center!important}
+#service .ref-page-head .btn{min-width:122px!important}
+#service .service-filter-row{display:flex!important;gap:8px!important;align-items:center!important;margin:0 0 11px!important}
+#service .service-filter-row .search{flex:1!important}
+#serviceList{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px!important;padding:0!important;background:transparent!important;border:0!important}
+#serviceList .service-card{position:relative!important;margin:0!important;padding:13px!important;border:1px solid #e1e8f1!important;border-radius:12px!important;background:#fff!important;box-shadow:0 4px 14px rgba(12,38,67,.04)!important;min-width:0!important;transition:transform .15s ease,box-shadow .15s ease,border-color .15s ease!important}
+#serviceList .service-card:hover{transform:translateY(-1px)!important;box-shadow:0 7px 18px rgba(12,38,67,.07)!important;border-color:#d5e1ef!important}
+#serviceList .service-top{display:flex!important;justify-content:space-between!important;align-items:flex-start!important;gap:10px!important;padding-bottom:9px!important;border-bottom:1px solid #edf1f5!important}
+#serviceList .service-customer{display:flex!important;align-items:center!important;gap:9px!important;min-width:0!important}
+#serviceList .service-avatar{width:34px!important;height:34px!important;flex:0 0 34px!important;border-radius:9px!important;display:grid!important;place-items:center!important;background:#eaf3ff!important;color:#1768e8!important;font-size:11px!important;font-weight:800!important}
+#serviceList .service-customer b{display:block!important;font-size:13px!important;line-height:1.2!important;color:#102b4b!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;max-width:220px!important}
+#serviceList .service-problem{font-size:10px!important;color:#718096!important;margin-top:3px!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;max-width:250px!important}
+#serviceList .service-status{flex:0 0 auto!important}
+#serviceList .service-meta{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:8px 12px!important;padding:10px 0!important}
+#serviceList .service-meta-item{min-width:0!important}
+#serviceList .service-meta-label{font-size:9px!important;color:#8795a7!important;font-weight:700!important;text-transform:uppercase!important;letter-spacing:.2px!important;margin-bottom:2px!important}
+#serviceList .service-meta-value{font-size:11px!important;color:#253b53!important;font-weight:600!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}
+#serviceList .service-meta-value .badge{font-size:8px!important;margin-left:3px!important;padding:2px 5px!important;vertical-align:middle!important}
+#serviceList .service-notes{font-size:10px!important;color:#6f7f91!important;background:#f7f9fc!important;border-radius:8px!important;padding:7px 8px!important;margin-bottom:9px!important;min-height:28px!important;max-height:42px!important;overflow:hidden!important}
+#serviceList .service-actions{display:flex!important;gap:6px!important;flex-wrap:wrap!important;margin:0!important;padding-top:9px!important;border-top:1px solid #edf1f5!important}
+#serviceList .service-actions .btn{min-width:32px!important;width:32px!important;height:31px!important;min-height:31px!important;padding:5px!important;border-radius:8px!important;font-size:13px!important;line-height:1!important;display:inline-flex!important;align-items:center!important;justify-content:center!important}
+#serviceList .service-actions .service-action-wide{width:auto!important;padding:5px 8px!important;font-size:10px!important}
+@media(max-width:900px){#serviceList{grid-template-columns:1fr!important}.service-customer b{max-width:180px!important}}
+@media(max-width:600px){#serviceList .service-card{padding:11px!important}#serviceList .service-meta{gap:7px 9px!important}.service-filter-row{margin-bottom:9px!important}}
+</style>
 </head>
 <body>
 <div id="authOverlay">
@@ -845,7 +872,7 @@ body{background:var(--r-bg)!important;color:#15263d!important}
   <section id="service" class="page">
     <div class="panel">
       <div class="ref-page-head"><div><h2>Service Management</h2><p>Service requests, technician assignment and service history</p></div><button class="btn primary" onclick="openServiceModal()">＋ New Service</button></div>
-      <div class="ref-summary-grid" id="serviceRefSummary"></div><div class="toolbar"><input class="search" id="serviceSearch" placeholder="Search customer or service..." oninput="renderServices()"></div>
+      <div class="ref-summary-grid" id="serviceRefSummary"></div><div class="service-filter-row"><input class="search" id="serviceSearch" placeholder="Search customer, mobile, service or technician..." oninput="renderServices()"></div>
       <div id="serviceList"></div>
     </div>
   </section>
@@ -1975,21 +2002,48 @@ async function deleteLead(id){
 function renderLeads(){const q=(leadSearch?.value||"").toLowerCase(),arr=db.leads.filter(x=>(x.name+x.mobile+x.product+x.source).toLowerCase().includes(q)),stages=["New","Contacted","Interested","Site Visit","Quotation","Negotiation","Won","Lost"];pipeline.innerHTML=stages.map(st=>`<div class="stage"><h4>${st} <span class="mini">(${arr.filter(x=>x.status===st).length})</span></h4>${arr.filter(x=>x.status===st).slice(0,12).map(x=>`<div class="lead"><b>${esc(x.name)}</b><div class="mini">${esc(x.product||"")}</div><div class="mini">${esc(x.mobile)}</div><div class="toolbar" style="margin:6px 0 0"><button class="btn" onclick="leadCall(${x.id})">📞</button><button class="btn" onclick="leadWhatsApp(${x.id})">💬</button>${x.status!=="Won"?`<button class="btn green" onclick="convertLead(${x.id})">→ Customer</button>`:""} <button class="btn red" onclick="deleteLead(${x.id})">🗑️ Delete</button></div></div>`).join("")||`<div class="mini">No leads</div>`}</div>`).join("")}
 function renderCustomers(){const q=(customerSearch?.value||"").toLowerCase(),arr=db.customers.filter(x=>(x.name+x.mobile+x.product+x.address).toLowerCase().includes(q));customerTable.innerHTML=arr.map(x=>{const d=x.nextService?daysFromToday(x.nextService):null;const when=d===null?"Not scheduled":d<0?`${Math.abs(d)} days overdue`:d===0?"Due today":`${d} days left`;const cls=d!==null&&d<0?"red":d===0?"orange":d<=30?"blue":"green";const initials=(x.name||"?").trim().split(/\s+/).slice(0,2).map(v=>v[0]).join("").toUpperCase();return `<tr class="customer-row"><td><div class="customer-main"><span class="customer-avatar">${esc(initials||"?")}</span><div><b>${esc(x.name||"-")}</b><div class="mini customer-address">${esc(x.address||"")}</div>${x.source?`<div class="mini">${esc(x.source)}${x.referredBy?` · ${esc(x.referredBy)}`:""}</div>`:""}</div></div></td><td><b>${esc(x.mobile||"-")}</b><div class="customer-contact-actions"><button class="btn customer-icon-btn" title="Call" aria-label="Call" onclick="customerCallById(${x.id})">📞</button><button class="btn customer-icon-btn" title="WhatsApp" aria-label="WhatsApp" onclick="customerWhatsAppById(${x.id})">💬</button></div></td><td><span class="customer-product">${esc(x.product||"-")}</span></td><td>${esc(x.purchase||"-")}</td><td>${x.amc?`<span class="badge green">${esc(x.amc)}</span>`:`<span class="mini">No AMC</span>`}</td><td><b>${esc(x.nextService||"-")}</b><div class="mini"><span class="badge ${cls}">${esc(when)}</span></div></td><td><div class="customer-actions"><button class="btn primary customer-action-btn" title="View profile" onclick="openCustomerProfile(${x.id})">👤</button><button class="btn customer-action-btn" title="Edit customer" onclick="editCustomer(${x.id})">✏️</button><button class="btn customer-action-btn" title="New service" onclick="openCustomerService(${x.id})">🔧</button><button class="btn red customer-action-btn" title="Delete customer" onclick="del('customers',${x.id})">🗑️</button></div></td></tr>`}).join("")||`<tr><td colspan="7" class="empty">No customers found</td></tr>`}
 function renderSales(){updateSalesBalances();const box=document.getElementById("salesTable");if(!box)return;box.innerHTML=db.sales.length?db.sales.map(s=>{const c=db.customers.find(x=>x.id===s.customerId)||{};const pending=Number(s.pending||0);return `<tr><td>${esc(s.date||"-")}</td><td><b>${esc(c.name||s.customer||"-")}</b><div class="mini">${esc(c.mobile||s.mobile||"")}</div></td><td>${esc(s.product||"-")}</td><td>${money(s.total)}</td><td>${money(s.paid)}</td><td>${money(s.pending)}</td><td>${statusBadge(s.paymentStatus)}</td><td><div class="sale-action-group"><button class="sale-action-btn primary" title="View invoice" aria-label="View invoice" onclick="viewInvoice(${s.id})">🧾</button>${pending>0?`<button class="sale-action-btn green" title="Receive payment" aria-label="Receive payment" onclick="openReceivePayment(${s.id})">₹</button>`:`<button class="sale-action-btn" title="Payment history" aria-label="Payment history" onclick="openReceivePayment(${s.id})">↔</button>`}<button class="sale-action-btn red" title="Delete sale" aria-label="Delete sale" onclick="deleteSale(${s.id})">🗑</button></div></td></tr>`}).join(""): `<tr><td colspan="8" class="sales-empty">No sales yet. Click “＋ New Sale” to create the first invoice.</td></tr>`}
-function renderServices(){const q=(document.getElementById("serviceSearch")?.value||"").toLowerCase();const arr=db.services.filter(s=>(s.customer+s.mobile+s.problem+s.tech+s.status).toLowerCase().includes(q));const box=document.getElementById("serviceList");if(!box)return;box.innerHTML=arr.length?arr.map(s=>{const c=db.customers.find(x=>x.id===s.customerId)||{};const mobile=c.mobile||s.mobile||"";return `<div class="service-card"><div class="row"><div><b>${esc(c.name||s.customer||"-")}</b><div class="mini">${esc(mobile)} • ${esc(s.problem||"Service")}</div></div>${statusBadge(s.status||"Open")}</div><div class="mini">📅 ${esc(s.date||"-")} • 👨‍🔧 ${esc(s.tech||"Unassigned")} • 💰 ${money(s.amount??s.charge??0)}${s.follow?` • 🔔 Follow-up ${esc(s.follow)}`:""}</div><div class="mini" style="margin-top:7px">${esc(s.notes||"")}</div><div class="toolbar" style="margin:8px 0 0"><button class="btn" onclick="viewService(${s.id})">👁 View</button><button class="btn primary" onclick="openServiceInvoice(${s.id})">🧾 Invoice</button><button class="btn" onclick="editService(${s.id})">✏️ Edit</button><button class="btn" onclick="waByService(${s.id})">💬 WhatsApp</button>${s.status==="Completed"?`<button class="btn green" onclick="sendServiceBillAndReviewWhatsApp(${s.id})">📲 Bill + Review</button>`:""}<button class="btn red" onclick="del('services',${s.id})">Delete</button></div></div>`}).join(""):`<div class="empty">No service requests found.</div>`}
-function renderAMC(){
-  const box=document.getElementById("amcTable"); if(!box)return;
-  if(!db.amcs.length){box.innerHTML='<tr><td colspan="8" class="empty">No AMC records yet. Click “Add AMC” to create one.</td></tr>';return}
-  box.innerHTML=db.amcs.map(x=>{
-    const d=daysFromToday(x.end);
-    const expired=x.end&&d<0, soon=x.end&&d>=0&&d<=30;
-    const label=expired?"Expired":soon?"Expiring Soon":"Active";
-    const total=Number(x.visitsTotal??x.visits??0);
-    const used=(x.visitHistory||[]).filter(v=>v.status!=="Cancelled").length;
-    const left=total===0?null:Math.max(0,total-used);
-    const endInfo=x.end?(d<0?Math.abs(d)+" days overdue":d+" days left"):"";
-    const nextInfo=x.nextService?(daysFromToday(x.nextService)>=0?daysFromToday(x.nextService)+" days left":"Due"):"";
-    return '<tr><td><b>'+esc(x.customer||"-")+'</b><div class="mini">'+esc(x.mobile||"")+'</div></td><td>'+esc(x.start||"-")+'</td><td>'+esc(x.end||"-")+'<div class="mini">'+endInfo+'</div></td><td>'+money(x.amount)+'</td><td><span class="amc-visits">'+(total===0?'Unlimited':used+'/'+total)+'</span> <span class="mini">'+(total===0?'visits': '('+left+' left)')+'</span><br><button class="btn" onclick="openAMCVisit('+x.id+')">＋ Visit</button> <button class="btn" onclick="showAMCHistory('+x.id+')">▣ History</button></td><td>'+esc(x.nextService||"-")+'<div class="mini">'+nextInfo+'</div></td><td>'+statusBadge(label)+'</td><td><button class="btn primary" onclick="openAMCInvoice('+x.id+')">🧾 Invoice</button> <button class="btn" onclick="openAMCRenewal('+x.id+')">🔄 Renew</button> <button class="btn" onclick="editAMC('+x.id+')">✏️ Edit</button> <button class="btn red" onclick="del(\'amcs\','+x.id+')">Delete</button></td></tr>';
-  }).join("");
+function renderServices(){
+  const q=(document.getElementById("serviceSearch")?.value||"").toLowerCase().trim();
+  const arr=db.services.filter(s=>(String(s.customer||"")+String(s.mobile||"")+String(s.problem||"")+String(s.tech||"")+String(s.status||"")).toLowerCase().includes(q));
+  const box=document.getElementById("serviceList"); if(!box)return;
+  const initials=name=>(String(name||"?").trim().split(/\s+/).slice(0,2).map(v=>v[0]).join("")||"?").toUpperCase();
+  const serviceTotal=s=>Number(s.totalAmount??(Number(s.amount??s.charge??0)+Number(s.partsTotal||0)));
+  box.innerHTML=arr.length?arr.map(s=>{
+    const c=db.customers.find(x=>x.id===s.customerId)||{};
+    const mobile=c.mobile||s.mobile||"-";
+    const next=c.nextService||"Not scheduled";
+    const nextDays=c.nextService?daysFromToday(c.nextService):null;
+    const nextLabel=nextDays===null?"Not scheduled":nextDays<0?`${Math.abs(nextDays)} days overdue`:nextDays===0?"Due today":`${nextDays} days left`;
+    const nextCls=nextDays!==null&&nextDays<0?"red":nextDays===0?"orange":nextDays<=30?"blue":"green";
+    const amount=serviceTotal(s);
+    const status=String(s.status||"Open");
+    const completed=status.toLowerCase()==="completed";
+    const follow=s.follow||"-";
+    const followDays=s.follow?daysFromToday(s.follow):null;
+    const followLabel=followDays===null?follow:followDays<0?`${Math.abs(followDays)}d overdue`:followDays===0?"Due today":`${followDays}d left`;
+    const paid=Number(s.paid||0), due=Math.max(0,amount-paid);
+    return `<div class="service-card">
+      <div class="service-top"><div class="service-customer"><span class="service-avatar">${esc(initials(c.name||s.customer))}</span><div><b>${esc(c.name||s.customer||"-")}</b><div class="service-problem">${esc(s.problem||"General Service")} · ${esc(mobile)}</div></div></div><div class="service-status">${statusBadge(status)}</div></div>
+      <div class="service-meta">
+        <div class="service-meta-item"><div class="service-meta-label">Service Date</div><div class="service-meta-value">📅 ${esc(s.date||"-")}</div></div>
+        <div class="service-meta-item"><div class="service-meta-label">Next Service</div><div class="service-meta-value">${esc(next)} <span class="badge ${nextCls}">${esc(nextLabel)}</span></div></div>
+        <div class="service-meta-item"><div class="service-meta-label">Technician</div><div class="service-meta-value">👨‍🔧 ${esc(s.tech||"Unassigned")}</div></div>
+        <div class="service-meta-item"><div class="service-meta-label">Total</div><div class="service-meta-value">💰 ${money(amount)}</div></div>
+        <div class="service-meta-item"><div class="service-meta-label">Follow-up</div><div class="service-meta-value">🔔 ${esc(followLabel)}</div></div>
+        <div class="service-meta-item"><div class="service-meta-label">Payment</div><div class="service-meta-value">${money(paid)} paid${due>0?` · ${money(due)} due`:""}</div></div>
+      </div>
+      <div class="service-notes">${esc(s.notes||"No additional notes")}</div>
+      <div class="service-actions">
+        <button class="btn" title="View service" aria-label="View service" onclick="viewService(${s.id})">👁</button>
+        <button class="btn primary" title="Service invoice" aria-label="Service invoice" onclick="openServiceInvoice(${s.id})">🧾</button>
+        <button class="btn" title="Edit service" aria-label="Edit service" onclick="editService(${s.id})">✏️</button>
+        <button class="btn" title="Call customer" aria-label="Call customer" onclick="callNoByService(${s.id})">📞</button>
+        <button class="btn" title="WhatsApp customer" aria-label="WhatsApp customer" onclick="waByService(${s.id})">💬</button>
+        ${completed?`<button class="btn green service-action-wide" title="Send bill + review" onclick="sendServiceBillAndReviewWhatsApp(${s.id})">📲 Bill + Review</button>`:""}
+        <button class="btn red" title="Delete service" aria-label="Delete service" onclick="del('services',${s.id})">🗑</button>
+      </div>
+    </div>`;
+  }).join(""):`<div class="empty">No service requests found.</div>`;
 }
 let editingInventoryId=null, stockMovementPartId=null;
 function openInventoryModal(id=null){editingInventoryId=id;document.getElementById("inventoryModalTitle").textContent=id?"✏️ Edit Spare Part":"📦 Add Spare Part";const p=id?db.inventory.find(x=>x.id===id):null;invName.value=p?.name||"";invSku.value=p?.sku||"";invStock.value=Number(p?.stock||0);invLow.value=Number(p?.lowStock||2);invPurchase.value=Number(p?.purchasePrice||0);invSale.value=Number(p?.salePrice||0);invNotes.value=p?.notes||"";openModal("inventoryModal")}
