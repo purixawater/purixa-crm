@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#ffffff">
-<title>Purixa CRM Cloud — v22.45 PWA</title>
+<title>Purixa CRM Cloud — v22.48 PWA</title>
 <style>
 *{box-sizing:border-box}
 :root{--blue:#0b6efd;--dark:#17324d;--bg:#f4f7fb;--card:#fff;--muted:#6b7c93;--line:#e4eaf1;--green:#16a34a;--red:#dc2626;--orange:#f59e0b}
@@ -525,6 +525,88 @@ body{background:var(--r-bg)!important;color:#15263d!important}
 .ref-summary-icon{width:40px!important;height:40px!important;border-radius:10px!important;font-size:19px!important}
 .quick-action{gap:5px!important}
 @media(max-width:900px){.nav button:before{width:18px!important;height:18px!important;flex-basis:18px!important;background-size:18px 18px!important}.menu-icon{width:19px!important;height:19px!important}.menu-icon svg{width:17px!important;height:17px!important}.stat-icon{width:44px!important;height:44px!important}.top-icon-btn{width:36px!important;height:36px!important}.avatar{width:34px!important;height:34px!important}.work-card .work-icon{width:30px!important;height:30px!important;font-size:16px!important}}
+</style>
+<style id="purixa-consistent-ui-v2248">
+/* v22.48 — unified compact UI for Dashboard + Customers + Sales + Service + AMC */
+:root{--ui-blue:#1167ed;--ui-navy:#09233e;--ui-line:#e1e8f1;--ui-soft:#f7f9fc;--ui-text:#102b4b}
+/* Common page shell */
+.page>.panel{border:1px solid var(--ui-line)!important;border-radius:14px!important;box-shadow:0 6px 18px rgba(12,38,67,.045)!important;padding:14px 15px!important;background:#fff!important}
+.ref-page-head{padding:1px 1px 10px!important;margin-bottom:8px!important}
+.ref-page-head h2{font-size:22px!important;letter-spacing:-.25px!important;color:var(--ui-text)!important;margin:0 0 3px!important}
+.ref-page-head p{font-size:12px!important;color:#718096!important;margin:0!important}
+.page>.panel>.toolbar{margin-bottom:10px!important}
+.page .search{height:38px!important;padding:8px 11px!important;background:#fbfcfe!important;border-color:#dfe7f0!important}
+.page .btn{min-height:37px!important;padding:8px 11px!important;border-radius:9px!important;font-size:12px!important;box-shadow:none!important}
+.page .btn.primary{background:#1167ed!important}
+/* Compact summary cards used by Customers/Sales/Service */
+.ref-summary-grid{gap:8px!important;margin:0 0 11px!important}
+.ref-summary-card{min-height:68px!important;padding:10px 11px!important;border-radius:11px!important;border:1px solid #e2e9f1!important;box-shadow:0 4px 12px rgba(12,38,67,.035)!important}
+.ref-summary-copy .label{font-size:10px!important;color:#687b92!important;font-weight:700!important}
+.ref-summary-copy .value{font-size:20px!important;line-height:1.1!important;color:#102b4b!important}
+.ref-summary-copy .sub{font-size:9px!important;color:#8291a3!important}
+.ref-summary-icon{width:36px!important;height:36px!important;border-radius:9px!important;font-size:17px!important}
+/* Tables */
+.page .table-wrap{border:1px solid #e5ebf2!important;border-radius:10px!important;overflow:auto!important}
+.page table{min-width:760px!important;background:#fff!important}
+.page th{padding:9px 8px!important;font-size:10px!important;letter-spacing:.15px!important;text-transform:none!important;background:#f7f9fc!important;color:#53677d!important;border-bottom:1px solid #e1e8f1!important}
+.page td{padding:9px 8px!important;font-size:11.5px!important;border-bottom:1px solid #edf1f5!important;color:#243b53!important}
+.page tbody tr:last-child td{border-bottom:0!important}
+.page tbody tr:hover td{background:#fbfdff!important}
+/* Customer/Sales/Service/AMC action controls */
+.page .table-wrap .btn{min-height:31px!important;padding:6px 8px!important;font-size:10.5px!important}
+/* Service cards */
+#serviceList{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px!important}
+#serviceList .service-card{margin:0!important;border:1px solid #e2e9f1!important;border-radius:11px!important;padding:11px!important;box-shadow:0 4px 12px rgba(12,38,67,.035)!important;background:#fff!important}
+#serviceList .service-card .row{gap:7px!important}
+#serviceList .service-card h3,#serviceList .service-card h4{font-size:14px!important;margin:0 0 3px!important}
+#serviceList .service-card .mini{font-size:10px!important}
+/* AMC */
+#amc>.panel{padding-bottom:12px!important}
+#amc .toolbar{padding-bottom:2px!important}
+#amc .table-wrap table{min-width:820px!important}
+/* Keep dashboard as the visual reference, just tighten it slightly */
+.dashboard-head{padding:20px 15px 13px!important}
+.dashboard-head h1{font-size:28px!important}
+.dashboard-head p{font-size:13px!important}
+.dash-stat-grid{gap:9px!important}
+.dash-stat{min-height:91px!important;padding:12px 13px!important;border-radius:12px!important}
+.dash-stat .stat-icon{width:38px!important;height:38px!important;flex-basis:38px!important;border-radius:10px!important}
+.stat-body strong{font-size:20px!important}
+.quick-row{gap:7px!important;padding:7px!important;margin-bottom:11px!important}
+.dash-action{height:40px!important;border-radius:9px!important;font-size:11px!important}
+.dashboard-work-grid,.dashboard-tables-grid{gap:11px!important}
+.dash-panel{border-radius:12px!important;padding:11px 13px!important}
+.head-title h3{font-size:16px!important}
+/* Sidebar/nav alignment */
+.nav button{min-height:39px!important;padding:9px 10px!important;border-radius:9px!important;margin:1px 0!important;font-size:12px!important}
+.nav button:before{width:16px!important;height:16px!important;flex-basis:16px!important;background-size:16px 16px!important}
+.brand-logo{width:175px!important;height:62px!important}
+/* Mobile */
+@media(max-width:900px){
+  .page>.panel{padding:12px!important}
+  .ref-page-head h2{font-size:19px!important}
+  .ref-summary-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  #serviceList{grid-template-columns:1fr!important}
+}
+@media(max-width:700px){
+  .page>.panel{border-radius:12px!important;padding:10px!important}
+  .ref-page-head{padding-bottom:8px!important}
+  .ref-page-head h2{font-size:18px!important}
+  .ref-page-head p{font-size:11px!important}
+  .ref-summary-grid{gap:7px!important}
+  .ref-summary-card{min-height:63px!important;padding:9px!important}
+  .ref-summary-copy .value{font-size:18px!important}
+  .ref-summary-icon{width:32px!important;height:32px!important;font-size:15px!important}
+  .page .search{height:36px!important}
+  .page .btn{min-height:34px!important;font-size:11px!important}
+  .dashboard-head{padding:16px 3px 11px!important}
+  .dashboard-head h1{font-size:23px!important}
+  .dash-stat{min-height:84px!important;padding:10px!important}
+  .dash-stat .stat-icon{width:34px!important;height:34px!important;flex-basis:34px!important}
+  .stat-body strong{font-size:18px!important}
+  .dash-action{height:37px!important;font-size:10px!important}
+  .quick-row{gap:6px!important}
+}
 </style>
 </head>
 <body>
@@ -2321,20 +2403,3 @@ setInterval(renderReminders,60000);
 </script>
 </body>
 </html>
-<style id="purixa-v2247-compact-final">
-/* v22.47 — compact, consistent business dashboard polish */
-.dash-stat{min-height:94px!important;padding:14px 15px!important;border-radius:13px!important}
-.dash-stat-grid{gap:10px!important}
-.dash-stat .stat-icon{flex:0 0 40px!important;width:40px!important;height:40px!important;border-radius:10px!important}
-.stat-body{gap:2px!important}.stat-body strong{font-size:21px!important;line-height:1.05!important}.stat-body>span{font-size:11px!important}.stat-body small{font-size:10px!important}
-.quick-row{gap:7px!important}.dash-action{height:41px!important;padding:0 12px!important;border-radius:9px!important;font-size:11.5px!important}
-.dashboard-work-grid,.dashboard-tables-grid{gap:11px!important}.dash-panel{border-radius:13px!important}
-.ref-summary-grid{gap:9px!important}.ref-summary-card{min-height:74px!important;padding:12px!important;border-radius:12px!important}
-.page .toolbar{gap:7px!important}.page .btn{min-height:38px!important;border-radius:9px!important;padding:8px 11px!important;font-size:12px!important}
-.page .search{height:40px!important;border-radius:9px!important}.page td{font-size:11.5px!important}.page th{font-size:10px!important}
-@media(max-width:700px){
-  .dash-stat{min-height:88px!important;padding:11px!important}.dash-stat .stat-icon{width:36px!important;height:36px!important;flex-basis:36px!important;background-size:18px 18px!important}.stat-body strong{font-size:18px!important}.stat-body>span{font-size:10px!important}.stat-body small{font-size:9px!important}
-  .dash-action{height:38px!important;padding:0 9px!important;font-size:10.5px!important}.quick-row{overflow-x:auto!important;flex-wrap:nowrap!important;padding:7px!important}.quick-row .dash-action{flex:0 0 auto!important}
-  .ref-summary-card{min-height:68px!important}.page .btn{min-height:36px!important;padding:7px 9px!important}
-}
-</style>
