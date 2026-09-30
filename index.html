@@ -618,14 +618,14 @@ body{background:var(--r-bg)!important;color:#15263d!important}
     </div>
 
     <div class="dash-stat-grid">
-      <div class="dash-stat stat-blue"><div class="stat-icon"></div><div class="stat-body"><span>Total Leads</span><strong id="mLeads">0</strong><small>↗ <b>+2</b> this month</small></div><span class="stat-arrow">›</span></div>
-      <div class="dash-stat stat-green"><div class="stat-icon"></div><div class="stat-body"><span>Customers</span><strong id="mCustomers">0</strong><small>↗ <b>+1</b> this month</small></div><span class="stat-arrow">›</span></div>
-      <div class="dash-stat stat-purple"><div class="stat-icon"></div><div class="stat-body"><span>Total Sales</span><strong id="mSales">₹0</strong><small>↗ <b>+12%</b> this month</small></div><span class="stat-arrow">›</span></div>
-      <div class="dash-stat stat-orange"><div class="stat-icon"></div><div class="stat-body"><span>Pending Payment</span><strong id="mPending">₹0</strong><small class="danger-text">↗ <b>3</b> pending</small></div><span class="stat-arrow">›</span></div>
-      <div class="dash-stat stat-pink"><div class="stat-icon"></div><div class="stat-body"><span>Open Services</span><strong id="mService">0</strong><small class="danger-text">↟ <b>2</b> today</small></div><span class="stat-arrow">›</span></div>
+      <div class="dash-stat stat-blue"><div class="stat-icon"></div><div class="stat-body"><span>Total Leads</span><strong id="mLeads">0</strong><small>↗ <b id="mLeadsMonth">0</b> this month</small></div><span class="stat-arrow">›</span></div>
+      <div class="dash-stat stat-green"><div class="stat-icon"></div><div class="stat-body"><span>Customers</span><strong id="mCustomers">0</strong><small>↗ <b id="mCustomersMonth">0</b> this month</small></div><span class="stat-arrow">›</span></div>
+      <div class="dash-stat stat-purple"><div class="stat-icon"></div><div class="stat-body"><span>Total Sales</span><strong id="mSales">₹0</strong><small>↗ <b id="mSalesMonth">₹0</b> this month</small></div><span class="stat-arrow">›</span></div>
+      <div class="dash-stat stat-orange"><div class="stat-icon"></div><div class="stat-body"><span>Pending Payment</span><strong id="mPending">₹0</strong><small class="danger-text">↗ <b id="mPendingCount">0</b> invoices pending</small></div><span class="stat-arrow">›</span></div>
+      <div class="dash-stat stat-pink"><div class="stat-icon"></div><div class="stat-body"><span>Open Services</span><strong id="mService">0</strong><small class="danger-text">↟ <b id="mServiceToday">0</b> due today</small></div><span class="stat-arrow">›</span></div>
       <div class="dash-stat stat-sky"><div class="stat-icon"></div><div class="stat-body"><span>AMC Active</span><strong id="mAMC">0</strong><small>↟ <b id="amcExpiringText">2</b> expiring soon</small></div><span class="stat-arrow">›</span></div>
-      <div class="dash-stat stat-yellow"><div class="stat-icon"></div><div class="stat-body"><span>Low Stock</span><strong id="mLowStock">0</strong><small class="orange-text">▣ <b>Items low</b></small></div><span class="stat-arrow">›</span></div>
-      <div class="dash-stat stat-teal"><div class="stat-icon"></div><div class="stat-body"><span>Technicians</span><strong id="mTech">0</strong><small>↟ <b>1</b> on duty</small></div><span class="stat-arrow">›</span></div>
+      <div class="dash-stat stat-yellow"><div class="stat-icon"></div><div class="stat-body"><span>Low Stock</span><strong id="mLowStock">0</strong><small class="orange-text">▣ <b>At/below limit</b></small></div><span class="stat-arrow">›</span></div>
+      <div class="dash-stat stat-teal"><div class="stat-icon"></div><div class="stat-body"><span>Technicians</span><strong id="mTech">0</strong><small>↟ <b id="mTechActive">0</b> active</small></div><span class="stat-arrow">›</span></div>
     </div>
 
     <div class="quick-row">
@@ -1755,12 +1755,26 @@ function reminderRecordServiceByCustomer(id){goToPage("service");setTimeout(()=>
 
 function renderDashboard(){
   const salesTotal=db.sales.reduce((a,x)=>a+Number(x.total||0),0);
+  const monthKey=today.slice(0,7);
+  const monthLeads=db.leads.filter(x=>String(x.date||x.createdAt||"").slice(0,7)===monthKey).length;
+  const monthCustomers=db.customers.filter(x=>String(x.createdAt||x.date||x.purchase||"").slice(0,7)===monthKey).length;
+  const monthSales=db.sales.filter(x=>String(x.date||"").slice(0,7)===monthKey).reduce((a,x)=>a+Number(x.total||0),0);
+  const pendingCount=db.sales.filter(x=>Number(x.pending||Math.max(0,Number(x.total||0)-Number(x.paid||0)))>0).length;
+  const serviceToday=db.services.filter(x=>x.date===today && !["Completed","Cancelled"].includes(x.status)).length + db.customers.filter(x=>x.nextService===today).length;
+  const techActive=db.technicians.filter(x=>String(x.status||x.availability||"").toLowerCase().includes("active") || String(x.status||x.availability||"").toLowerCase().includes("available")).length;
   const pendingTotal=db.sales.reduce((a,x)=>a+Number(x.pending||0),0);
   const openServices=db.services.filter(x=>!['Completed','Cancelled'].includes(x.status)).length;
   const amcActive=(db.amcs||[]).filter(x=>!x.end||daysFromToday(x.end)>=0).length;
   const amcExpiring=getAMCExpiryRecords().filter(x=>{const d=daysFromToday(x.end);return d!==null&&d>=0&&d<=30});
   const lowStock=(db.inventory||[]).filter(x=>Number(x.stock||0)<=Number(x.low||0)).length;
   mLeads.textContent=db.leads.length;
+  const setText=(id,value)=>{const el=document.getElementById(id);if(el)el.textContent=value};
+  setText("mLeadsMonth",monthLeads);
+  setText("mCustomersMonth",monthCustomers);
+  setText("mSalesMonth",money(monthSales));
+  setText("mPendingCount",pendingCount);
+  setText("mServiceToday",serviceToday);
+  setText("mTechActive",techActive);
   mCustomers.textContent=db.customers.length;
   mSales.textContent=money(salesTotal);
   mPending.textContent=money(pendingTotal);
@@ -2307,3 +2321,20 @@ setInterval(renderReminders,60000);
 </script>
 </body>
 </html>
+<style id="purixa-v2247-compact-final">
+/* v22.47 — compact, consistent business dashboard polish */
+.dash-stat{min-height:94px!important;padding:14px 15px!important;border-radius:13px!important}
+.dash-stat-grid{gap:10px!important}
+.dash-stat .stat-icon{flex:0 0 40px!important;width:40px!important;height:40px!important;border-radius:10px!important}
+.stat-body{gap:2px!important}.stat-body strong{font-size:21px!important;line-height:1.05!important}.stat-body>span{font-size:11px!important}.stat-body small{font-size:10px!important}
+.quick-row{gap:7px!important}.dash-action{height:41px!important;padding:0 12px!important;border-radius:9px!important;font-size:11.5px!important}
+.dashboard-work-grid,.dashboard-tables-grid{gap:11px!important}.dash-panel{border-radius:13px!important}
+.ref-summary-grid{gap:9px!important}.ref-summary-card{min-height:74px!important;padding:12px!important;border-radius:12px!important}
+.page .toolbar{gap:7px!important}.page .btn{min-height:38px!important;border-radius:9px!important;padding:8px 11px!important;font-size:12px!important}
+.page .search{height:40px!important;border-radius:9px!important}.page td{font-size:11.5px!important}.page th{font-size:10px!important}
+@media(max-width:700px){
+  .dash-stat{min-height:88px!important;padding:11px!important}.dash-stat .stat-icon{width:36px!important;height:36px!important;flex-basis:36px!important;background-size:18px 18px!important}.stat-body strong{font-size:18px!important}.stat-body>span{font-size:10px!important}.stat-body small{font-size:9px!important}
+  .dash-action{height:38px!important;padding:0 9px!important;font-size:10.5px!important}.quick-row{overflow-x:auto!important;flex-wrap:nowrap!important;padding:7px!important}.quick-row .dash-action{flex:0 0 auto!important}
+  .ref-summary-card{min-height:68px!important}.page .btn{min-height:36px!important;padding:7px 9px!important}
+}
+</style>

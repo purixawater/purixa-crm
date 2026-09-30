@@ -1,0 +1,8 @@
+Purixa CRM v22.45 — final reference UI polish.
+
+- Applied a final visual layer to the supplied v22.44 reference redesign.
+- Added professional SVG-style sidebar navigation icons and dashboard KPI icons.
+- Added a compact live date/time card to the top bar, matching the reference layout.
+- Tightened card, toolbar, table, spacing and responsive sizing for a cleaner SaaS CRM appearance.
+- Preserved Firebase configuration, database structure, element IDs, invoice logic and business functions.
+- Service worker cache bumped to v22.45 so the updated UI can load after deployment.

@@ -1,0 +1,1 @@
+v22.44: REAL inner-page reference redesign. Added dynamic summary cards and rebuilt visual shells for Leads, Customers, Sales & Payments, Service and Reports. Preserved existing IDs and business/Firebase logic. Service worker cache bumped to v22.44.
