@@ -564,6 +564,13 @@ body{background:var(--r-bg)!important;color:#15263d!important}
 #amc>.panel{padding-bottom:12px!important}
 #amc .toolbar{padding-bottom:2px!important}
 #amc .table-wrap table{min-width:820px!important}
+/* AMC polished reference layout */
+.amc-summary-grid{grid-template-columns:repeat(4,minmax(0,1fr))!important}
+.amc-icon-blue{background:#e5f3ff!important;color:#1476d4!important}.amc-icon-green{background:#e8f8ef!important;color:#1a9b57!important}.amc-icon-orange{background:#fff2df!important;color:#df8a13!important}.amc-icon-purple{background:#f0e9ff!important;color:#7650d9!important}
+.amc-toolbar{margin:0 0 10px!important;gap:8px!important}.amc-toolbar .search{min-width:260px!important;flex:1!important}
+.amc-table-wrap{margin-top:0!important}.amc-table-wrap table{min-width:930px!important}.amc-table-wrap th,.amc-table-wrap td{vertical-align:middle!important}
+.amc-customer{display:flex;align-items:center;gap:8px;min-width:170px}.amc-avatar{width:30px;height:30px;border-radius:8px;background:#e8f2ff;color:#1167ed;display:inline-flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;flex:0 0 30px}.amc-actions{display:flex;gap:4px;align-items:center;white-space:nowrap}.amc-actions .btn{min-width:30px!important;width:30px!important;height:30px!important;padding:0!important;display:inline-flex!important;align-items:center;justify-content:center;font-size:12px!important}.amc-danger{color:#d94841!important;font-weight:700!important}.amc-warn{color:#c77b12!important;font-weight:700!important}
+@media(max-width:900px){.amc-summary-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}.amc-toolbar{flex-wrap:wrap!important}.amc-toolbar .search{min-width:180px!important}.amc-table-wrap table{min-width:900px!important}}
 /* Keep dashboard as the visual reference, just tighten it slightly */
 .dashboard-head{padding:20px 15px 13px!important}
 .dashboard-head h1{font-size:28px!important}
@@ -700,7 +707,7 @@ body{background:var(--r-bg)!important;color:#15263d!important}
 <div id="authOverlay">
   <div class="auth-box">
     <img class="auth-logo" src="purixa-logo.png" alt="Purixa Water Solution">
-    <h2>☁️ Purixa CRM Cloud v22.54</h2>
+    <h2>☁️ Purixa CRM Cloud v22.55</h2>
     <p class="mini" id="authModeText">Cloud login is enabled after Firebase setup.</p>
     <div id="firebaseSetupBox">
       <label class="mini">Firebase Config JSON</label>
@@ -903,11 +910,22 @@ body{background:var(--r-bg)!important;color:#15263d!important}
 
   <section id="amc" class="page">
     <div class="panel">
-      <div class="toolbar" style="justify-content:space-between;align-items:center">
-        <div><h3 style="margin:0">AMC Management</h3><div class="mini">Annual Maintenance Contracts, renewals and service schedule</div></div>
+      <div class="page-head">
+        <div><h2>AMC Management</h2><p>Annual Maintenance Contracts, renewals and service schedule</p></div>
         <button class="btn primary" onclick="openAMCModal()">＋ Add AMC</button>
       </div>
-      <div class="table-wrap"><table><thead><tr><th>Customer</th><th>Start</th><th>End</th><th>Amount</th><th>Visits</th><th>Next Service</th><th>Status</th><th>Actions</th></tr></thead><tbody id="amcTable"></tbody></table></div>
+      <div class="ref-summary-grid amc-summary-grid">
+        <div class="ref-summary-card"><div class="ref-summary-icon amc-icon-blue">↻</div><div class="ref-summary-copy"><div class="label">AMC ACTIVE</div><div class="value" id="amcActiveCount">0</div><div class="sub">Current contracts</div></div></div>
+        <div class="ref-summary-card"><div class="ref-summary-icon amc-icon-green">✓</div><div class="ref-summary-copy"><div class="label">EXPIRING SOON</div><div class="value" id="amcExpiringCount">0</div><div class="sub">Within 30 days</div></div></div>
+        <div class="ref-summary-card"><div class="ref-summary-icon amc-icon-orange">!</div><div class="ref-summary-copy"><div class="label">EXPIRED</div><div class="value" id="amcExpiredCount">0</div><div class="sub">Renewal required</div></div></div>
+        <div class="ref-summary-card"><div class="ref-summary-icon amc-icon-purple">⌁</div><div class="ref-summary-copy"><div class="label">NEXT VISITS</div><div class="value" id="amcDueVisitCount">0</div><div class="sub">Due in 7 days</div></div></div>
+      </div>
+      <div class="toolbar amc-toolbar">
+        <input class="search" id="amcSearch" placeholder="Search customer, mobile or AMC..." oninput="renderAMC()">
+        <select id="amcStatusFilter" onchange="renderAMC()"><option value="">All Status</option><option value="Active">Active</option><option value="Expiring Soon">Expiring Soon</option><option value="Expired">Expired</option></select>
+        <button class="btn" onclick="document.getElementById('amcSearch').value='';document.getElementById('amcStatusFilter').value='';renderAMC()">All</button>
+      </div>
+      <div class="table-wrap amc-table-wrap"><table><thead><tr><th>Customer</th><th>AMC Period</th><th>Amount</th><th>Visits</th><th>Next Service</th><th>Status</th><th>Actions</th></tr></thead><tbody id="amcTable"></tbody></table></div>
     </div>
   </section>
 
@@ -1512,7 +1530,7 @@ async function syncCloudData(silent=false){
   if(!firestore||!firebaseAuth.currentUser||cloudSyncing)return false;
   cloudSyncing=true;
   try{
-    await firestore.collection("users").doc(firebaseAuth.currentUser.uid).collection("crm").doc("main").set({data:db,updatedAt:firebase.firestore.FieldValue.serverTimestamp(),version:"v22.54"},{merge:true});
+    await firestore.collection("users").doc(firebaseAuth.currentUser.uid).collection("crm").doc("main").set({data:db,updatedAt:firebase.firestore.FieldValue.serverTimestamp(),version:"v22.55"},{merge:true});
     await syncNormalizedCollections();
     if(!silent)toast("☁️ Cloud synced");
     return true;
@@ -2031,17 +2049,52 @@ function renderCustomers(){const q=(customerSearch?.value||"").toLowerCase(),arr
 function renderSales(){updateSalesBalances();const box=document.getElementById("salesTable");if(!box)return;box.innerHTML=db.sales.length?db.sales.map(s=>{const c=db.customers.find(x=>x.id===s.customerId)||{};const pending=Number(s.pending||0);return `<tr><td>${esc(s.date||"-")}</td><td><b>${esc(c.name||s.customer||"-")}</b><div class="mini">${esc(c.mobile||s.mobile||"")}</div></td><td>${esc(s.product||"-")}</td><td>${money(s.total)}</td><td>${money(s.paid)}</td><td>${money(s.pending)}</td><td>${statusBadge(s.paymentStatus)}</td><td><div class="sale-action-group"><button class="sale-action-btn primary" title="View invoice" aria-label="View invoice" onclick="viewInvoice(${s.id})">🧾</button>${pending>0?`<button class="sale-action-btn green" title="Receive payment" aria-label="Receive payment" onclick="openReceivePayment(${s.id})">₹</button>`:`<button class="sale-action-btn" title="Payment history" aria-label="Payment history" onclick="openReceivePayment(${s.id})">↔</button>`}<button class="sale-action-btn red" title="Delete sale" aria-label="Delete sale" onclick="deleteSale(${s.id})">🗑</button></div></td></tr>`}).join(""): `<tr><td colspan="8" class="sales-empty">No sales yet. Click “＋ New Sale” to create the first invoice.</td></tr>`}
 function renderAMC(){
   const box=document.getElementById("amcTable"); if(!box)return;
-  if(!db.amcs.length){box.innerHTML='<tr><td colspan="8" class="empty">No AMC records yet. Click “Add AMC” to create one.</td></tr>';return}
-  box.innerHTML=db.amcs.map(x=>{
+  const q=(document.getElementById("amcSearch")?.value||"").toLowerCase().trim();
+  const filter=document.getElementById("amcStatusFilter")?.value||"";
+  const all=db.amcs||[];
+  let active=0,soon=0,expired=0,due7=0;
+  all.forEach(x=>{
     const d=daysFromToday(x.end);
-    const expired=x.end&&d<0, soon=x.end&&d>=0&&d<=30;
+    if(x.end&&d<0)expired++; else if(x.end&&d<=30)soon++; else active++;
+    const nd=x.nextService?daysFromToday(x.nextService):null;
+    if(nd!==null&&nd>=0&&nd<=7)due7++;
+  });
+  const set=(id,v)=>{const el=document.getElementById(id);if(el)el.textContent=v};
+  set("amcActiveCount",active);set("amcExpiringCount",soon);set("amcExpiredCount",expired);set("amcDueVisitCount",due7);
+  const arr=all.filter(x=>{
+    const d=daysFromToday(x.end);
+    const label=x.end&&d<0?"Expired":x.end&&d<=30?"Expiring Soon":"Active";
+    const hay=[x.customer,x.mobile,x.amount,x.start,x.end,x.nextService].map(v=>String(v||"")).join(" ").toLowerCase();
+    return (!q||hay.includes(q))&&(!filter||label===filter);
+  });
+  if(!arr.length){box.innerHTML='<tr><td colspan="7" class="empty">No AMC records found.</td></tr>';return}
+  box.innerHTML=arr.map(x=>{
+    const d=daysFromToday(x.end), expired=x.end&&d<0, soon=x.end&&d>=0&&d<=30;
     const label=expired?"Expired":soon?"Expiring Soon":"Active";
     const total=Number(x.visitsTotal??x.visits??0);
     const used=(x.visitHistory||[]).filter(v=>v.status!=="Cancelled").length;
     const left=total===0?null:Math.max(0,total-used);
-    const endInfo=x.end?(d<0?Math.abs(d)+" days overdue":d+" days left"):"";
-    const nextInfo=x.nextService?(daysFromToday(x.nextService)>=0?daysFromToday(x.nextService)+" days left":"Due"):"";
-    return '<tr><td><b>'+esc(x.customer||"-")+'</b><div class="mini">'+esc(x.mobile||"")+'</div></td><td>'+esc(x.start||"-")+'</td><td>'+esc(x.end||"-")+'<div class="mini">'+endInfo+'</div></td><td>'+money(x.amount)+'</td><td><span class="amc-visits">'+(total===0?'Unlimited':used+'/'+total)+'</span> <span class="mini">'+(total===0?'visits': '('+left+' left)')+'</span><br><button class="btn" onclick="openAMCVisit('+x.id+')">＋ Visit</button> <button class="btn" onclick="showAMCHistory('+x.id+')">▣ History</button></td><td>'+esc(x.nextService||"-")+'<div class="mini">'+nextInfo+'</div></td><td>'+statusBadge(label)+'</td><td><button class="btn primary" onclick="openAMCInvoice('+x.id+')">🧾 Invoice</button> <button class="btn" onclick="openAMCRenewal('+x.id+')">🔄 Renew</button> <button class="btn" onclick="editAMC('+x.id+')">✏️ Edit</button> <button class="btn red" onclick="del(\'amcs\','+x.id+')">Delete</button></td></tr>';
+    const endInfo=x.end?(d<0?Math.abs(d)+" days overdue":d===0?"Ends today":d+" days left"):"";
+    const nd=x.nextService?daysFromToday(x.nextService):null;
+    const nextInfo=nd===null?"Not scheduled":nd<0?Math.abs(nd)+" days overdue":nd===0?"Due today":nd+" days left";
+    const c=db.customers.find(c=>Number(c.id)===Number(x.customerId));
+    const initials=(x.customer||c?.name||"?").trim().split(/\s+/).slice(0,2).map(v=>v[0]).join("").toUpperCase();
+    return `<tr class="amc-row">
+      <td><div class="amc-customer"><span class="amc-avatar">${esc(initials||"?")}</span><div><b>${esc(x.customer||c?.name||"-")}</b><div class="mini">${esc(x.mobile||c?.mobile||"")}</div></div></div></td>
+      <td><b>${esc(x.start||"-")}</b><div class="mini">to ${esc(x.end||"-")}</div><div class="mini ${expired?"amc-danger":soon?"amc-warn":""}">${esc(endInfo)}</div></td>
+      <td><b>${money(x.amount||0)}</b><div class="mini">Paid ${money(x.paid||0)} · Due ${money(Math.max(0,Number(x.pending??(Number(x.amount||0)-Number(x.paid||0)))))}</div></td>
+      <td><span class="amc-visits">${total===0?"Unlimited":used+"/"+total}</span><div class="mini">${total===0?"visits":left+" left"}</div></td>
+      <td><b>${esc(x.nextService||"-")}</b><div class="mini ${nd!==null&&nd<0?"amc-danger":nd===0?"amc-warn":""}">${esc(nextInfo)}</div></td>
+      <td>${statusBadge(label)}</td>
+      <td><div class="amc-actions">
+        <button class="btn primary" title="Invoice" onclick="openAMCInvoice(${x.id})">🧾</button>
+        <button class="btn" title="Visit" onclick="openAMCVisit(${x.id})">＋</button>
+        <button class="btn" title="History" onclick="showAMCHistory(${x.id})">▣</button>
+        <button class="btn" title="Renew" onclick="openAMCRenewal(${x.id})">↻</button>
+        <button class="btn" title="Edit" onclick="editAMC(${x.id})">✏️</button>
+        <button class="btn red" title="Delete" onclick="del('amcs',${x.id})">🗑</button>
+      </div></td>
+    </tr>`;
   }).join("");
 }
 let editingInventoryId=null, stockMovementPartId=null;
