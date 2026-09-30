@@ -702,12 +702,40 @@ body{background:var(--r-bg)!important;color:#15263d!important}
 @media(max-width:900px){#serviceList{grid-template-columns:1fr!important}.service-customer b{max-width:180px!important}}
 @media(max-width:600px){#serviceList .service-card{padding:11px!important}#serviceList .service-meta{gap:7px 9px!important}.service-filter-row{margin-bottom:9px!important}}
 </style>
+
+<style id="inventory-v2256-polish">
+#inventory .inventory-filter-row{display:flex;gap:8px;align-items:center;margin:12px 0!important}
+#inventory .inventory-filter-row .search{max-width:520px}
+#inventory .inventory-table-shell{border:1px solid #e1e8f0;border-radius:13px;background:#fff;overflow:hidden;margin-top:4px}
+#inventory .inventory-table-head{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 15px;border-bottom:1px solid #e7edf4;background:#fbfdff}
+#inventory .inventory-table-head h3{margin:0;font-size:14px;color:#17304d}
+#inventory .inventory-table-head span{font-size:11px;color:#8190a2}
+#inventory .inventory-table-shell .table-wrap{border:0!important;border-radius:0!important}
+#inventory table{min-width:900px!important}
+#inventory td{padding:11px 12px!important}
+#inventory th{padding:10px 12px!important}
+#inventory .inventory-part{display:flex;align-items:center;gap:9px;min-width:170px}
+#inventory .inventory-avatar{width:31px;height:31px;border-radius:9px;display:inline-flex;align-items:center;justify-content:center;background:#e8f1ff;color:#1768e8;font-weight:800;font-size:12px;flex:0 0 31px}
+#inventory .inventory-part b{font-size:12.5px;color:#17304d}
+#inventory .inventory-stock-badge{display:inline-flex;min-width:42px;justify-content:center;padding:5px 8px;border-radius:8px;font-weight:800;font-size:12px}
+#inventory .inventory-stock-badge.ok{background:#e8f8ef;color:#16814b}
+#inventory .inventory-stock-badge.low{background:#fff0ef;color:#d34c4c}
+#inventory .inventory-actions{display:flex;gap:4px;align-items:center;white-space:nowrap}
+#inventory .inventory-actions .btn{width:32px!important;height:32px!important;min-height:32px!important;padding:6px!important;margin:0!important;border-radius:8px!important}
+#inventory .inventory-actions .btn.primary{background:#1167ed!important;color:#fff!important}
+#inventory .inventory-actions .btn.red{background:#fff1f1!important;color:#d64a4a!important;border-color:#ffd4d4!important}
+#inventory .inventory-icon-blue{background:#e8f1ff!important;color:#1768e8!important}
+#inventory .inventory-icon-green{background:#e7f8ef!important;color:#15915b!important}
+#inventory .inventory-icon-orange{background:#fff2df!important;color:#df8b00!important}
+#inventory .inventory-icon-purple{background:#f0e9ff!important;color:#7542d8!important}
+@media(max-width:700px){#inventory .inventory-table-head{align-items:flex-start;flex-direction:column}#inventory .inventory-filter-row .search{max-width:none;width:100%}}
+</style>
 </head>
 <body>
 <div id="authOverlay">
   <div class="auth-box">
     <img class="auth-logo" src="purixa-logo.png" alt="Purixa Water Solution">
-    <h2>☁️ Purixa CRM Cloud v22.55</h2>
+    <h2>☁️ Purixa CRM Cloud v22.56</h2>
     <p class="mini" id="authModeText">Cloud login is enabled after Firebase setup.</p>
     <div id="firebaseSetupBox">
       <label class="mini">Firebase Config JSON</label>
@@ -886,13 +914,10 @@ body{background:var(--r-bg)!important;color:#15263d!important}
 
   <section id="inventory" class="page">
     <div class="panel">
-      <div class="toolbar" style="justify-content:space-between;align-items:center">
-        <div><h3 style="margin:0">📦 Spare Parts & Inventory</h3><div class="mini">Stock in/out, current quantity and low-stock alerts</div></div>
-        <button class="btn primary" onclick="openInventoryModal()">＋ Add Part</button>
-      </div>
-      <div class="cards" id="inventorySummary"></div>
-      <div class="toolbar"><input class="search" id="inventorySearch" placeholder="Search part..." oninput="renderInventory()"></div>
-      <div class="table-wrap"><table><thead><tr><th>Part</th><th>Stock</th><th>Low Alert</th><th>Purchase</th><th>Sale</th><th>Value</th><th>Actions</th></tr></thead><tbody id="inventoryTable"></tbody></table></div>
+      <div class="ref-page-head"><div><h2>Inventory</h2><p>Manage spare parts, stock movements and low-stock alerts</p></div><button class="btn primary" onclick="openInventoryModal()">＋ Add Part</button></div>
+      <div class="ref-summary-grid" id="inventorySummary"></div>
+      <div class="inventory-filter-row"><input class="search" id="inventorySearch" placeholder="Search part or SKU..." oninput="renderInventory()"></div>
+      <div class="inventory-table-shell"><div class="inventory-table-head"><h3>Spare Parts & Stock</h3><span>Current quantity, pricing and stock value</span></div><div class="table-wrap"><table><thead><tr><th>Part</th><th>Stock</th><th>Low Alert</th><th>Purchase</th><th>Sale</th><th>Value</th><th>Actions</th></tr></thead><tbody id="inventoryTable"></tbody></table></div></div>
     </div>
   </section>
 
@@ -1530,7 +1555,7 @@ async function syncCloudData(silent=false){
   if(!firestore||!firebaseAuth.currentUser||cloudSyncing)return false;
   cloudSyncing=true;
   try{
-    await firestore.collection("users").doc(firebaseAuth.currentUser.uid).collection("crm").doc("main").set({data:db,updatedAt:firebase.firestore.FieldValue.serverTimestamp(),version:"v22.55"},{merge:true});
+    await firestore.collection("users").doc(firebaseAuth.currentUser.uid).collection("crm").doc("main").set({data:db,updatedAt:firebase.firestore.FieldValue.serverTimestamp(),version:"v22.56"},{merge:true});
     await syncNormalizedCollections();
     if(!silent)toast("☁️ Cloud synced");
     return true;
@@ -2146,7 +2171,7 @@ function saveInventory(e){e.preventDefault();const name=invName.value.trim();if(
 function openStockMovement(id){const p=db.inventory.find(x=>x.id===id);if(!p)return;stockMovementPartId=id;stockPartInfo.innerHTML=`<b>${esc(p.name)}</b><div class="mini">Current stock: ${Number(p.stock||0)} ${Number(p.stock||0)<=Number(p.lowStock||0)?' · ⚠️ Low stock':''}</div>`;stockType.value="in";stockQty.value="1";stockDate.value=today;stockNote.value="";openModal("stockModal")}
 function saveStockMovement(e){e.preventDefault();const p=db.inventory.find(x=>x.id===stockMovementPartId);if(!p)return;const qty=Math.max(1,Number(stockQty.value||0));if(stockType.value==='out'&&Number(p.stock||0)<qty){toast("Not enough stock");return}p.stock=Number(p.stock||0)+(stockType.value==='in'?qty:-qty);db.inventoryMovements.unshift({id:Date.now(),partId:p.id,type:stockType.value,qty,date:stockDate.value||today,note:stockNote.value.trim()});persist();closeModal("stockModal");toast(stockType.value==='in'?"Stock added":"Stock removed")}
 function inventoryLowCount(){return db.inventory.filter(p=>Number(p.stock||0)<=Number(p.lowStock||0)).length}
-function renderInventory(){const box=document.getElementById("inventoryTable");if(!box)return;const q=(document.getElementById("inventorySearch")?.value||"").toLowerCase();const arr=db.inventory.filter(p=>(String(p.name||"")+String(p.sku||"")).toLowerCase().includes(q));const totalValue=db.inventory.reduce((a,p)=>a+Number(p.stock||0)*Number(p.purchasePrice||0),0);document.getElementById("inventorySummary").innerHTML=`<div class="card"><div class="label">Parts</div><div class="metric">${db.inventory.length}</div></div><div class="card"><div class="label">Units in Stock</div><div class="metric">${db.inventory.reduce((a,p)=>a+Number(p.stock||0),0)}</div></div><div class="card"><div class="label">Low Stock</div><div class="metric">${inventoryLowCount()}</div></div><div class="card"><div class="label">Stock Value</div><div class="metric">${money(totalValue)}</div></div>`;box.innerHTML=arr.length?arr.map(p=>{const low=Number(p.stock||0)<=Number(p.lowStock||0);return `<tr><td><b>${esc(p.name)}</b><div class="mini">${esc(p.sku||"")}</div></td><td><span class="badge ${low?'red':'green'}">${Number(p.stock||0)}</span></td><td>${Number(p.lowStock||0)}</td><td>${money(p.purchasePrice||0)}</td><td>${money(p.salePrice||0)}</td><td>${money(Number(p.stock||0)*Number(p.purchasePrice||0))}</td><td><button class="btn primary" onclick="openStockMovement(${p.id})">＋/− Stock</button> <button class="btn" onclick="openInventoryModal(${p.id})">✏️ Edit</button> <button class="btn red" onclick="deleteInventory(${p.id})">🗑️</button></td></tr>`}).join(""):`<tr><td colspan="7" class="empty">No spare parts found.</td></tr>`}
+function renderInventory(){const box=document.getElementById("inventoryTable");if(!box)return;const q=(document.getElementById("inventorySearch")?.value||"").toLowerCase().trim();const arr=db.inventory.filter(p=>(String(p.name||"")+" "+String(p.sku||"")).toLowerCase().includes(q));const totalUnits=db.inventory.reduce((a,p)=>a+Number(p.stock||0),0);const lowCount=inventoryLowCount();const totalValue=db.inventory.reduce((a,p)=>a+Number(p.stock||0)*Number(p.purchasePrice||0),0);const totalSaleValue=db.inventory.reduce((a,p)=>a+Number(p.stock||0)*Number(p.salePrice||0),0);document.getElementById("inventorySummary").innerHTML=`<div class="ref-summary-card"><div class="ref-summary-icon inventory-icon-blue">▦</div><div class="ref-summary-copy"><div class="label">TOTAL PARTS</div><div class="value">${db.inventory.length}</div><div class="sub">Spare parts</div></div></div><div class="ref-summary-card"><div class="ref-summary-icon inventory-icon-green">□</div><div class="ref-summary-copy"><div class="label">UNITS IN STOCK</div><div class="value">${totalUnits}</div><div class="sub">Available quantity</div></div></div><div class="ref-summary-card"><div class="ref-summary-icon inventory-icon-orange">!</div><div class="ref-summary-copy"><div class="label">LOW STOCK</div><div class="value">${lowCount}</div><div class="sub">Needs attention</div></div></div><div class="ref-summary-card"><div class="ref-summary-icon inventory-icon-purple">₹</div><div class="ref-summary-copy"><div class="label">STOCK VALUE</div><div class="value">${money(totalValue)}</div><div class="sub">Purchase value · ${money(totalSaleValue)} sale value</div></div></div>`;box.innerHTML=arr.length?arr.map(p=>{const low=Number(p.stock||0)<=Number(p.lowStock||0);return `<tr><td><div class="inventory-part"><span class="inventory-avatar">${esc(String(p.name||"?").trim().charAt(0).toUpperCase())}</span><div><b>${esc(p.name)}</b><div class="mini">${esc(p.sku||"No SKU")}</div></div></div></td><td><span class="inventory-stock-badge ${low?'low':'ok'}">${Number(p.stock||0)}</span></td><td>${Number(p.lowStock||0)}</td><td>${money(p.purchasePrice||0)}</td><td>${money(p.salePrice||0)}</td><td><b>${money(Number(p.stock||0)*Number(p.purchasePrice||0))}</b></td><td><div class="inventory-actions"><button class="btn primary" title="Add or remove stock" aria-label="Add or remove stock" onclick="openStockMovement(${p.id})">＋/−</button><button class="btn" title="Edit part" aria-label="Edit part" onclick="openInventoryModal(${p.id})">✏️</button><button class="btn red" title="Delete part" aria-label="Delete part" onclick="deleteInventory(${p.id})">🗑</button></div></td></tr>`}).join(""):`<tr><td colspan="7" class="empty">No spare parts found.</td></tr>`}
 function deleteInventory(id){if(!confirm("Delete this spare part?"))return;db.inventory=db.inventory.filter(x=>x.id!==id);db.inventoryMovements=db.inventoryMovements.filter(x=>x.partId!==id);persist();toast("Spare part deleted")}
 function deductServiceParts(parts,serviceId){if(!Array.isArray(parts)||!parts.length)return;const warnings=[];parts.forEach(part=>{const name=String(part.name||"").trim().toLowerCase();const p=db.inventory.find(x=>String(x.name||"").trim().toLowerCase()===name);const qty=Math.max(1,Number(part.qty||1));if(!p)return;if(Number(p.stock||0)<qty){warnings.push(`${p.name}: stock ${p.stock||0}, used ${qty}`);return}p.stock=Number(p.stock||0)-qty;db.inventoryMovements.unshift({id:Date.now()+Math.random(),partId:p.id,type:"service",qty,date:today,note:`Used in service #${serviceId}`})});if(warnings.length)toast("Some parts had insufficient stock: "+warnings.join("; "))}
 function renderTech(){techTable.innerHTML=db.technicians.map(x=>`<tr><td>${esc(x.name)}</td><td>${esc(x.mobile)} <button class="btn" onclick="callNo('${String(x.mobile||"").replace(/'/g,"\\'")}')">📞</button></td><td>${esc(x.area)}</td><td>${statusBadge(x.status)}</td><td>${db.services.filter(s=>(s.technicianId===x.id||s.tech===x.name)&&!["Completed","Cancelled"].includes(s.status)).length}</td><td><button class="btn red" onclick="del('technicians',${x.id})">Delete</button></td></tr>`).join("")||`<tr><td colspan="6" class="empty">No technicians</td></tr>`}
