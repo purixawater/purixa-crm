@@ -747,6 +747,46 @@ body{background:var(--r-bg)!important;color:#15263d!important}
 #inventory .inventory-icon-purple{background:#f0e9ff!important;color:#7542d8!important}
 @media(max-width:700px){#inventory .inventory-table-head{align-items:flex-start;flex-direction:column}#inventory .inventory-filter-row .search{max-width:none;width:100%}}
 </style>
+
+<style id="purixa-reports-v2259">
+/* Reports v22.59 — visual layer only; existing report calculations preserved */
+#reports{padding-bottom:18px!important}
+#reports .report-page-head{border-bottom:0!important;margin-bottom:10px!important;padding-bottom:0!important}
+#reports .report-head-actions .btn{min-width:126px!important}
+#reports .report-filter-panel{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:13px 15px;border:1px solid #e0e8f1;border-radius:14px;background:#fff;box-shadow:0 5px 16px rgba(13,42,74,.035);margin-bottom:8px}
+#reports .report-filter-title{display:flex;align-items:center;gap:10px;min-width:220px}
+#reports .report-filter-icon{width:38px;height:38px;border-radius:10px;background:#edf5ff;color:#1768e8;display:flex;align-items:center;justify-content:center;font-size:19px;font-weight:900}
+#reports .report-filter-title b{display:block;font-size:13px;color:#203a57}
+#reports .report-filter-title small{display:block;margin-top:3px;font-size:10.5px;color:#7a8ba0}
+#reports .report-filter-controls{display:flex;align-items:flex-end;gap:8px;flex-wrap:wrap}
+#reports .report-filter-controls label{display:flex;flex-direction:column;gap:4px;font-size:10px;font-weight:800;color:#6f8095;text-transform:uppercase;letter-spacing:.25px}
+#reports .report-filter-controls input{height:38px;min-width:145px;border:1px solid #dce5ef;border-radius:9px;background:#f9fbfe;padding:0 10px;color:#233b57;font:600 12px inherit;outline:none}
+#reports .report-filter-controls input:focus{border-color:#1768e8;background:#fff;box-shadow:0 0 0 3px rgba(23,104,232,.08)}
+#reports .report-arrow{align-self:center;margin-top:14px;color:#9aabba;font-weight:900}
+#reports .report-note{font-size:10.5px;color:#7b8da2;padding:3px 3px 13px}
+#reports .report-section-title{display:flex;align-items:center;justify-content:space-between;margin:3px 2px 9px}
+#reports .report-section-title h3{margin:0!important;font-size:16px!important;color:#17304d!important}
+#reports .report-section-title p{margin:3px 0 0!important;font-size:10.5px!important;color:#7a8ba0!important}
+#reports .report-kpi-grid{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:11px!important;margin:0!important}
+#reports .report-kpi{min-height:88px!important;padding:13px!important;border-radius:13px!important;display:flex!important;align-items:center!important;gap:11px!important;position:relative;overflow:hidden!important;border:1px solid #e0e8f1!important;background:#fff!important;box-shadow:0 5px 16px rgba(13,42,74,.045)!important}
+#reports .report-kpi:before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--report-accent)}
+#reports .report-kpi-icon{width:39px;height:39px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:17px;background:var(--report-soft);color:var(--report-accent);flex:0 0 auto}
+#reports .report-kpi .label{font-size:10px!important;color:#718096!important;text-transform:uppercase;letter-spacing:.25px;font-weight:800!important}
+#reports .report-kpi .metric{font-size:21px!important;line-height:1.15;margin-top:4px!important;color:#172f4c!important;white-space:nowrap}
+#reports .report-kpi small{display:block;margin-top:3px;color:#8a9aad;font-size:9.5px}
+#reports .kpi-blue{--report-accent:#1768e8;--report-soft:#edf5ff}.kpi-green{--report-accent:#12a05a;--report-soft:#eaf9f1}.kpi-purple{--report-accent:#7a3fe0;--report-soft:#f2ecff}.kpi-orange{--report-accent:#f29a00;--report-soft:#fff5df}.kpi-red{--report-accent:#e94b58;--report-soft:#fff0f1}.kpi-sky{--report-accent:#0d8bc7;--report-soft:#e9f7fc}.kpi-teal{--report-accent:#08a56a;--report-soft:#e9f9f2}
+#reports .report-summary-panel{margin-top:13px!important;padding:14px 15px!important;border-radius:14px!important;border:1px solid #e0e8f1!important;box-shadow:0 5px 16px rgba(13,42,74,.04)!important}
+#reports .report-summary-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-bottom:10px;border-bottom:1px solid #edf2f7}
+#reports .report-summary-head h3{margin:0!important;font-size:16px!important;color:#17304d!important}
+#reports .report-summary-head p{margin:3px 0 0!important;font-size:10.5px!important;color:#7a8ba0!important}
+#reports .report-summary-badge{padding:5px 8px;border-radius:8px;background:#ecfbf3;color:#07934e;font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.3px;border:1px solid #d5f2df}
+#reports .report-summary-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0 18px;padding-top:6px}
+#reports .report-summary-grid p{margin:0!important;padding:9px 0!important;border-bottom:1px solid #edf2f7;font-size:11.5px!important;color:#52677f!important;display:flex;justify-content:space-between;gap:10px}
+#reports .report-summary-grid p b{color:#263f5c!important;font-weight:750!important}
+@media(max-width:1100px){#reports .report-kpi-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}#reports .report-summary-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:700px){#reports .report-filter-panel{align-items:stretch;flex-direction:column;gap:11px}#reports .report-filter-title{min-width:0}#reports .report-filter-controls{display:grid;grid-template-columns:1fr 16px 1fr;align-items:end}#reports .report-filter-controls input{min-width:0;width:100%}#reports .report-filter-controls .btn{grid-column:1/-1;width:100%}#reports .report-arrow{margin:0 0 10px;text-align:center}#reports .report-kpi-grid{grid-template-columns:1fr 1fr!important;gap:8px!important}#reports .report-kpi{min-height:82px!important;padding:10px!important;gap:8px!important}#reports .report-kpi-icon{width:34px;height:34px;font-size:14px}#reports .report-kpi .metric{font-size:17px!important}#reports .report-kpi small{font-size:8.5px}#reports .report-summary-grid{grid-template-columns:1fr!important}}
+@media print{#reports .report-filter-panel,#reports .report-note,#reports .report-head-actions{display:none!important}#reports .report-kpi-grid{grid-template-columns:repeat(4,1fr)!important}#reports .report-summary-grid{grid-template-columns:repeat(2,1fr)!important}#reports .report-kpi,#reports .report-summary-panel{box-shadow:none!important}}
+</style>
 </head>
 <body>
 <div id="authOverlay">
@@ -986,26 +1026,34 @@ body{background:var(--r-bg)!important;color:#15263d!important}
   </section>
 
   <section id="reports" class="page">
-    <div class="panel">
-      <div class="ref-page-head"><div><h2>Reports & Analytics</h2><p>Business revenue, collections, expenses and profit</p></div></div>
-      <div class="toolbar">
-        <label class="mini">From <input id="reportFrom" type="date" onchange="renderReports()"></label>
-        <label class="mini">To <input id="reportTo" type="date" onchange="renderReports()"></label>
+    <div class="ref-page-head report-page-head">
+      <div><h2>Reports & Analytics</h2><p>Track revenue, collections, expenses and estimated profit</p></div>
+      <div class="report-head-actions"><button class="btn primary" onclick="window.print()">▥ <span>Print Report</span></button></div>
+    </div>
+
+    <div class="report-filter-panel">
+      <div class="report-filter-title"><div class="report-filter-icon">◷</div><div><b>Report Period</b><small>Choose a date range to update all figures</small></div></div>
+      <div class="report-filter-controls">
+        <label>From<input id="reportFrom" type="date" onchange="renderReports()"></label>
+        <span class="report-arrow">→</span>
+        <label>To<input id="reportTo" type="date" onchange="renderReports()"></label>
         <button class="btn" onclick="clearReportDates()">All Time</button>
-        <button class="btn primary" onclick="window.print()">🖨️ Print Report</button>
       </div>
-      <div class="mini">Revenue includes completed services (service charge + parts billed) and AMC/sales revenue. Profit subtracts recorded expenses and spare-parts purchase cost used in completed services.</div>
     </div>
-    <div class="cards">
-      <div class="card"><div class="label">Conversion Rate</div><div class="metric" id="rConversion">0%</div></div>
-      <div class="card"><div class="label">Collected</div><div class="metric" id="rCollected">₹0</div></div>
-      <div class="card"><div class="label">Service Revenue</div><div class="metric" id="rService">₹0</div></div>
-      <div class="card"><div class="label">AMC Revenue</div><div class="metric" id="rAMC">₹0</div></div>
-      <div class="card"><div class="label">Expenses</div><div class="metric" id="rExpenses">₹0</div></div>
-      <div class="card"><div class="label">Parts Cost</div><div class="metric" id="rPartsCost">₹0</div></div>
-      <div class="card"><div class="label">Estimated Profit</div><div class="metric" id="rProfit">₹0</div></div>
+    <div class="report-note">Revenue includes completed services, AMC and sales. Estimated profit subtracts recorded expenses and service spare-parts cost.</div>
+
+    <div class="report-section-title"><div><h3>Performance Overview</h3><p>Key business numbers for the selected period</p></div></div>
+    <div class="cards report-kpi-grid">
+      <div class="card report-kpi kpi-blue"><div class="report-kpi-icon">↗</div><div><div class="label">Conversion Rate</div><div class="metric" id="rConversion">0%</div><small>Lead conversion</small></div></div>
+      <div class="card report-kpi kpi-green"><div class="report-kpi-icon">₹</div><div><div class="label">Collected</div><div class="metric" id="rCollected">₹0</div><small>Payments received</small></div></div>
+      <div class="card report-kpi kpi-purple"><div class="report-kpi-icon">⚒</div><div><div class="label">Service Revenue</div><div class="metric" id="rService">₹0</div><small>Completed services</small></div></div>
+      <div class="card report-kpi kpi-orange"><div class="report-kpi-icon">↻</div><div><div class="label">AMC Revenue</div><div class="metric" id="rAMC">₹0</div><small>AMC sales</small></div></div>
+      <div class="card report-kpi kpi-red"><div class="report-kpi-icon">−</div><div><div class="label">Expenses</div><div class="metric" id="rExpenses">₹0</div><small>Recorded expenses</small></div></div>
+      <div class="card report-kpi kpi-sky"><div class="report-kpi-icon">▦</div><div><div class="label">Parts Cost</div><div class="metric" id="rPartsCost">₹0</div><small>Service parts cost</small></div></div>
+      <div class="card report-kpi kpi-teal"><div class="report-kpi-icon">✓</div><div><div class="label">Estimated Profit</div><div class="metric" id="rProfit">₹0</div><small>Revenue − costs</small></div></div>
     </div>
-    <div class="panel"><h3>Business Summary</h3><div id="reportSummary"></div></div>
+
+    <div class="panel report-summary-panel"><div class="report-summary-head"><div><h3>Business Summary</h3><p>Detailed breakdown of the selected period</p></div><span class="report-summary-badge">Live data</span></div><div id="reportSummary" class="report-summary-grid"></div></div>
   </section>
 
 
