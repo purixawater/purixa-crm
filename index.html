@@ -1130,6 +1130,51 @@ body{background:var(--r-bg)!important;color:#15263d!important}
   #pwaInstallBtn{bottom:82px!important;right:12px!important;z-index:9999!important}
 }
 </style>
+
+<style id="purixa-mobile-bottom-nav-fix">
+@media (max-width: 700px){
+  body{padding-bottom:78px!important;overflow-x:hidden!important}
+  .bottom-nav,.mobile-bottom-nav,.mobile-nav,.bottom-navigation{
+    height:62px!important;
+    min-height:62px!important;
+    padding:5px 4px!important;
+    box-sizing:border-box!important;
+    gap:0!important;
+    z-index:9998!important;
+  }
+  .bottom-nav a,.bottom-nav button,
+  .mobile-bottom-nav a,.mobile-bottom-nav button,
+  .mobile-nav a,.mobile-nav button,
+  .bottom-navigation a,.bottom-navigation button{
+    min-width:0!important;
+    padding:3px 2px!important;
+    line-height:1.05!important;
+    font-size:11px!important;
+    white-space:nowrap!important;
+    overflow:hidden!important;
+    text-overflow:ellipsis!important;
+  }
+  .bottom-nav svg,.mobile-bottom-nav svg,.mobile-nav svg,.bottom-navigation svg{
+    width:20px!important;height:20px!important;margin-bottom:1px!important;
+  }
+  .bottom-nav img,.mobile-bottom-nav img,.mobile-nav img,.bottom-navigation img{
+    width:20px!important;height:20px!important;max-width:20px!important;
+    margin:0 auto 1px!important;
+  }
+}
+</style>
+
+
+<style id="purixa-mobile-fixed-nav-safe">
+@media (max-width:700px){
+  nav[style*="position:fixed"][style*="bottom"],
+  div[style*="position:fixed"][style*="bottom"]{
+    max-height:64px!important;
+    overflow:hidden!important;
+  }
+}
+</style>
+
 </head>
 <body>
 <div id="authOverlay">
