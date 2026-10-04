@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#ffffff">
-<title>Purixa CRM Cloud — v22.62 PWA</title>
+<title>Purixa CRM Cloud — v22.63 PWA</title>
 <style>
 *{box-sizing:border-box}
 :root{--blue:#0b6efd;--dark:#17324d;--bg:#f4f7fb;--card:#fff;--muted:#6b7c93;--line:#e4eaf1;--green:#16a34a;--red:#dc2626;--orange:#f59e0b}
@@ -350,6 +350,38 @@ body{background:linear-gradient(135deg,#f1f6fb 0%,#f8fbfe 48%,#f1f5fa 100%)!impo
 .service-card{margin:0!important;border:1px solid #e2e9f1!important;border-radius:13px!important;padding:14px 15px!important;background:#fff!important;box-shadow:0 5px 16px rgba(12,38,67,.045)!important}
 .service-card .row{align-items:center!important}.service-card .row>b{font-size:14px!important;color:#162d49!important}
 .service-card .toolbar{margin:9px 0 0!important;gap:7px!important}.service-card .btn{min-height:36px!important}
+/* Quotations — v22.63 reference design */
+#quotations .quotation-panel{padding:18px 18px 20px!important}
+#quotations .quotation-head{margin-bottom:14px!important}
+#quotations .quotation-head h2{margin:0!important;font-size:24px!important;color:#152a45!important}
+#quotations .quotation-head p{margin:5px 0 0!important;font-size:13px!important;color:#718096!important}
+#quotations .quotation-new{min-height:40px!important;padding:0 16px!important}
+#quotations .quotation-stats{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px!important;margin:4px 0 14px!important}
+#quotations .quotation-stat{min-height:92px!important;display:flex!important;align-items:center!important;gap:12px!important;padding:13px 14px!important;border:1px solid #e1e9f2!important;border-radius:14px!important;background:#fff!important;box-shadow:0 6px 18px rgba(12,38,67,.045)!important}
+#quotations .qstat-icon{width:43px!important;height:43px!important;flex:0 0 43px!important;border-radius:12px!important;display:flex!important;align-items:center!important;justify-content:center!important;font-size:19px!important;font-weight:800!important}
+#quotations .qstat-icon.blue{background:#eaf3ff!important;color:#1768e8!important}
+#quotations .qstat-icon.amber{background:#fff6df!important;color:#c88700!important}
+#quotations .qstat-icon.cyan{background:#e8f8fb!important;color:#1185a0!important}
+#quotations .qstat-icon.green{background:#eaf9f1!important;color:#0a9852!important}
+#quotations .quotation-stat span{display:block!important;font-size:10px!important;text-transform:uppercase!important;letter-spacing:.45px!important;color:#718096!important;font-weight:800!important}
+#quotations .quotation-stat strong{display:block!important;margin-top:3px!important;font-size:24px!important;line-height:1.1!important;color:#172b45!important}
+#quotations .quotation-stat small{display:block!important;margin-top:3px!important;color:#91a0b1!important;font-size:10px!important}
+#quotations .quotation-toolbar{display:flex!important;gap:10px!important;align-items:center!important;margin-bottom:14px!important}
+#quotations .quotation-search-wrap{position:relative!important;flex:1!important}
+#quotations .quotation-search-wrap>span{position:absolute!important;left:14px!important;top:50%!important;transform:translateY(-50%)!important;color:#55708c!important;font-size:17px!important;z-index:1!important}
+#quotations .quotation-search-wrap .search{width:100%!important;padding-left:39px!important}
+#quotations #quotationStatusFilter{height:44px!important;min-width:155px!important;padding:0 13px!important;border:1px solid #d9e4ef!important;border-radius:12px!important;background:#fff!important;color:#38516b!important;font-size:13px!important;outline:none!important}
+#quotations .quotation-list-head{display:flex!important;justify-content:space-between!important;align-items:center!important;margin:2px 1px 10px!important}
+#quotations .quotation-list-head h3{margin:0!important;font-size:16px!important;color:#1a3049!important}
+#quotations .quotation-list-head .mini{margin-top:3px!important}
+#quotations .quotation-count{padding:6px 10px!important;border-radius:999px!important;background:#edf5ff!important;color:#1768e8!important;font-size:11px!important;font-weight:800!important}
+#quotations .table-wrap{border:1px solid #e1e8f1!important;border-radius:13px!important;background:#fff!important}
+#quotations table{min-width:980px!important}
+#quotations td:nth-child(2) b{color:#1768e8!important}
+#quotations td:nth-child(5){font-weight:800!important;color:#172b45!important}
+#quotations td:nth-child(8) .btn{min-width:72px!important}
+@media(max-width:1050px){#quotations .quotation-stats{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
+@media(max-width:700px){#quotations .quotation-panel{padding:13px!important}#quotations .quotation-head{align-items:flex-start!important}#quotations .quotation-head h2{font-size:21px!important}#quotations .quotation-new{min-height:38px!important;padding:0 12px!important}#quotations .quotation-toolbar{align-items:stretch!important;flex-direction:column!important}#quotations #quotationStatusFilter{width:100%!important}#quotations .quotation-list-head{align-items:flex-start!important;gap:8px!important}#quotations .quotation-count{white-space:nowrap!important}}
 /* Reports */
 #reports>.cards{grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:14px!important}
 #reports>.cards .card{min-height:104px!important;padding:16px!important;border-radius:14px!important}
@@ -865,7 +897,7 @@ body{background:var(--r-bg)!important;color:#15263d!important}
 <div id="authOverlay">
   <div class="auth-box">
     <img class="auth-logo" src="purixa-logo.png" alt="Purixa Water Solution">
-    <h2>☁️ Purixa CRM Cloud v22.62</h2>
+    <h2>☁️ Purixa CRM Cloud v22.63</h2>
     <p class="mini" id="authModeText">Cloud login is enabled after Firebase setup.</p>
     <div id="firebaseSetupBox">
       <label class="mini">Firebase Config JSON</label>
@@ -1023,12 +1055,22 @@ body{background:var(--r-bg)!important;color:#15263d!important}
   </section>
 
   <section id="quotations" class="page">
-    <div class="panel">
-      <div class="toolbar" style="justify-content:space-between;align-items:center">
-        <div><h3 style="margin:0">🧾 Quotations</h3><div class="mini">Create professional quotations, print them and convert accepted quotations into sales.</div></div>
-        <button class="btn primary" onclick="openQuotationModal()">＋ New Quotation</button>
+    <div class="panel quotation-panel">
+      <div class="ref-page-head quotation-head">
+        <div><h2>Quotations</h2><p>Create, track and convert customer quotations into sales</p></div>
+        <button class="btn primary quotation-new" onclick="openQuotationModal()">＋ New Quotation</button>
       </div>
-      <div class="toolbar"><input class="search" id="quotationSearch" placeholder="Search quotation / customer / product..." oninput="renderQuotations()"><select id="quotationStatusFilter" onchange="renderQuotations()"><option value="">All Status</option><option>Draft</option><option>Sent</option><option>Accepted</option><option>Rejected</option><option>Expired</option></select></div>
+      <div class="quotation-stats" aria-label="Quotation summary">
+        <div class="quotation-stat"><div class="qstat-icon blue">▤</div><div><span>Total Quotations</span><strong id="quoteStatTotal">0</strong><small>All quotations</small></div></div>
+        <div class="quotation-stat"><div class="qstat-icon amber">◷</div><div><span>Draft</span><strong id="quoteStatDraft">0</strong><small>Not yet sent</small></div></div>
+        <div class="quotation-stat"><div class="qstat-icon cyan">➜</div><div><span>Sent</span><strong id="quoteStatSent">0</strong><small>Awaiting response</small></div></div>
+        <div class="quotation-stat"><div class="qstat-icon green">✓</div><div><span>Accepted</span><strong id="quoteStatAccepted">0</strong><small>Ready for sale</small></div></div>
+      </div>
+      <div class="quotation-toolbar">
+        <div class="quotation-search-wrap"><span>⌕</span><input class="search" id="quotationSearch" placeholder="Search quotation, customer, product..." oninput="renderQuotations()"></div>
+        <select id="quotationStatusFilter" onchange="renderQuotations()"><option value="">All Status</option><option>Draft</option><option>Sent</option><option>Accepted</option><option>Rejected</option><option>Expired</option></select>
+      </div>
+      <div class="quotation-list-head"><div><h3>Quotation List</h3><div class="mini">Manage quotations, print documents and convert accepted quotations into sales.</div></div><span class="quotation-count" id="quotationCount">0 quotations</span></div>
       <div class="table-wrap"><table><thead><tr><th>Date</th><th>Quotation</th><th>Customer</th><th>Product</th><th>Total</th><th>Valid Until</th><th>Status</th><th>Actions</th></tr></thead><tbody id="quotationTable"></tbody></table></div>
     </div>
   </section>
@@ -1707,7 +1749,7 @@ async function syncCloudData(silent=false){
   if(!firestore||!firebaseAuth.currentUser||cloudSyncing)return false;
   cloudSyncing=true;
   try{
-    await firestore.collection("users").doc(firebaseAuth.currentUser.uid).collection("crm").doc("main").set({data:db,updatedAt:firebase.firestore.FieldValue.serverTimestamp(),version:"v22.62"},{merge:true});
+    await firestore.collection("users").doc(firebaseAuth.currentUser.uid).collection("crm").doc("main").set({data:db,updatedAt:firebase.firestore.FieldValue.serverTimestamp(),version:"v22.63"},{merge:true});
     await syncNormalizedCollections();
     if(!silent)toast("☁️ Cloud synced");
     return true;
@@ -1796,8 +1838,13 @@ function convertQuotationToSale(id){
   const paid=0,saleId=Date.now();db.sales.unshift({id:saleId,date:today,customerId:q.customerId,customer:q.customer,mobile:q.mobile||"",address:q.address||"",product:q.product,qty:q.qty||1,warranty:"",gstin:"",total:Number(q.total||0),amount:Number(q.total||0),paid,pending:Number(q.total||0),mode:"Cash",payments:[],paymentStatus:"Pending"});q.status="Accepted";q.convertedSaleId=saleId;persist();toast("Quotation converted to Sale");}
 function deleteQuotation(id){if(!confirm("Delete this quotation?"))return;db.quotations=db.quotations.filter(x=>Number(x.id)!==Number(id));persist();toast("Quotation deleted")}
 function renderQuotations(){
-  const box=document.getElementById("quotationTable");if(!box)return;const q=String(document.getElementById("quotationSearch")?.value||"").toLowerCase();const st=String(document.getElementById("quotationStatusFilter")?.value||"");
-  const arr=db.quotations.filter(x=>(!st||x.status===st)&&(`${x.number||""} ${x.customer||""} ${x.mobile||""} ${x.product||""}`).toLowerCase().includes(q));
+  const box=document.getElementById("quotationTable");if(!box)return;
+  const all=Array.isArray(db.quotations)?db.quotations:[];
+  const q=String(document.getElementById("quotationSearch")?.value||"").toLowerCase();const st=String(document.getElementById("quotationStatusFilter")?.value||"");
+  const set=(id,val)=>{const el=document.getElementById(id);if(el)el.textContent=String(val)};
+  set("quoteStatTotal",all.length);set("quoteStatDraft",all.filter(x=>x.status==="Draft").length);set("quoteStatSent",all.filter(x=>x.status==="Sent").length);set("quoteStatAccepted",all.filter(x=>x.status==="Accepted").length);
+  const arr=all.filter(x=>(!st||x.status===st)&&(`${x.number||""} ${x.customer||""} ${x.mobile||""} ${x.product||""}`).toLowerCase().includes(q));
+  set("quotationCount",`${arr.length} quotation${arr.length===1?"":"s"}`);
   box.innerHTML=arr.map(x=>`<tr><td>${esc(x.date)}</td><td><b>#${esc(x.number)}</b></td><td>${esc(x.customer)}<div class="mini">${esc(x.mobile||"")}</div></td><td>${esc(x.product)} × ${x.qty}</td><td>${money(x.total)}</td><td>${esc(x.validUntil)}</td><td>${statusBadge(x.status)}</td><td><button class="btn" onclick="quotationPrint(${x.id})">🖨️ Print</button> <button class="btn primary" onclick="convertQuotationToSale(${x.id})">💰 Sale</button> <button class="btn red" onclick="deleteQuotation(${x.id})">Delete</button></td></tr>`).join("")||'<tr><td colspan="8" class="empty">No quotations found</td></tr>';
 }
 
@@ -2661,7 +2708,7 @@ async function installPWA(){
 }
 if("serviceWorker" in navigator){
   window.addEventListener("load", () => {
-    navigator.serviceWorker.register("./sw.js?v=22.62", {scope:"./"})
+    navigator.serviceWorker.register("./sw.js?v=22.63", {scope:"./"})
       .then(() => console.log("Purixa CRM service worker registered"))
       .catch(err => console.warn("PWA service worker registration failed", err));
   });
