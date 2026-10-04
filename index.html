@@ -1111,6 +1111,25 @@ body{background:var(--r-bg)!important;color:#15263d!important}
 @media(max-width:1100px){#leads .pipeline{grid-template-columns:repeat(2,minmax(220px,1fr))!important}}
 @media(max-width:700px){#leads .lead-filter-bar{align-items:stretch!important;flex-direction:column!important;padding:9px!important}.lead-search-wrap{width:100%!important}.lead-pipeline-hint{justify-content:flex-start!important;padding:0 3px!important}#leads .lead-pipeline-head{align-items:flex-start!important}.lead-stage-count{display:none!important}#leads .pipeline{grid-template-columns:1fr!important;padding:10px!important}.lead-pipeline-shell{margin-top:2px!important}}
 </style>
+
+<style id="purixa-mobile-final-v2266">
+/* v22.66 final mobile layout fix — main CRM page only */
+@media(max-width:700px){
+  html,body{width:100%!important;min-width:0!important;max-width:100%!important;overflow-x:hidden!important}
+  .app{display:block!important;width:100%!important;min-width:0!important;max-width:100%!important}
+  .sidebar{display:none!important}
+  .main{display:block!important;box-sizing:border-box!important;width:100%!important;max-width:none!important;min-width:0!important;margin-left:0!important;padding:0 10px 88px!important}
+  .top{width:calc(100% + 20px)!important;max-width:none!important;margin-left:-10px!important;margin-right:-10px!important;box-sizing:border-box!important}
+  .top-left,.top-right{min-width:0!important;max-width:100%!important}
+  .global-search{min-width:0!important;max-width:100%!important}
+  .cards{width:100%!important;max-width:100%!important;grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  .grid2{grid-template-columns:1fr!important}
+  .card,.panel,.today-work,.quick-actions,.table-wrap,.dash-panel,.dashboard-tables-grid{min-width:0!important;max-width:100%!important}
+  .page{width:100%!important;max-width:100%!important;min-width:0!important}
+  .mobile-bottom-nav{left:8px!important;right:8px!important;bottom:8px!important;width:auto!important;max-width:none!important}
+  #pwaInstallBtn{bottom:82px!important;right:12px!important;z-index:9999!important}
+}
+</style>
 </head>
 <body>
 <div id="authOverlay">
@@ -2721,6 +2740,7 @@ function printInvoiceForPDF(){
     }
   </style>
 
+
 </head><body><div id="printInvoiceWrap">${invoice.outerHTML}</div>
   <script>window.addEventListener('load',function(){setTimeout(function(){window.focus();window.print();},500)});<\/script>
 
@@ -3070,5 +3090,7 @@ setInterval(renderReminders,60000);
   setTimeout(()=>{try{window.updateReferenceSummaries()}catch(e){}},50);
 })();
 </script>
+
+
 </body>
 </html>
