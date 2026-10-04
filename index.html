@@ -1207,6 +1207,38 @@ body{background:var(--r-bg)!important;color:#15263d!important}
   }
 }
 </style>
+
+<style id="purixa-mobile-nav-modal-sidebar-final">
+@media (max-width:700px){
+  /* Keep the bottom nav below content in normal view. */
+  #mobileBottomNav{
+    z-index:9998!important;
+    bottom:0!important;
+  }
+
+  /* Never let the fixed bottom nav cover dialogs, forms, or the open drawer. */
+  body:has(.modal.show) #mobileBottomNav,
+  body:has(.modal[style*="display: block"]) #mobileBottomNav,
+  body:has(.modal[style*="display:block"]) #mobileBottomNav,
+  body:has(.drawer.open) #mobileBottomNav,
+  body:has(.sidebar.open) #mobileBottomNav,
+  body:has(.sidebar.mobile-open) #mobileBottomNav,
+  body:has(.nav-drawer.open) #mobileBottomNav,
+  body:has(.overlay.active) #mobileBottomNav,
+  body.mobile-modal-open #mobileBottomNav,
+  body.modal-open #mobileBottomNav,
+  body.drawer-open #mobileBottomNav,
+  body.menu-open #mobileBottomNav{
+    display:none!important;
+  }
+
+  /* Give the page enough room only when the bottom nav is actually visible. */
+  body{
+    padding-bottom:78px!important;
+  }
+}
+</style>
+
 </head>
 <body>
 <div id="authOverlay">
@@ -2146,6 +2178,40 @@ function quotationPrint(id){
 </head><body><h1>Purixa Water Solution</h1><div class="muted">Quotation No: ${esc(q.number)} · Date: ${esc(q.date)} · Valid Until: ${esc(q.validUntil)}</div><hr><h3>Customer</h3><div>${esc(q.customer)}<br>${esc(q.mobile||"")}<br>${esc(q.address||"")}</div><table><thead><tr><th>Product</th><th>Qty</th><th>Price</th><th>Total</th></tr></thead><tbody><tr><td>${esc(q.product)}</td><td>${q.qty}</td><td>₹${Number(q.price||0).toLocaleString("en-IN")}</td><td>₹${Number(q.total||0).toLocaleString("en-IN")}</td></tr></tbody></table><div class="total">Grand Total: ₹${Number(q.total||0).toLocaleString("en-IN")}</div><div class="terms"><b>Notes</b>\n${esc(q.notes||"Quotation is subject to availability and final confirmation.")}</div><br><br><div>Authorised Signature</div><script>window.onload=()=>window.print()<\/script>
 
 
+
+
+<script id="purixa-mobile-nav-state-final">
+(function(){
+  function mobileNav(){
+    return document.getElementById('mobileBottomNav');
+  }
+  function visible(el){
+    if(!el) return false;
+    const s=getComputedStyle(el);
+    const r=el.getBoundingClientRect();
+    return s.display!=='none' && s.visibility!=='hidden' && s.opacity!=='0' &&
+           r.width>0 && r.height>0;
+  }
+  function hasOpenOverlay(){
+    const sels=[
+      '.modal.show','.modal.active','.modal[style*="display: block"]',
+      '.modal[style*="display:block"]','.drawer.open','.sidebar.open',
+      '.sidebar.mobile-open','.nav-drawer.open','.overlay.active'
+    ];
+    return sels.some(s=>Array.from(document.querySelectorAll(s)).some(visible));
+  }
+  function sync(){
+    const nav=mobileNav();
+    if(!nav) return;
+    const hide=hasOpenOverlay();
+    document.body.classList.toggle('mobile-modal-open',hide);
+  }
+  window.addEventListener('resize',sync);
+  window.addEventListener('orientationchange',sync);
+  new MutationObserver(sync).observe(document.documentElement,{subtree:true,attributes:true,attributeFilter:['class','style','aria-hidden']});
+  setTimeout(sync,0);
+})();
+</script>
 
 </body></html>`);w.document.close();}
 function convertQuotationToSale(id){
