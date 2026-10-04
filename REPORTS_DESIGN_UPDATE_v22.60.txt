@@ -1,0 +1,7 @@
+Purixa CRM Reports Design Update v22.60
+
+This update is visual-only for the Reports page, based on the approved reference screenshot.
+- Refined header, report-period panel, KPI cards and Business Summary spacing.
+- Preserved existing report calculations, Firebase logic and data structures.
+- Preserved responsive and print behavior.
+- No customer/sales/service/AMC data was changed.
