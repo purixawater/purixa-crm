@@ -1,0 +1,5 @@
+Purixa CRM v22.65 — Expenses Design Update
+
+- Expenses page visual layer aligned with the approved Reports/Leads/Quotations/Inventory design system.
+- Existing expense data, filters, add/edit/delete behavior and profit/report calculations preserved.
+- Project/service-worker version references synchronized to v22.65.

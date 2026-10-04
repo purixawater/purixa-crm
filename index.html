@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#ffffff">
-<title>Purixa CRM Cloud — v22.64 PWA</title>
+<title>Purixa CRM Cloud — v22.65 PWA</title>
 <style>
 *{box-sizing:border-box}
 :root{--blue:#0b6efd;--dark:#17324d;--bg:#f4f7fb;--card:#fff;--muted:#6b7c93;--line:#e4eaf1;--green:#16a34a;--red:#dc2626;--orange:#f59e0b}
@@ -781,6 +781,95 @@ body{background:var(--r-bg)!important;color:#15263d!important}
 </style>
 
 
+
+<style id="purixa-expenses-v2265">
+/* Expenses v22.65 — visual layer only; expense data/business logic preserved */
+#expenses .panel{padding-bottom:18px!important}
+#expenses .ref-page-head{margin-bottom:10px!important}
+#expenses .ref-page-head h2{letter-spacing:-.25px!important}
+#expenses .ref-page-head p{margin-top:3px!important}
+#expenses .expense-summary-grid{
+  gap:10px!important;
+  margin-bottom:10px!important;
+}
+#expenses .expense-summary-grid > *{
+  min-height:76px!important;
+}
+#expenses .expense-filter-row{
+  display:grid!important;
+  grid-template-columns:minmax(220px,1fr) 155px auto!important;
+  gap:9px!important;
+  align-items:center!important;
+  margin:0 0 10px!important;
+}
+#expenses .expense-filter-row .search,
+#expenses #expenseMonthFilter{
+  height:40px!important;
+  border:1px solid #dfe7f0!important;
+  border-radius:11px!important;
+  background:#fff!important;
+  box-shadow:0 3px 10px rgba(13,42,74,.025)!important;
+}
+#expenses #expenseMonthFilter{padding:0 10px!important;color:#52667b!important}
+#expenses .expense-filter-row .btn{
+  height:40px!important;
+  min-width:54px!important;
+  border-radius:10px!important;
+}
+#expenses .expense-table-shell{
+  border:1px solid #dfe7f0!important;
+  border-radius:14px!important;
+  box-shadow:0 5px 16px rgba(13,42,74,.035)!important;
+  overflow:hidden!important;
+}
+#expenses .expense-table-shell .ref-table-title{
+  padding:13px 15px!important;
+  background:linear-gradient(180deg,#fbfdff,#f8fbfe)!important;
+}
+#expenses .expense-table-shell .ref-table-title h3{
+  font-size:13.5px!important;
+  font-weight:800!important;
+}
+#expenses .expense-table-shell .ref-table-title span{
+  font-size:10.5px!important;
+  color:#8492a3!important;
+}
+#expenses table{min-width:780px!important}
+#expenses thead th{
+  background:#f7faff!important;
+  color:#6c7d90!important;
+  font-size:9.5px!important;
+  text-transform:uppercase!important;
+  letter-spacing:.35px!important;
+  font-weight:800!important;
+}
+#expenses tbody tr{transition:background .14s ease!important}
+#expenses tbody tr:hover{background:#fbfdff!important}
+#expenses td{font-size:11px!important;color:#34495e!important}
+#expenses td:nth-child(4){
+  font-weight:800!important;
+  color:#183b60!important;
+}
+#expenses td:nth-child(5){
+  font-size:10.5px!important;
+  font-weight:700!important;
+}
+#expenses td .btn{
+  box-shadow:none!important;
+  border-color:#e1e8f0!important;
+}
+@media(max-width:760px){
+  #expenses .expense-filter-row{
+    grid-template-columns:1fr 1fr!important;
+  }
+  #expenses .expense-filter-row .search{grid-column:1/-1!important}
+}
+@media(max-width:520px){
+  #expenses .expense-filter-row{grid-template-columns:1fr!important}
+  #expenses .expense-filter-row .search{grid-column:auto!important}
+}
+</style>
+
 <style id="purixa-inventory-v2264">
 /* Inventory v22.64 — visual layer only; inventory data/business logic preserved */
 #inventory{padding-bottom:18px!important}
@@ -958,7 +1047,7 @@ body{background:var(--r-bg)!important;color:#15263d!important}
 <div id="authOverlay">
   <div class="auth-box">
     <img class="auth-logo" src="purixa-logo.png" alt="Purixa Water Solution">
-    <h2>☁️ Purixa CRM Cloud v22.64</h2>
+    <h2>☁️ Purixa CRM Cloud v22.65</h2>
     <p class="mini" id="authModeText">Cloud login is enabled after Firebase setup.</p>
     <div id="firebaseSetupBox">
       <label class="mini">Firebase Config JSON</label>
@@ -1810,7 +1899,7 @@ async function syncCloudData(silent=false){
   if(!firestore||!firebaseAuth.currentUser||cloudSyncing)return false;
   cloudSyncing=true;
   try{
-    await firestore.collection("users").doc(firebaseAuth.currentUser.uid).collection("crm").doc("main").set({data:db,updatedAt:firebase.firestore.FieldValue.serverTimestamp(),version:"v22.64"},{merge:true});
+    await firestore.collection("users").doc(firebaseAuth.currentUser.uid).collection("crm").doc("main").set({data:db,updatedAt:firebase.firestore.FieldValue.serverTimestamp(),version:"v22.65"},{merge:true});
     await syncNormalizedCollections();
     if(!silent)toast("☁️ Cloud synced");
     return true;
@@ -2769,7 +2858,7 @@ async function installPWA(){
 }
 if("serviceWorker" in navigator){
   window.addEventListener("load", () => {
-    navigator.serviceWorker.register("./sw.js?v=22.64", {scope:"./"})
+    navigator.serviceWorker.register("./sw.js?v=22.65", {scope:"./"})
       .then(() => console.log("Purixa CRM service worker registered"))
       .catch(err => console.warn("PWA service worker registration failed", err));
   });
