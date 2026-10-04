@@ -1,0 +1,6 @@
+Purixa CRM v22.66 — Reminders + Settings Design Final
+
+- Reminders visual layer refined to match the approved CRM design system.
+- Settings visual layer refined while preserving Google Review, Cloud Sync/Login, Backup/Import and existing controls.
+- Existing reminder actions, customer/service/AMC logic and Firebase behavior preserved.
+- Version/cache references synchronized to v22.66.
