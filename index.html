@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#ffffff">
-<title>Purixa CRM Cloud — v22.63 PWA</title>
+<title>Purixa CRM Cloud — v22.64 PWA</title>
 <style>
 *{box-sizing:border-box}
 :root{--blue:#0b6efd;--dark:#17324d;--bg:#f4f7fb;--card:#fff;--muted:#6b7c93;--line:#e4eaf1;--green:#16a34a;--red:#dc2626;--orange:#f59e0b}
@@ -780,6 +780,67 @@ body{background:var(--r-bg)!important;color:#15263d!important}
 @media(max-width:700px){#inventory .inventory-table-head{align-items:flex-start;flex-direction:column}#inventory .inventory-filter-row .search{max-width:none;width:100%}}
 </style>
 
+
+<style id="purixa-inventory-v2264">
+/* Inventory v22.64 — visual layer only; inventory data/business logic preserved */
+#inventory{padding-bottom:18px!important}
+#inventory .ref-page-head{margin-bottom:10px!important}
+#inventory .ref-page-head h2{letter-spacing:-.25px!important}
+#inventory .ref-page-head p{margin-top:3px!important}
+#inventory .inventory-filter-row{margin:0 0 10px!important}
+#inventory .inventory-filter-row .search{
+  height:40px!important;
+  border-radius:11px!important;
+  border:1px solid #dfe7f0!important;
+  background:#fff!important;
+  box-shadow:0 3px 10px rgba(13,42,74,.025)!important;
+  padding-left:13px!important;
+}
+#inventory .inventory-table-shell{
+  border:1px solid #dfe7f0!important;
+  border-radius:14px!important;
+  box-shadow:0 5px 16px rgba(13,42,74,.035)!important;
+}
+#inventory .inventory-table-head{
+  padding:13px 15px!important;
+  background:linear-gradient(180deg,#fbfdff,#f8fbfe)!important;
+}
+#inventory .inventory-table-head h3{font-size:13.5px!important;font-weight:800!important}
+#inventory .inventory-table-head span{font-size:10.5px!important}
+#inventory table{min-width:900px!important}
+#inventory thead th{
+  background:#f7faff!important;
+  color:#6c7d90!important;
+  font-size:9.5px!important;
+  text-transform:uppercase!important;
+  letter-spacing:.35px!important;
+  font-weight:800!important;
+}
+#inventory tbody tr{transition:background .14s ease!important}
+#inventory tbody tr:hover{background:#fbfdff!important}
+#inventory td{font-size:11px!important;color:#34495e!important}
+#inventory .inventory-part b{font-size:12.5px!important;color:#102b4b!important}
+#inventory .inventory-part .mini{font-size:9.5px!important;color:#8a98a9!important;margin-top:2px!important}
+#inventory .inventory-stock-badge{
+  min-width:46px!important;
+  padding:5px 9px!important;
+  border:1px solid transparent!important;
+}
+#inventory .inventory-stock-badge.ok{border-color:#cdeedb!important}
+#inventory .inventory-stock-badge.low{border-color:#ffd5d2!important}
+#inventory .inventory-actions .btn{
+  box-shadow:none!important;
+  border-color:#e1e8f0!important;
+}
+#inventory .inventory-actions .btn.primary{
+  box-shadow:0 3px 8px rgba(17,103,237,.14)!important;
+}
+@media(max-width:700px){
+  #inventory .inventory-filter-row .search{height:38px!important}
+  #inventory .inventory-table-head{padding:11px 12px!important}
+}
+</style>
+
 <style id="purixa-reports-v2259">
 /* Reports v22.59 — visual layer only; existing report calculations preserved */
 #reports{padding-bottom:18px!important}
@@ -897,7 +958,7 @@ body{background:var(--r-bg)!important;color:#15263d!important}
 <div id="authOverlay">
   <div class="auth-box">
     <img class="auth-logo" src="purixa-logo.png" alt="Purixa Water Solution">
-    <h2>☁️ Purixa CRM Cloud v22.63</h2>
+    <h2>☁️ Purixa CRM Cloud v22.64</h2>
     <p class="mini" id="authModeText">Cloud login is enabled after Firebase setup.</p>
     <div id="firebaseSetupBox">
       <label class="mini">Firebase Config JSON</label>
@@ -1749,7 +1810,7 @@ async function syncCloudData(silent=false){
   if(!firestore||!firebaseAuth.currentUser||cloudSyncing)return false;
   cloudSyncing=true;
   try{
-    await firestore.collection("users").doc(firebaseAuth.currentUser.uid).collection("crm").doc("main").set({data:db,updatedAt:firebase.firestore.FieldValue.serverTimestamp(),version:"v22.63"},{merge:true});
+    await firestore.collection("users").doc(firebaseAuth.currentUser.uid).collection("crm").doc("main").set({data:db,updatedAt:firebase.firestore.FieldValue.serverTimestamp(),version:"v22.64"},{merge:true});
     await syncNormalizedCollections();
     if(!silent)toast("☁️ Cloud synced");
     return true;
@@ -2708,7 +2769,7 @@ async function installPWA(){
 }
 if("serviceWorker" in navigator){
   window.addEventListener("load", () => {
-    navigator.serviceWorker.register("./sw.js?v=22.63", {scope:"./"})
+    navigator.serviceWorker.register("./sw.js?v=22.64", {scope:"./"})
       .then(() => console.log("Purixa CRM service worker registered"))
       .catch(err => console.warn("PWA service worker registration failed", err));
   });

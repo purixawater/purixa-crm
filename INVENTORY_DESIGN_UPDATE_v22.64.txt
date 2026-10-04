@@ -1,0 +1,5 @@
+Purixa CRM v22.64 — Inventory Design Update
+
+- Inventory visual layer refined to match the approved Dashboard/Leads/Quotations/Reports design system.
+- Inventory data, Firebase logic, stock movement logic, service-part deduction, edit/delete and existing actions preserved.
+- Version/cache references synchronized to v22.64.
