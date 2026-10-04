@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#ffffff">
-<title>Purixa CRM Cloud — v22.58 PWA</title>
+<title>Purixa CRM Cloud — v22.62 PWA</title>
 <style>
 *{box-sizing:border-box}
 :root{--blue:#0b6efd;--dark:#17324d;--bg:#f4f7fb;--card:#fff;--muted:#6b7c93;--line:#e4eaf1;--green:#16a34a;--red:#dc2626;--orange:#f59e0b}
@@ -817,12 +817,55 @@ body{background:var(--r-bg)!important;color:#15263d!important}
 @media(max-width:700px){#reports .report-page-head h2{font-size:21px!important}#reports .report-filter-panel{padding:11px!important}.report-head-actions{width:100%}#reports .report-head-actions .btn{width:100%!important}.page#reports>.report-kpi-grid{grid-template-columns:1fr 1fr!important}}
 </style>
 
+
+<style id="purixa-leads-final-v2261">
+/* v22.61 — Leads final visual polish. Visual-only; existing lead data/Firebase/actions preserved. */
+#leads>.panel{overflow:hidden!important}
+#leads .ref-page-head{margin-bottom:2px!important}
+#leads .ref-page-head h2{font-size:23px!important;letter-spacing:-.2px!important}
+#leads .ref-page-head p{margin-top:4px!important}
+#leads .lead-filter-bar{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:12px!important;margin:4px 0 14px!important;padding:10px!important;border:1px solid #e0e8f1!important;border-radius:14px!important;background:#f8fbfe!important}
+#leads .lead-search-wrap{position:relative;flex:1;min-width:220px!important}
+#leads .lead-search-wrap .search{width:100%!important;height:42px!important;padding-left:40px!important;background:#fff!important;border:1px solid #dbe5ef!important;box-shadow:0 2px 8px rgba(13,42,74,.025)!important}
+#leads .lead-search-icon{position:absolute;left:14px;top:50%;transform:translateY(-52%);z-index:2;color:#71849a;font-size:21px;line-height:1;pointer-events:none}
+#leads .lead-pipeline-hint{display:flex;align-items:center;gap:7px;white-space:nowrap;color:#38506a;font-size:12px;font-weight:800;padding:0 6px}
+#leads .lead-pipeline-hint small{color:#8493a4;font-weight:700}
+#leads .lead-dot{width:8px;height:8px;border-radius:50%;background:#1768e8;box-shadow:0 0 0 4px #e7f0ff}
+#leads .lead-pipeline-shell{border:1px solid #dfe8f1!important;border-radius:15px!important;background:#fff!important;box-shadow:0 6px 18px rgba(13,42,74,.04)!important;overflow:hidden!important}
+#leads .lead-pipeline-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px;border-bottom:1px solid #e9eff5;background:#fff}
+#leads .lead-pipeline-head h3{margin:0!important;font-size:15px!important;color:#172d48!important}
+#leads .lead-pipeline-head p{margin:3px 0 0!important;font-size:11px!important;color:#8291a2!important}
+#leads .lead-stage-count{font-size:10px;font-weight:800;color:#1768e8;background:#edf5ff;border:1px solid #d8e8ff;border-radius:999px;padding:6px 10px;white-space:nowrap}
+#leads .pipeline{padding:14px!important;gap:12px!important;background:#f7faff!important;grid-template-columns:repeat(4,minmax(205px,1fr))!important;overflow-x:auto!important;overflow-y:visible!important}
+#leads .pipeline .stage{position:relative;min-height:190px!important;padding:12px!important;background:#fff!important;border:1px solid #e0e8f1!important;border-radius:13px!important;box-shadow:0 3px 12px rgba(13,42,74,.035)!important}
+#leads .pipeline .stage:before{content:"";position:absolute;left:0;right:0;top:0;height:3px;border-radius:13px 13px 0 0;background:#1768e8}
+#leads .pipeline .stage:nth-child(2):before{background:#0b8fca}
+#leads .pipeline .stage:nth-child(3):before{background:#12a05a}
+#leads .pipeline .stage:nth-child(4):before{background:#7b45df}
+#leads .pipeline .stage:nth-child(5):before{background:#f29a00}
+#leads .pipeline .stage:nth-child(6):before{background:#e67e22}
+#leads .pipeline .stage:nth-child(7):before{background:#0aa56b}
+#leads .pipeline .stage:nth-child(8):before{background:#e34b5b}
+#leads .pipeline .stage h4{display:flex!important;align-items:center!important;justify-content:space-between!important;margin:2px 0 10px!important;padding:2px 1px 10px!important;font-size:12px!important;font-weight:800!important;color:#203851!important;border-bottom:1px solid #edf2f7!important;text-transform:none!important}
+#leads .pipeline .stage h4 .mini{font-size:10px!important;color:#8391a2!important;background:#f1f5f9!important;border-radius:999px!important;padding:3px 7px!important}
+#leads .pipeline .lead{position:relative!important;margin:7px 0!important;padding:10px!important;background:#fbfdff!important;border:1px solid #e3eaf2!important;border-radius:10px!important;box-shadow:none!important}
+#leads .pipeline .lead:hover{border-color:#cddced!important;box-shadow:0 4px 12px rgba(13,42,74,.05)!important;transform:translateY(-1px);transition:.16s ease}
+#leads .pipeline .lead b{display:block!important;font-size:12px!important;color:#17304d!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#leads .pipeline .lead .mini{font-size:10px!important;color:#7a8b9d!important;line-height:1.5!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#leads .pipeline .lead .toolbar{display:flex!important;gap:5px!important;flex-wrap:wrap!important;margin:8px 0 0!important}
+#leads .pipeline .lead .toolbar .btn{min-height:30px!important;height:30px!important;padding:0 8px!important;border-radius:8px!important;font-size:11px!important}
+#leads .pipeline .lead .toolbar .btn:not(.green):not(.red){min-width:30px!important;padding:0 7px!important}
+#leads .pipeline .lead .toolbar .green{font-weight:750!important}
+#leads .pipeline .lead .toolbar .red{font-size:10px!important}
+@media(max-width:1100px){#leads .pipeline{grid-template-columns:repeat(2,minmax(220px,1fr))!important}}
+@media(max-width:700px){#leads .lead-filter-bar{align-items:stretch!important;flex-direction:column!important;padding:9px!important}.lead-search-wrap{width:100%!important}.lead-pipeline-hint{justify-content:flex-start!important;padding:0 3px!important}#leads .lead-pipeline-head{align-items:flex-start!important}.lead-stage-count{display:none!important}#leads .pipeline{grid-template-columns:1fr!important;padding:10px!important}.lead-pipeline-shell{margin-top:2px!important}}
+</style>
 </head>
 <body>
 <div id="authOverlay">
   <div class="auth-box">
     <img class="auth-logo" src="purixa-logo.png" alt="Purixa Water Solution">
-    <h2>☁️ Purixa CRM Cloud v22.58</h2>
+    <h2>☁️ Purixa CRM Cloud v22.62</h2>
     <p class="mini" id="authModeText">Cloud login is enabled after Firebase setup.</p>
     <div id="firebaseSetupBox">
       <label class="mini">Firebase Config JSON</label>
@@ -959,8 +1002,15 @@ body{background:var(--r-bg)!important;color:#15263d!important}
   <section id="leads" class="page">
     <div class="panel">
       <div class="ref-page-head"><div><h2>Leads</h2><p>Track your sales pipeline and follow-ups</p></div><button class="btn primary" onclick="openModal('leadModal')">＋ New Lead</button></div>
-      <div class="ref-summary-grid" id="leadRefSummary"></div><div class="toolbar"><input class="search" id="leadSearch" placeholder="Search leads..." oninput="renderLeads()"></div>
-      <div class="pipeline" id="pipeline"></div>
+      <div class="ref-summary-grid" id="leadRefSummary"></div>
+      <div class="lead-filter-bar">
+        <div class="lead-search-wrap"><span class="lead-search-icon">⌕</span><input class="search" id="leadSearch" placeholder="Search lead, mobile, product or source..." oninput="renderLeads()"></div>
+        <div class="lead-pipeline-hint"><span class="lead-dot"></span> Sales Pipeline <small>8 stages</small></div>
+      </div>
+      <div class="lead-pipeline-shell">
+        <div class="lead-pipeline-head"><div><h3>Lead Pipeline</h3><p>Move opportunities from new enquiry to customer conversion</p></div><span class="lead-stage-count">8 Stages</span></div>
+        <div class="pipeline" id="pipeline"></div>
+      </div>
     </div>
   </section>
 
@@ -1657,7 +1707,7 @@ async function syncCloudData(silent=false){
   if(!firestore||!firebaseAuth.currentUser||cloudSyncing)return false;
   cloudSyncing=true;
   try{
-    await firestore.collection("users").doc(firebaseAuth.currentUser.uid).collection("crm").doc("main").set({data:db,updatedAt:firebase.firestore.FieldValue.serverTimestamp(),version:"v22.58"},{merge:true});
+    await firestore.collection("users").doc(firebaseAuth.currentUser.uid).collection("crm").doc("main").set({data:db,updatedAt:firebase.firestore.FieldValue.serverTimestamp(),version:"v22.62"},{merge:true});
     await syncNormalizedCollections();
     if(!silent)toast("☁️ Cloud synced");
     return true;
@@ -1751,7 +1801,7 @@ function renderQuotations(){
   box.innerHTML=arr.map(x=>`<tr><td>${esc(x.date)}</td><td><b>#${esc(x.number)}</b></td><td>${esc(x.customer)}<div class="mini">${esc(x.mobile||"")}</div></td><td>${esc(x.product)} × ${x.qty}</td><td>${money(x.total)}</td><td>${esc(x.validUntil)}</td><td>${statusBadge(x.status)}</td><td><button class="btn" onclick="quotationPrint(${x.id})">🖨️ Print</button> <button class="btn primary" onclick="convertQuotationToSale(${x.id})">💰 Sale</button> <button class="btn red" onclick="deleteQuotation(${x.id})">Delete</button></td></tr>`).join("")||'<tr><td colspan="8" class="empty">No quotations found</td></tr>';
 }
 
-function saveLead(e){e.preventDefault();db.leads.unshift({id:Date.now(),name:leadName.value.trim(),mobile:leadMobile.value.trim(),product:leadProduct.value.trim(),source:leadSource.value,follow:leadFollow.value,status:leadStatus.value,notes:leadNotes.value.trim(),created:today});persist();e.target.reset();closeModal("leadModal");toast("Lead saved")}
+function saveLead(e){e.preventDefault();db.leads.unshift({id:Date.now(),name:leadName.value.trim(),mobile:leadMobile.value.trim(),product:leadProduct.value.trim(),source:leadSource.value,follow:leadFollow.value,status:leadStatus.value,notes:leadNotes.value.trim(),created:today,date:today});persist();e.target.reset();closeModal("leadModal");toast("Lead saved")}
 function saveCustomer(e){e.preventDefault();const mobile=custMobile.value.trim();if(db.customers.some(x=>x.mobile===mobile)){toast("Customer with this mobile already exists");return}const baseDate=custInstall.value||custPurchase.value||today;const next=custNextService.value||addMonths(baseDate,3);db.customers.unshift({id:Date.now(),name:custName.value.trim(),mobile,product:custProduct.value.trim(),purchase:custPurchase.value,install:custInstall.value,amc:custAMC.value,installStatus:custInstallStatus.value,nextService:next,address:custAddress.value.trim(),source:custSource.value||"",referredBy:custReferredBy.value.trim(),notes:""});persist();e.target.reset();closeModal("customerModal");toast("Customer saved — next service set for 3 months") }
 function fillSaleCustomerList(){const dl=document.getElementById("saleCustomerList");if(!dl)return;dl.innerHTML=db.customers.map(c=>`<option value="${esc(c.name)}"></option>`).join("")}
 function fillSaleCustomerDetails(){const name=String(document.getElementById("saleCustomer")?.value||"").trim().toLowerCase();const c=db.customers.find(x=>String(x.name||"").trim().toLowerCase()===name);if(!c)return;if(document.getElementById("saleMobile"))document.getElementById("saleMobile").value=c.mobile||"";if(document.getElementById("saleAddress"))document.getElementById("saleAddress").value=c.address||""}
@@ -2097,7 +2147,7 @@ function reminderRecordServiceByCustomer(id){goToPage("service");setTimeout(()=>
 function renderDashboard(){
   const salesTotal=db.sales.reduce((a,x)=>a+Number(x.total||0),0);
   const monthKey=today.slice(0,7);
-  const monthLeads=db.leads.filter(x=>String(x.date||x.createdAt||"").slice(0,7)===monthKey).length;
+  const monthLeads=db.leads.filter(x=>String(x.date||x.createdAt||x.created||"").slice(0,7)===monthKey).length;
   const monthCustomers=db.customers.filter(x=>String(x.createdAt||x.date||x.purchase||"").slice(0,7)===monthKey).length;
   const monthSales=db.sales.filter(x=>String(x.date||"").slice(0,7)===monthKey).reduce((a,x)=>a+Number(x.total||0),0);
   const pendingCount=db.sales.filter(x=>Number(x.pending||Math.max(0,Number(x.total||0)-Number(x.paid||0)))>0).length;
@@ -2301,7 +2351,7 @@ function renderExpenses(){const filter=document.getElementById("expenseMonthFilt
 function reportInRange(date,from,to){const d=String(date||"");return (!from||d>=from)&&(!to||d<=to)}
 function servicePartsCost(s){if(!s||!Array.isArray(s.parts))return 0;return s.parts.reduce((sum,p)=>{const inv=db.inventory.find(i=>String(i.name||"").trim().toLowerCase()===String(p.name||"").trim().toLowerCase());const unit=Number(p.purchasePrice??p.cost??inv?.purchasePrice??0);return sum+unit*Math.max(0,Number(p.qty||1))},0)}
 function clearReportDates(){if(document.getElementById("reportFrom"))document.getElementById("reportFrom").value="";if(document.getElementById("reportTo"))document.getElementById("reportTo").value="";renderReports()}
-function renderReports(){const from=document.getElementById("reportFrom")?.value||"",to=document.getElementById("reportTo")?.value||"";const total=db.leads.filter(x=>reportInRange(x.date||x.createdAt,from,to)).length,won=db.leads.filter(x=>x.status==="Won"&&reportInRange(x.date||x.createdAt,from,to)).length;const sales=db.sales.filter(x=>reportInRange(x.date,from,to));const services=db.services.filter(x=>x.status==="Completed"&&reportInRange(x.date,from,to));const amcs=db.amcs.filter(x=>reportInRange(x.start||x.date,from,to));const expensesRows=db.expenses.filter(x=>reportInRange(x.date,from,to));const salesRevenue=sales.reduce((a,x)=>a+Number(x.total||0),0);const serviceRevenue=services.reduce((a,x)=>a+Number(x.totalAmount??(Number(x.amount??x.charge??0)+Number(x.partsTotal||0))),0);const amcRevenue=amcs.reduce((a,x)=>a+Number(x.amount||0),0);const revenue=salesRevenue+serviceRevenue+amcRevenue;const expenseTotal=expensesRows.reduce((a,x)=>a+Number(x.amount||0),0);const partsCost=services.reduce((a,x)=>a+servicePartsCost(x),0);const profit=revenue-expenseTotal-partsCost;const collected=sales.reduce((a,x)=>a+Number(x.paid||0),0)+services.reduce((a,x)=>a+Number(x.paid||0),0)+amcs.reduce((a,x)=>a+Number(x.paid??x.amount??0),0);const pending=sales.reduce((a,x)=>a+Number(x.pending||Math.max(0,Number(x.total||0)-Number(x.paid||0))),0);rConversion.textContent=(total?Math.round(won/total*100):0)+"%";rCollected.textContent=money(collected);rService.textContent=money(serviceRevenue);rAMC.textContent=money(amcRevenue);rExpenses.textContent=money(expenseTotal);rPartsCost.textContent=money(partsCost);rProfit.textContent=money(profit);reportSummary.innerHTML=`<p><b>Period:</b> ${from||"Start"} → ${to||"Today/All"}</p><p><b>Leads:</b> ${total}</p><p><b>Won:</b> ${won}</p><p><b>Customers:</b> ${db.customers.length}</p><p><b>Total Revenue:</b> ${money(revenue)}</p><p><b>Sales Revenue:</b> ${money(salesRevenue)}</p><p><b>Service Revenue:</b> ${money(serviceRevenue)}</p><p><b>AMC Revenue:</b> ${money(amcRevenue)}</p><p><b>Collected:</b> ${money(collected)}</p><p><b>Pending Sales:</b> ${money(pending)}</p><p><b>Operating Expenses:</b> ${money(expenseTotal)}</p><p><b>Service Spare Parts Cost:</b> ${money(partsCost)}</p><p><b>Estimated Profit:</b> ${money(profit)}</p><p><b>Completed Services:</b> ${services.length}</p><p><b>AMC Records:</b> ${amcs.length}</p><p><b>Referral Customers:</b> ${db.customers.filter(x=>String(x.source||"").toLowerCase()==="referral").length}</p>`}
+function renderReports(){const from=document.getElementById("reportFrom")?.value||"",to=document.getElementById("reportTo")?.value||"";const total=db.leads.filter(x=>reportInRange(x.date||x.createdAt||x.created,from,to)).length,won=db.leads.filter(x=>x.status==="Won"&&reportInRange(x.date||x.createdAt||x.created,from,to)).length;const sales=db.sales.filter(x=>reportInRange(x.date,from,to));const services=db.services.filter(x=>x.status==="Completed"&&reportInRange(x.date,from,to));const amcs=db.amcs.filter(x=>reportInRange(x.start||x.date,from,to));const expensesRows=db.expenses.filter(x=>reportInRange(x.date,from,to));const salesRevenue=sales.reduce((a,x)=>a+Number(x.total||0),0);const serviceRevenue=services.reduce((a,x)=>a+Number(x.totalAmount??(Number(x.amount??x.charge??0)+Number(x.partsTotal||0))),0);const amcRevenue=amcs.reduce((a,x)=>a+Number(x.amount||0),0);const revenue=salesRevenue+serviceRevenue+amcRevenue;const expenseTotal=expensesRows.reduce((a,x)=>a+Number(x.amount||0),0);const partsCost=services.reduce((a,x)=>a+servicePartsCost(x),0);const profit=revenue-expenseTotal-partsCost;const collected=sales.reduce((a,x)=>a+Number(x.paid||0),0)+services.reduce((a,x)=>a+Number(x.paid||0),0)+amcs.reduce((a,x)=>a+Number(x.paid??x.amount??0),0);const pending=sales.reduce((a,x)=>a+Number(x.pending||Math.max(0,Number(x.total||0)-Number(x.paid||0))),0);rConversion.textContent=(total?Math.round(won/total*100):0)+"%";rCollected.textContent=money(collected);rService.textContent=money(serviceRevenue);rAMC.textContent=money(amcRevenue);rExpenses.textContent=money(expenseTotal);rPartsCost.textContent=money(partsCost);rProfit.textContent=money(profit);reportSummary.innerHTML=`<p><b>Period:</b> ${from||"Start"} → ${to||"Today/All"}</p><p><b>Leads:</b> ${total}</p><p><b>Won:</b> ${won}</p><p><b>Customers:</b> ${db.customers.length}</p><p><b>Total Revenue:</b> ${money(revenue)}</p><p><b>Sales Revenue:</b> ${money(salesRevenue)}</p><p><b>Service Revenue:</b> ${money(serviceRevenue)}</p><p><b>AMC Revenue:</b> ${money(amcRevenue)}</p><p><b>Collected:</b> ${money(collected)}</p><p><b>Pending Sales:</b> ${money(pending)}</p><p><b>Operating Expenses:</b> ${money(expenseTotal)}</p><p><b>Service Spare Parts Cost:</b> ${money(partsCost)}</p><p><b>Estimated Profit:</b> ${money(profit)}</p><p><b>Completed Services:</b> ${services.length}</p><p><b>AMC Records:</b> ${amcs.length}</p><p><b>Referral Customers:</b> ${db.customers.filter(x=>String(x.source||"").toLowerCase()==="referral").length}</p>`}
 
 function viewInvoice(saleId){const s=db.sales.find(x=>x.id===saleId);if(!s){toast("Sale not found");return}const c=db.customers.find(x=>x.id===s.customerId)||{};currentInvoiceMobile=c.mobile||s.mobile||"";openInvoice(saleId)}
 function numberWords(n){
@@ -2611,7 +2661,7 @@ async function installPWA(){
 }
 if("serviceWorker" in navigator){
   window.addEventListener("load", () => {
-    navigator.serviceWorker.register("./sw.js?v=22.44", {scope:"./"})
+    navigator.serviceWorker.register("./sw.js?v=22.62", {scope:"./"})
       .then(() => console.log("Purixa CRM service worker registered"))
       .catch(err => console.warn("PWA service worker registration failed", err));
   });
