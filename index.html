@@ -1175,6 +1175,38 @@ body{background:var(--r-bg)!important;color:#15263d!important}
 }
 </style>
 
+
+<style id="purixa-mobile-nav-final-actual">
+@media (max-width:700px){
+  body{padding-bottom:92px!important;overflow-x:hidden!important}
+  #mobileBottomNav{
+    height:62px!important;min-height:62px!important;bottom:8px!important;
+    left:8px!important;right:8px!important;padding:4px!important;
+    display:grid!important;grid-template-columns:repeat(5,minmax(0,1fr))!important;
+    align-items:stretch!important;box-sizing:border-box!important;
+    z-index:9998!important;
+  }
+  #mobileBottomNav button{
+    min-width:0!important;width:100%!important;height:54px!important;
+    margin:0!important;padding:2px 1px!important;border:0!important;
+    display:flex!important;flex-direction:column!important;
+    align-items:center!important;justify-content:center!important;
+    gap:1px!important;line-height:1!important;font-size:0!important;
+    white-space:nowrap!important;overflow:hidden!important;
+  }
+  #mobileBottomNav .menu-icon{
+    display:flex!important;align-items:center!important;justify-content:center!important;
+    width:21px!important;height:21px!important;flex:0 0 21px!important;
+  }
+  #mobileBottomNav .menu-icon svg{width:19px!important;height:19px!important;display:block!important}
+  #mobileBottomNav .menu-label{
+    display:block!important;max-width:100%!important;
+    font-size:9px!important;line-height:10px!important;font-weight:700!important;
+    letter-spacing:0!important;white-space:nowrap!important;
+    overflow:hidden!important;text-overflow:ellipsis!important;
+  }
+}
+</style>
 </head>
 <body>
 <div id="authOverlay">
