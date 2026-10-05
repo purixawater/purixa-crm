@@ -1,0 +1,8 @@
+Purixa CRM v22.68 — Service + AMC final logic
+
+1. Completed AMC visits and completed Customer Services share one customer next-service schedule: latest completed visit date + 3 months.
+2. Completed AMC visits no longer use a conflicting manual next-service date.
+3. AMC planned next-service date is synced to the Customer record before the first completed AMC visit.
+4. Stale customer AMC end dates are cleared automatically when no matching AMC record exists.
+5. AMC edit/renew/save paths recalculate schedule consistently.
+6. PWA/service-worker version/cache bumped to v22.68 to prevent stale v22.66 cache loading.

@@ -1,0 +1,8 @@
+PURIXA CRM v22.69 — FINAL SERVICE/AMC SCHEDULE SYNC
+
+1. Latest completed service event is the single source of truth for Customer.nextService and AMC.nextService.
+2. Normal Customer Service and AMC Visit remain separate histories.
+3. Editing/deleting a service or AMC recalculates the affected customer schedule.
+4. Completed AMC visit uses visit date + 3 months; open/scheduled/cancelled visits do not advance the schedule.
+5. Active AMC no longer drifts to an older AMC-only date when a later normal service is completed.
+6. PWA/service-worker cache version bumped to v22.69.1.

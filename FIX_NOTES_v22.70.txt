@@ -1,0 +1,7 @@
+PURIXA CRM v22.70 — SERVICE / AMC FINAL LOGIC FIX
+
+1. AMC service reminders are now deduplicated per customer. Only the current active/latest-ending AMC can generate the AMC Service reminder.
+2. A new or renewed AMC with no completed visit inside its own AMC period starts its next service at AMC Start Date + 3 months. Older services from previous AMC periods cannot pull the new AMC schedule backward.
+3. Completed service events inside the current AMC period continue to advance that AMC by 3 months.
+4. Customer master nextService remains based on the latest completed event across Customer Service + AMC Visit histories.
+5. PWA cache/service worker version bumped to v22.70.1.
