@@ -1207,76 +1207,6 @@ body{background:var(--r-bg)!important;color:#15263d!important}
   }
 }
 </style>
-
-<style id="purixa-mobile-nav-modal-sidebar-final">
-@media (max-width:700px){
-  /* Keep the bottom nav below content in normal view. */
-  #mobileBottomNav{
-    z-index:9998!important;
-    bottom:0!important;
-  }
-
-  /* Never let the fixed bottom nav cover dialogs, forms, or the open drawer. */
-  body:has(.modal.show) #mobileBottomNav,
-  body:has(.modal[style*="display: block"]) #mobileBottomNav,
-  body:has(.modal[style*="display:block"]) #mobileBottomNav,
-  body:has(.drawer.open) #mobileBottomNav,
-  body:has(.sidebar.open) #mobileBottomNav,
-  body:has(.sidebar.mobile-open) #mobileBottomNav,
-  body:has(.nav-drawer.open) #mobileBottomNav,
-  body:has(.overlay.active) #mobileBottomNav,
-  body.mobile-modal-open #mobileBottomNav,
-  body.modal-open #mobileBottomNav,
-  body.drawer-open #mobileBottomNav,
-  body.menu-open #mobileBottomNav{
-    display:none!important;
-  }
-
-  /* Give the page enough room only when the bottom nav is actually visible. */
-  body{
-    padding-bottom:78px!important;
-  }
-}
-</style>
-
-
-<style id="purixa-mobile-nav-authoritative-final">
-@media(max-width:700px){
-  body{padding-bottom:92px!important;overflow-x:hidden!important}
-  #mobileBottomNav{
-    position:fixed!important;left:8px!important;right:8px!important;bottom:8px!important;
-    width:auto!important;height:62px!important;min-height:62px!important;padding:4px!important;
-    display:grid!important;grid-template-columns:repeat(5,minmax(0,1fr))!important;
-    align-items:stretch!important;z-index:9998!important;box-sizing:border-box!important;
-  }
-  #mobileBottomNav button{
-    min-width:0!important;width:100%!important;height:54px!important;margin:0!important;
-    padding:2px 1px!important;border:0!important;background:transparent!important;
-    display:flex!important;flex-direction:column!important;align-items:center!important;
-    justify-content:center!important;gap:1px!important;line-height:1!important;font-size:0!important;
-    white-space:nowrap!important;overflow:hidden!important;color:#708198!important;
-  }
-  #mobileBottomNav button .menu-icon{
-    display:flex!important;align-items:center!important;justify-content:center!important;
-    width:21px!important;height:21px!important;flex:0 0 21px!important;
-  }
-  #mobileBottomNav button .menu-icon svg{width:19px!important;height:19px!important;display:block!important}
-  #mobileBottomNav button .menu-label{
-    display:block!important;max-width:100%!important;font-size:9px!important;line-height:10px!important;
-    font-weight:700!important;letter-spacing:0!important;white-space:nowrap!important;
-    overflow:hidden!important;text-overflow:ellipsis!important;color:inherit!important;
-  }
-  #mobileBottomNav button.active{background:#eaf3ff!important;color:#1261d2!important;border-radius:11px!important}
-  /* Never cover forms/dialogs or the mobile drawer. */
-  body.mobile-modal-open #mobileBottomNav,
-  body.modal-open #mobileBottomNav,
-  body.drawer-open #mobileBottomNav,
-  body.menu-open #mobileBottomNav,
-  body:has(.modal.show) #mobileBottomNav,
-  body:has(#mobileDrawer.open) #mobileBottomNav,
-  body:has(#mobileDrawerBackdrop.show) #mobileBottomNav{display:none!important}
-}
-</style>
 </head>
 <body>
 <div id="authOverlay">
@@ -2217,25 +2147,6 @@ function quotationPrint(id){
 
 
 
-
-<script id="purixa-mobile-nav-state-final">
-(function(){
-  function sync(){
-    const nav=document.getElementById('mobileBottomNav');
-    if(!nav)return;
-    const modalOpen=[...document.querySelectorAll('.modal')].some(x=>{
-      const cs=getComputedStyle(x);return x.classList.contains('show') && cs.display!=='none' && cs.visibility!=='hidden';
-    });
-    const drawerOpen=document.getElementById('mobileDrawer')?.classList.contains('open') ||
-      document.getElementById('mobileDrawerBackdrop')?.classList.contains('show');
-    document.body.classList.toggle('mobile-modal-open',!!(modalOpen||drawerOpen));
-  }
-  new MutationObserver(sync).observe(document.documentElement,{subtree:true,attributes:true,attributeFilter:['class','style','aria-hidden']});
-  window.addEventListener('resize',sync);window.addEventListener('orientationchange',sync);
-  setTimeout(sync,0);
-})();
-</script>
-
 </body></html>`);w.document.close();}
 function convertQuotationToSale(id){
   const q=db.quotations.find(x=>Number(x.id)===Number(id));if(!q)return;if(q.convertedSaleId){toast("Quotation already converted to Sale");return}
@@ -3116,7 +3027,7 @@ async function installPWA(){
 }
 if("serviceWorker" in navigator){
   window.addEventListener("load", () => {
-    navigator.serviceWorker.register("./sw.js?v=22.66.2", {scope:"./"})
+    navigator.serviceWorker.register("./sw.js?v=22.66", {scope:"./"})
       .then(() => console.log("Purixa CRM service worker registered"))
       .catch(err => console.warn("PWA service worker registration failed", err));
   });
