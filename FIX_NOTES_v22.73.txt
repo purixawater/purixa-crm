@@ -1,0 +1,7 @@
+Purixa CRM v22.73
+- Final real-device mobile responsive fix.
+- Mobile/tablet viewport up to 900px uses full-width CRM layout.
+- Desktop sidebar hidden on mobile; mobile drawer and bottom navigation enabled.
+- Top bar, dashboard grids and cards resized for mobile.
+- Service/AMC/business logic unchanged.
+- PWA Service Worker cache: v22.73.1.

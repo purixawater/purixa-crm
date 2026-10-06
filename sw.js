@@ -1,4 +1,4 @@
-const CACHE='purixa-crm-v22.72.1';
+const CACHE='purixa-crm-v22.73.1';
 const ASSETS=[
   './',
   './index.html',
